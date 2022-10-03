@@ -1,3 +1,5 @@
+#ifndef User_H
+#define User_H
 #include <iostream>
 
 using namespace std;
@@ -10,3 +12,5 @@ class User
     string login;
     string password;
 };
+
+#endif
