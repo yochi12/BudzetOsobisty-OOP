@@ -18,10 +18,22 @@ class PersonalBudget
 
 public:
     char selectOptionFromMainMenu();
+    char selectOptionFromUserMenu();
     char loadChar();
-    void registerUser(); //jeszcze puste
+    void registerUser(); //dziala, ale jeszcze bez pliku
     void loginUser(); //jeszcze puste
 
+    bool isUserLoggedIn();
+    void dodajPrzychod();//puste
+    void dodajWydatek();//puste
+    void bilansZBiezacegoMiasiaca();//puste
+    void bilansZPoprzedniegoMiesiaca();//puste
+    void bilansZWybranegoOkresu();//puste
+    void zmianaHaslaZalogowanegoUzytkownika();//puste
+    void wylogujUzytkownika();//puste
+
+
+    void showAllUsers(); //tymczasowe, pokazuje wszystkich zarejestrowanych uzytkownikow
 };
 
 #endif

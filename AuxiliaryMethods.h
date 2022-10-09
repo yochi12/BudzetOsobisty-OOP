@@ -10,6 +10,7 @@ class AuxiliaryMethods
 {
 public:
     static char loadChar();
+    static string loadLine();
 
 };
 

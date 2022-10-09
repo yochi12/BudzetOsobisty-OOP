@@ -15,3 +15,9 @@ char AuxiliaryMethods::loadChar(){
     }
     return mark;
 }
+
+string AuxiliaryMethods::loadLine(){
+    string input = "";
+    getline(cin, input);
+    return input;
+}
