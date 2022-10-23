@@ -22,14 +22,19 @@ int main()
                     personalBudget.loginUser();
                     break;
                 case '3':
-                    personalBudget.showAllUsers();
+
+                    break;
+                case '4':
+                    personalBudget.pokazWszystkichUzytkownikow();//tymczasowo
                     break;
                 case '0':
-                    exit(0);                                                            break;
+                    exit(0);
+                    break;
                 default:
                     cout << endl << "Nie ma takiej opcji w menu." << endl << endl;
                     system("pause");
-                    system("cls");                                                      break;
+                    system("cls");
+                    break;
             }
         }
         else

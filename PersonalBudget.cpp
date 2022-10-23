@@ -33,7 +33,6 @@ char PersonalBudget::selectOptionFromUserMenu(){
 
 bool PersonalBudget::isUserLoggedIn(){
     return userManager.getLoggedInUserId();
-
 }
 
 
@@ -45,8 +44,8 @@ void PersonalBudget::loginUser(){
     userManager.loginUser();
 }
 
-void PersonalBudget::showAllUsers(){
-    userManager.showAllUsers();
+void PersonalBudget::pokazWszystkichUzytkownikow(){//tymczasowe
+    userManager.pokazWszystkichUzytkownikow();
 }
 
 
@@ -79,7 +78,6 @@ void PersonalBudget::zmianaHaslaZalogowanegoUzytkownika(){
 void PersonalBudget::wylogujUzytkownika(){
     userManager.wylogujUzytkownika();//puste
 }
-
 
 
 

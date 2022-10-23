@@ -33,7 +33,7 @@ public:
     void wylogujUzytkownika();//puste
 
 
-    void showAllUsers(); //tymczasowe, pokazuje wszystkich zarejestrowanych uzytkownikow
+    void pokazWszystkichUzytkownikow(); //tymczasowe, pokazuje wszystkich uzytkownikow
 };
 
 #endif

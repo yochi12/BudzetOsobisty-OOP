@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "User.h"
+#include "FileWithUsers.h"
 #include "AuxiliaryMethods.h" //nie wiem czemu, ale bez tego nie dzialaja metody z tej klasy... (w Ksiazce Adresowej dzialalo bez)
 
 using namespace std;
@@ -11,9 +12,14 @@ using namespace std;
 class UserManager
 {
     vector <User> users;
+    FileWithUsers fileWithUsers;
+    int loggedInUserId;
 
 public:
-    int loggedInUserId=0;//tymczasowa wartosc
+    UserManager(){
+        loggedInUserId=0;
+        users = fileWithUsers.loadUsersFromFileXML();
+    }
 
     void registerUser();
     void loginUser();
@@ -32,7 +38,7 @@ public:
     void wylogujUzytkownika();//puste
 
 
-    void showAllUsers();
+    void pokazWszystkichUzytkownikow();//tymczasowe
 };
 
 #endif

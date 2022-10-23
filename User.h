@@ -6,13 +6,19 @@ using namespace std;
 
 class User
 {
-    int id;
+    /*int id;
     string name;
     string surname;
     string login;
-    string password;
+    string password;*/
 
 public:
+    int id;
+    string login;
+    string password;
+    string name;
+    string surname;
+
     void setId(int newId);
     void setLogin(string newLogin);
     void setPassword(string newPassword);

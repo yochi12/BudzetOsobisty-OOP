@@ -6,7 +6,7 @@ void UserManager::registerUser()
 
     users.push_back(user);
 
-    //plikZUzytkownikami.dopiszUzytkownikaDoPliku(uzytkownik); //pliki ogarniamy pozniej
+    fileWithUsers.addUserToFileXML(user); //sprawdzamy po poslku
 
     cout << endl << "Konto zalozono pomyslnie" << endl << endl;
     system("pause");
@@ -16,7 +16,6 @@ void UserManager::registerUser()
 User UserManager::getNewUserData(){
     User user;
 
-    //uzytkownik.id = pobierzIdNowegoUzytkownika();//linijka nizej powstala z tego wiesza, nie mozna bylo dostac sie do "id", poniewaz jest to zmienna prywatna (gettery settery)
     user.setId(getNewUserId());
 
     do{
@@ -40,7 +39,7 @@ int UserManager::getNewUserId(){
     if (users.empty() == true)
         return 1;
     else
-        return users.back().getId() + 1; //tu musi byc getter, aby pobrac "id" (poprawny kod w "KsiazkaAdresowa")
+        return users.back().getId() + 1;
 }
 
 bool UserManager::isLoginExist(string login){
@@ -90,7 +89,7 @@ void UserManager::loginUser(){ //"logowanie uzytkownika"
 
 
 int UserManager::getLoggedInUserId(){ //pobierzIdZalogowanegoUzytkownika
-    return loggedInUserId;//tymczasowa wartosc w .h
+    return loggedInUserId;
 }
 
 
@@ -131,7 +130,7 @@ void UserManager::wylogujUzytkownika()//puste
 }
 
 
-void UserManager::showAllUsers()
+void UserManager::pokazWszystkichUzytkownikow()
 {
     if (!users.empty()){
         cout << "             >>> Uzutkownicy <<<" << endl;
@@ -149,10 +148,12 @@ void UserManager::showAllUsers()
 
 void UserManager::wyswietlDaneUzytkownikow(User user){
     cout << endl << "Id:                 " << user.getId() << endl;
+    cout << "Login:              " << user.getLogin() << endl;
+    cout << "Haslo:              " << user.getPassword() << endl;
     cout << "Imie:               " << user.getName() << endl;
     cout << "Nazwisko:           " << user.getSurname() << endl;
-    cout << "login:              " << user.getLogin() << endl;
-    cout << "password:           " << user.getPassword() << endl;
+
 }
+
 
 
