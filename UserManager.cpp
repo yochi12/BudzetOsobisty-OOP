@@ -6,7 +6,7 @@ void UserManager::registerUser()
 
     users.push_back(user);
 
-    fileWithUsers.addUserToFileXML(user); //sprawdzamy po poslku
+    fileWithUsers.addUserToFileXML(user);
 
     cout << endl << "Konto zalozono pomyslnie" << endl << endl;
     system("pause");

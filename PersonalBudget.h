@@ -20,8 +20,8 @@ public:
     char selectOptionFromMainMenu();
     char selectOptionFromUserMenu();
     char loadChar();
-    void registerUser(); //dziala, ale jeszcze bez pliku
-    void loginUser(); //jeszcze puste
+    void registerUser();
+    void loginUser();
 
     bool isUserLoggedIn();
     void dodajPrzychod();//puste

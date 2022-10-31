@@ -62,6 +62,4 @@ int main()
     return 0;
 }
 
-//wyswietla sie menu, mozemy wczytac znak (wybrac opcje z menu), na razie dziala rejestracja bez pliku
-//trza ogarnac logowanie
-//po logowaniu czas na dodanie plikow
+//logowanie z plikiem juz dziala, teraz czas na dodawanie przychodow
