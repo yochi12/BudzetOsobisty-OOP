@@ -13,11 +13,11 @@ void FileWithUsers::addUserToFileXML(User user){
     xml.IntoElem(); //robi ten element elementem glownym
     xml.AddElem("User"); //do obiektu dodajemy "User"
     xml.IntoElem(); //wchodzimy do tej galezi
-    xml.AddElem("ID", user.id);
-    xml.AddElem("Login", user.login);
-    xml.AddElem("Password", user.password);
-    xml.AddElem("Name", user.name);
-    xml.AddElem("Surname", user.surname);
+    xml.AddElem("ID", user.getId());
+    xml.AddElem("Login", user.getLogin());
+    xml.AddElem("Password", user.getPassword());
+    xml.AddElem("Name", user.getName());
+    xml.AddElem("Surname", user.getSurname());
     //MCD_STR strXML = xml.GetDoc(); //zmienna "strXML" pokazuje pelen tekst obiektu "xml"
     //cout<<"Pelen tekst obiektu 'xml':"<<endl<<strXML<<endl;
     ///dwa wiersze wyzej pokazuja aktualnie wpisana osobe tak jak w pliku .XML

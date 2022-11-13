@@ -42,6 +42,8 @@ void PersonalBudget::registerUser(){
 
 void PersonalBudget::loginUser(){
     userManager.loginUser();
+
+    //incomiesAndExpensesManager();
 }
 
 void PersonalBudget::pokazWszystkichUzytkownikow(){//tymczasowe
@@ -52,24 +54,25 @@ void PersonalBudget::pokazWszystkichUzytkownikow(){//tymczasowe
 
 
 void PersonalBudget::dodajPrzychod(){
-    userManager.dodajPrzychod();//puste
+    incomiesAndExpensesManager.addIncome(userManager.getLoggedInUserId());//trzeba gdzies dac informacje dotyczaca zalogowanego uzytkownika
 }
 
 void PersonalBudget::dodajWydatek(){
-    userManager.dodajWydatek();//puste
+    incomiesAndExpensesManager.dodajWydatek();//puste
 }
 
 void PersonalBudget::bilansZBiezacegoMiasiaca(){
-    userManager.bilansZBiezacegoMiasiaca();//puste
+    incomiesAndExpensesManager.bilansZBiezacegoMiasiaca();//puste
 }
 
 void PersonalBudget::bilansZPoprzedniegoMiesiaca(){
-    userManager.bilansZPoprzedniegoMiesiaca();//puste
+    incomiesAndExpensesManager.bilansZPoprzedniegoMiesiaca();//puste
 }
 
 void PersonalBudget::bilansZWybranegoOkresu(){
-    userManager.bilansZWybranegoOkresu();//puste
+    incomiesAndExpensesManager.bilansZWybranegoOkresu();//puste
 }
+
 
 void PersonalBudget::zmianaHaslaZalogowanegoUzytkownika(){
     userManager.zmianaHaslaZalogowanegoUzytkownika();//puste

@@ -93,34 +93,9 @@ int UserManager::getLoggedInUserId(){ //pobierzIdZalogowanegoUzytkownika
 }
 
 
-void UserManager::dodajPrzychod()//puste
+void UserManager::zmianaHaslaZalogowanegoUzytkownika()
 {
-    cout<<"dodajPrzychod:"<<endl;   system("pause");
-}
-
-void UserManager::dodajWydatek()//puste
-{
-    cout<<"dodajWydatek:"<<endl;   system("pause");
-}
-
-void UserManager::bilansZBiezacegoMiasiaca()//puste
-{
-    cout<<"bilansZBiezacegoMiasiaca:"<<endl;   system("pause");
-}
-
-void UserManager::bilansZPoprzedniegoMiesiaca()//puste
-{
-    cout<<"bilansZPoprzedniegoMiesiaca:"<<endl;   system("pause");
-}
-
-void UserManager::bilansZWybranegoOkresu()//puste
-{
-    cout<<"bilansZWybranegoOkresu:"<<endl;   system("pause");
-}
-
-void UserManager::zmianaHaslaZalogowanegoUzytkownika()//puste
-{
-    cout<<"zmianaHaslaZalogowanegoUzytkownika:"<<endl;   system("pause");
+    cout<<"zmianaHaslaZalogowanegoUzytkownika:"<<endl;
 }
 
 void UserManager::wylogujUzytkownika()//puste

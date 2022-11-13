@@ -5,6 +5,7 @@
 
 #include "User.h"
 #include "UserManager.h"
+#include "IncomiesAndExpensesManager.h"
 #include "AuxiliaryMethods.h" //nie wiem czemu, ale bez tego nie dzialaja metody z tej klasy... (w Ksiazce Adresowej dzialalo bez)
 
 using namespace std;
@@ -12,9 +13,11 @@ using namespace std;
 class PersonalBudget
 {
     UserManager userManager;
-    int loggedInUserId;
+    IncomiesAndExpensesManager incomiesAndExpensesManager;
 
     vector <User> users;
+
+    int tymczasowaZmiennaDoKonstruktora = 1;
 
 public:
     char selectOptionFromMainMenu();

@@ -1,23 +1,19 @@
 #ifndef User_H
 #define User_H
+
 #include <iostream>
 
 using namespace std;
 
 class User
 {
-    /*int id;
+    int id;
     string name;
     string surname;
-    string login;
-    string password;*/
-
-public:
-    int id;
     string login;
     string password;
-    string name;
-    string surname;
+
+public:
 
     void setId(int newId);
     void setLogin(string newLogin);

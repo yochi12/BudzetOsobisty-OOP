@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 
-#include "User.h"
+#include "User.h" //to chyba moze zostac usuniete
 #include "FileWithUsers.h"
 #include "AuxiliaryMethods.h" //nie wiem czemu, ale bez tego nie dzialaja metody z tej klasy... (w Ksiazce Adresowej dzialalo bez)
 
@@ -29,13 +29,9 @@ public:
     void wyswietlDaneUzytkownikow(User user);
     int getLoggedInUserId();
 
-    void dodajPrzychod();//puste
-    void dodajWydatek();//puste
-    void bilansZBiezacegoMiasiaca();//puste
-    void bilansZPoprzedniegoMiesiaca();//puste
-    void bilansZWybranegoOkresu();//puste
+
     void zmianaHaslaZalogowanegoUzytkownika();//puste
-    void wylogujUzytkownika();//puste
+    void wylogujUzytkownika();//puste?
 
 
     void pokazWszystkichUzytkownikow();//tymczasowe
