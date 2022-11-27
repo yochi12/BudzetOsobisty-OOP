@@ -43,7 +43,7 @@ void PersonalBudget::registerUser(){
 void PersonalBudget::loginUser(){
     userManager.loginUser();
 
-    //incomiesAndExpensesManager();
+    //incomiesAndExpensesManager(); //pozniej trzeba do tego wrocic (problem z konstruktorem)
 }
 
 void PersonalBudget::pokazWszystkichUzytkownikow(){//tymczasowe
@@ -58,8 +58,9 @@ void PersonalBudget::dodajPrzychod(){
 }
 
 void PersonalBudget::dodajWydatek(){
-    incomiesAndExpensesManager.dodajWydatek();//puste
+    incomiesAndExpensesManager.addExpense(userManager.getLoggedInUserId());
 }
+
 
 void PersonalBudget::bilansZBiezacegoMiasiaca(){
     incomiesAndExpensesManager.bilansZBiezacegoMiasiaca();//puste
@@ -79,7 +80,7 @@ void PersonalBudget::zmianaHaslaZalogowanegoUzytkownika(){
 }
 
 void PersonalBudget::wylogujUzytkownika(){
-    userManager.wylogujUzytkownika();//puste
+    userManager.wylogujUzytkownika();
 }
 
 

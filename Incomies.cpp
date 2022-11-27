@@ -1,6 +1,5 @@
 #include "Incomies.h"
 
-//tutaj mamy gettery i settery
 void Incomies::setIncomeId(int newIncomeId){
         incomeId=newIncomeId;
 }

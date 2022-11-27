@@ -36,3 +36,13 @@ int AuxiliaryMethods::loadInteger(){
     }
     return number;
 }
+
+//zamiana daty z kreskami na date bez kresek
+string AuxiliaryMethods::replaceDateToTextWithoutDashes(string dateWithDashes){
+    string dateWithoutDashes;//"dataBezKresek"
+    for (int charPosition=0; charPosition<(int)dateWithDashes.length(); charPosition++)
+        if(dateWithDashes[charPosition]!='-'){
+            dateWithoutDashes+=dateWithDashes[charPosition];
+        }
+    return dateWithoutDashes;
+}

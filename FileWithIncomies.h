@@ -12,8 +12,8 @@ using namespace std;
 class FileWithIncomies
 {
 public:
-    void addIncomiesToFileXML(Incomies incomies);
-    vector <Incomies> loadIncomiessFromFileXML(int loggedInUserId);
+    void addIncomiesToFileXML(Incomies incomiesC);
+    vector <Incomies> loadIncomiesFromFileXML(int loggedInUserId);
 };
 
 #endif

@@ -100,8 +100,10 @@ void UserManager::zmianaHaslaZalogowanegoUzytkownika()
 
 void UserManager::wylogujUzytkownika()//puste
 {
-    cout<<"wylogujUzytkownika:"<<endl;   system("pause");
+    cout<<"Trwa wylogowywanie..."<<endl;
     loggedInUserId=0;
+    system("pause");
+    system("cls");
 }
 
 

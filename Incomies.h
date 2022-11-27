@@ -25,7 +25,6 @@ public:
     int getDate();
     string getItem();
     int getAmount();
-
 };
 
 #endif

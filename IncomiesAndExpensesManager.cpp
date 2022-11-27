@@ -1,8 +1,9 @@
-#include "IncomiesAndExpensesManager.h"//trzeba zmienic nazwy, wszystko to przychody!! i ogarnac temat tego konstruktora
+#include "IncomiesAndExpensesManager.h"// ogarnac temat tego konstruktora, sprawdzic czy NA PEWNO vector jest pusty przy wyborze innego uzytkownika
 
+//------------------------przychody------------------------------------------------------------------------------
 void IncomiesAndExpensesManager::addIncome(int loggedInUserId)//"dodajPrzychod"
-{incomiesV = fileWithIncomies.loadIncomiessFromFileXML(loggedInUserId);//powinno byc w konstruktorze, ale tam nie ma "loggedInUserId"
-//pokazWszystkiePrzychody();//tymczasowo
+{incomiesV = fileWithIncomies.loadIncomiesFromFileXML(loggedInUserId);//powinno byc w konstruktorze, ale tam nie ma "loggedInUserId"
+pokazWszystkiePrzychody();//tymczasowo
     Incomies incomiesC = enterNewIncomeDetails(loggedInUserId);//"podajDaneNowegoPrzychodu"
 
     incomiesV.push_back(incomiesC);
@@ -18,15 +19,15 @@ Incomies IncomiesAndExpensesManager::enterNewIncomeDetails(int loggedInUserId)//
     incomiesC.setUserId(loggedInUserId);
     incomiesC.setIncomeId(getNewIncomieId());
 
-    cout<<"Podaj date: ";
+    cout<<"Podaj date: ";//te kilka linijek powtarza sie w wydatkach, mozna z tego zrobic osobna funkcje
     while(true){
         dateWithDashes = AuxiliaryMethods::loadLine();
-        if(isDateIsCorrect(dateWithDashes))
+        if(isDateCorrect(dateWithDashes))
             break;
         cout<<"Data niepoprawna. Podaj date: ";
     }
 
-    incomiesC.setDate(atoi(replaceDateToTextWithoutDashes(dateWithDashes).c_str()));
+    incomiesC.setDate(atoi(AuxiliaryMethods::replaceDateToTextWithoutDashes(dateWithDashes).c_str()));
 
     cout<<"Podaj przedmiot: ";
     incomiesC.setItem(AuxiliaryMethods::loadLine());
@@ -44,18 +45,53 @@ int IncomiesAndExpensesManager::getNewIncomieId(){
         return incomiesV.back().getIncomeId() + 1;
 }
 
-//zamiana daty z kreskami na date bez kresek
-string IncomiesAndExpensesManager::replaceDateToTextWithoutDashes(string dateWithDashes){//"zamienDateNaTekstBezKresek"
-    string dateWithoutDashes;//"dataBezKresek"
-    for (int charPosition=0; charPosition<(int)dateWithDashes.length(); charPosition++)
-        if(dateWithDashes[charPosition]!='-'){
-            dateWithoutDashes+=dateWithDashes[charPosition];
-        }
-    return dateWithoutDashes;
+//------------------------wydatki------------------------------------------------------------------------------
+void IncomiesAndExpensesManager::addExpense(int loggedInUserId)//"dodajWydatek"
+{expensesV = fileWithExpenses.loadExpensesFromFileXML(loggedInUserId);//jeszcze chwile poczeka
+pokazWszystkieWydatki();//tymczasowo
+    Expenses expensesC = enterNewExpenseDetails(loggedInUserId);
+
+    expensesV.push_back(expensesC);
+
+    fileWithExpenses.addExpensesToFileXML(expensesC);
+}
+
+Expenses IncomiesAndExpensesManager::enterNewExpenseDetails(int loggedInUserId)//"podajDaneNowegoWydatku"
+{
+    Expenses expensesC;
+    string dateWithDashes;//"dataZKreskami"
+
+    expensesC.setUserId(loggedInUserId);
+    expensesC.setExpenseId(getNewExpenseId());
+
+    cout<<"Podaj date: ";
+    while(true){
+        dateWithDashes = AuxiliaryMethods::loadLine();
+        if(isDateCorrect(dateWithDashes))
+            break;
+        cout<<"Data niepoprawna. Podaj date: ";
+    }
+
+    expensesC.setDate(atoi(AuxiliaryMethods::replaceDateToTextWithoutDashes(dateWithDashes).c_str()));
+
+    cout<<"Podaj przedmiot: ";
+    expensesC.setItem(AuxiliaryMethods::loadLine());
+
+    cout<<"Podaj kwote: ";
+    expensesC.setAmount(AuxiliaryMethods::loadInteger());
+
+    return expensesC;
+}
+
+int IncomiesAndExpensesManager::getNewExpenseId(){
+    if (expensesV.empty() == true)
+        return 1;
+    else
+        return expensesV.back().getExpenseId() + 1;
 }
 
 
-//------------------------sprawdzanie-daty------------------------------------------------------------------------------
+//------------------------sprawdzanie-daty------------------------------------------------------------------------------cale sprawdzanie daty mozna chyba przerzucic do metod pomocniczych
 //zapisze jako "int" wszystkie skladowe daty (przygotuje do sprawdzenia daty)
 void IncomiesAndExpensesManager::splitDateIntoIntVariables(string dateWithDashes){//"rozdzielDateNaZmienneInt"
     string dateElement = "";//"elementDaty"
@@ -101,7 +137,7 @@ int IncomiesAndExpensesManager::maxNumberOfDaysInMonth(bool leapYear){
 	return month % 2 == 0 ? 31 : 30;
 }
 
-bool IncomiesAndExpensesManager::isDateIsCorrect(string dateWithDashes){//"czyDataJestPrawidlowa"
+bool IncomiesAndExpensesManager::isDateCorrect(string dateWithDashes){//"czyDataJestPrawidlowa"
     splitDateIntoIntVariables(dateWithDashes);
 	if (day <= 0 || day > 31 || month <= 0 || month > 12)
 		return false;
@@ -112,11 +148,6 @@ bool IncomiesAndExpensesManager::isDateIsCorrect(string dateWithDashes){//"czyDa
 
 
 //------------------------puste------------------------------------------------------------------------------
-void IncomiesAndExpensesManager::dodajWydatek()//puste
-{
-    cout<<"dodajWydatek:"<<endl;   system("pause");
-}
-
 void IncomiesAndExpensesManager::bilansZBiezacegoMiasiaca()//puste
 {
     cout<<"bilansZBiezacegoMiasiaca:"<<endl;   system("pause");
@@ -157,5 +188,31 @@ void IncomiesAndExpensesManager::pokazWszystkiePrzychodyCD(Incomies incomiesC)//
     cout<<"incomiesC.getDate(): "<<incomiesC.getDate()<<endl;
     cout<<"incomiesC.getItem(): "<<incomiesC.getItem()<<endl;
     cout<<"incomiesC.getAmount(): "<<incomiesC.getAmount()<<endl<<endl;
+}
+
+
+void IncomiesAndExpensesManager::pokazWszystkieWydatki()//tymczasowe
+{
+    if (!expensesV.empty()){
+        cout << "             >>> Wydatki <<<" << endl;
+        cout << "-----------------------------------------------" << endl;
+        for (vector <Expenses> :: iterator itr = expensesV.begin(); itr != expensesV.end(); itr++){
+            pokazWszystkieWydatkiCD(*itr);
+        }
+        cout << endl;
+    }else{
+        cout << endl << "Wydatkow brak." << endl << endl;
+    }
+    system("pause");
+    system("cls");
+}
+
+void IncomiesAndExpensesManager::pokazWszystkieWydatkiCD(Expenses expensesC)//tymczasowe
+{
+    cout<<"expensesC.getUserId(): "<<expensesC.getUserId()<<endl;
+    cout<<"expensesC.getExpenseId(): "<<expensesC.getExpenseId()<<endl;
+    cout<<"expensesC.getDate(): "<<expensesC.getDate()<<endl;
+    cout<<"expensesC.getItem(): "<<expensesC.getItem()<<endl;
+    cout<<"expensesC.getAmount(): "<<expensesC.getAmount()<<endl<<endl;
 }
 

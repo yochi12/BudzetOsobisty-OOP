@@ -1,6 +1,6 @@
 #include "FileWithIncomies.h"
 
-void FileWithIncomies::addIncomiesToFileXML(Incomies incomies){
+void FileWithIncomies::addIncomiesToFileXML(Incomies incomiesC){
     CMarkup xml;
 
     bool fileExists = xml.Load("incomies.xml");
@@ -11,47 +11,47 @@ void FileWithIncomies::addIncomiesToFileXML(Incomies incomies){
 
     xml.FindElem(); //szuka elementu w pliku
     xml.IntoElem(); //robi ten element elementem glownym
-    xml.AddElem("Incomies"); //do obiektu dodajemy "User"
+    xml.AddElem("Incomies"); //do obiektu dodajemy "Incomies"
     xml.IntoElem(); //wchodzimy do tej galezi
-    xml.AddElem("UserID", incomies.getUserId());
-    xml.AddElem("IncomeID", incomies.getIncomeId());
-    xml.AddElem("Date", incomies.getDate());
-    xml.AddElem("Item", incomies.getItem());
-    xml.AddElem("Amount", incomies.getAmount());
+    xml.AddElem("UserID", incomiesC.getUserId());
+    xml.AddElem("IncomeID", incomiesC.getIncomeId());
+    xml.AddElem("Date", incomiesC.getDate());
+    xml.AddElem("Item", incomiesC.getItem());
+    xml.AddElem("Amount", incomiesC.getAmount());
     //MCD_STR strXML = xml.GetDoc(); //zmienna "strXML" pokazuje pelen tekst obiektu "xml"
     //cout<<"Pelen tekst obiektu 'xml':"<<endl<<strXML<<endl;
     ///dwa wiersze wyzej pokazuja aktualnie wpisana osobe tak jak w pliku .XML
     xml.Save("incomies.xml");
 }
 
-vector <Incomies> FileWithIncomies::loadIncomiessFromFileXML(int loggedInUserId){
+vector <Incomies> FileWithIncomies::loadIncomiesFromFileXML(int loggedInUserId){
     Incomies incomiesC;
     vector <Incomies> incomiesV;
-    CMarkup xml1;//trzeba pozniej ta jedynke zlikwidowac
+    CMarkup xml;//trzeba pozniej ta jedynke zlikwidowac
 
-    xml1.Load("incomies.xml");
-    xml1.FindElem(); //<Incomies>
-    xml1.IntoElem();
+    xml.Load("incomies.xml");
+    xml.FindElem(); //<Incomies>
+    xml.IntoElem();
 
-    while (xml1.FindElem("Incomies")){
-        xml1.IntoElem();
-        xml1.FindElem(); //UserID
-        MCD_STR line = xml1.GetData();
+    while (xml.FindElem("Incomies")){
+        xml.IntoElem();
+        xml.FindElem(); //<UserID>
+        MCD_STR line = xml.GetData();
 
         if(line == to_string(loggedInUserId)){
                                                 incomiesC.setUserId(atoi(line.c_str()));         //cout<<"line = "<<line<<endl;
-            xml1.FindElem(); //IncomeID
-            line = xml1.GetData();             incomiesC.setIncomeId(atoi(line.c_str()));       //cout<<"line = "<<line<<endl;
-            xml1.FindElem(); //Date
-            line = xml1.GetData();             incomiesC.setDate(atoi(line.c_str()));           //cout<<"line = "<<line<<endl;
-            xml1.FindElem(); //Item
-            line = xml1.GetData();             incomiesC.setItem(line);                         //cout<<"line = "<<line<<endl;
-            xml1.FindElem(); //Amount
-            line = xml1.GetData();             incomiesC.setAmount(atoi(line.c_str()));         //cout<<"line = "<<line<<endl;
+            xml.FindElem(); //IncomeID
+            line = xml.GetData();              incomiesC.setIncomeId(atoi(line.c_str()));       //cout<<"line = "<<line<<endl;
+            xml.FindElem(); //Date
+            line = xml.GetData();              incomiesC.setDate(atoi(line.c_str()));           //cout<<"line = "<<line<<endl;
+            xml.FindElem(); //Item
+            line = xml.GetData();              incomiesC.setItem(line);                         //cout<<"line = "<<line<<endl;
+            xml.FindElem(); //Amount
+            line = xml.GetData();              incomiesC.setAmount(atoi(line.c_str()));         //cout<<"line = "<<line<<endl;
 
             incomiesV.push_back(incomiesC);
         }
-        xml1.OutOfElem();
+        xml.OutOfElem();
     }
     return incomiesV;
 }

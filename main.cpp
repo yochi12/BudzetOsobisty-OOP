@@ -43,23 +43,21 @@ int main()
 
             switch (choice){
                 case '1':
-                    personalBudget.dodajPrzychod();                        break;//puste
+                    personalBudget.dodajPrzychod();                         break;
                 case '2':
-                    personalBudget.dodajWydatek();           break;//puste
+                    personalBudget.dodajWydatek();                          break;
                 case '3':
-                    personalBudget.bilansZBiezacegoMiasiaca();          break;//puste
+                    personalBudget.bilansZBiezacegoMiasiaca();              break;//puste
                 case '4':
-                    personalBudget.bilansZPoprzedniegoMiesiaca();          break;//puste
+                    personalBudget.bilansZPoprzedniegoMiesiaca();           break;//puste
                 case '5':
-                    personalBudget.bilansZWybranegoOkresu();                         break;//puste
+                    personalBudget.bilansZWybranegoOkresu();                break;//puste
                 case '6':
-                    personalBudget.zmianaHaslaZalogowanegoUzytkownika();   break;//puste
+                    personalBudget.zmianaHaslaZalogowanegoUzytkownika();    break;//puste
                 case '7':
-                    personalBudget.wylogujUzytkownika();                   break;//puste
+                    personalBudget.wylogujUzytkownika();                    break;
                 }
         }
     }
     return 0;
 }
-
-//logowanie z plikiem juz dziala, teraz czas na dodawanie przychodow
