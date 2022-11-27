@@ -11,6 +11,7 @@ class AuxiliaryMethods
 public:
     static char loadChar();
     static string loadLine();
+    static int loadInteger();//"wczytajLiczbeCalkowita"
 
 };
 

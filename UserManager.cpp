@@ -127,7 +127,6 @@ void UserManager::wyswietlDaneUzytkownikow(User user){
     cout << "Haslo:              " << user.getPassword() << endl;
     cout << "Imie:               " << user.getName() << endl;
     cout << "Nazwisko:           " << user.getSurname() << endl;
-
 }
 
 

@@ -11,20 +11,20 @@ class Incomies
     int userId;
     int date;
     string item;
-    string amount;
+    int amount;
 
 public:
     void setIncomeId(int newIncomeId);
     void setUserId(int newUserId);
     void setDate(int newDate);
     void setItem(string newItem);
-    void setAmount(string newAmount);
+    void setAmount(int newAmount);
 
     int getIncomeId();
     int getUserId();
     int getDate();
     string getItem();
-    string getAmount();
+    int getAmount();
 
 };
 

@@ -21,3 +21,18 @@ string AuxiliaryMethods::loadLine(){
     getline(cin, input);
     return input;
 }
+
+int AuxiliaryMethods::loadInteger(){
+    string input = "";
+    int number = 0;
+
+    while (true){
+        getline(cin, input);
+
+        stringstream myStream(input);
+        if (myStream >> number)
+            break;
+        cout << "To nie jest liczba. Wpisz ponownie. " << endl;
+    }
+    return number;
+}

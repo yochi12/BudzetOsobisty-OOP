@@ -3,7 +3,6 @@
 #include <iostream>
 #include <vector>
 
-#include "User.h" //to chyba moze zostac usuniete
 #include "FileWithUsers.h"
 #include "AuxiliaryMethods.h" //nie wiem czemu, ale bez tego nie dzialaja metody z tej klasy... (w Ksiazce Adresowej dzialalo bez)
 
@@ -26,15 +25,17 @@ public:
     User getNewUserData();
     int getNewUserId();
     bool isLoginExist(string login);
-    void wyswietlDaneUzytkownikow(User user);
     int getLoggedInUserId();
 
 
+//------------------------tymczasowe------------------------------------------------------------------------------
+    void pokazWszystkichUzytkownikow();//tymczasowe
+    void wyswietlDaneUzytkownikow(User user);//tymczasowe
+
+
+//------------------------puste------------------------------------------------------------------------------
     void zmianaHaslaZalogowanegoUzytkownika();//puste
     void wylogujUzytkownika();//puste?
-
-
-    void pokazWszystkichUzytkownikow();//tymczasowe
 };
 
 #endif

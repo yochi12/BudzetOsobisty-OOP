@@ -1,36 +1,38 @@
-#include "IncomiesAndExpensesManager.h" //czas na zajecie sie datami (najpierw wczytujemy string, przerabiamy na stringa bez kresek i !do klasy jako int!)
+#include "IncomiesAndExpensesManager.h"//trzeba zmienic nazwy, wszystko to przychody!! i ogarnac temat tego konstruktora
 
-void IncomiesAndExpensesManager::addIncome(int loggedInUserId)//dodajPrzychod
-{
-    Incomies incomiesC = podajDaneNowegoPrzychodu(loggedInUserId);
+void IncomiesAndExpensesManager::addIncome(int loggedInUserId)//"dodajPrzychod"
+{incomiesV = fileWithIncomies.loadIncomiessFromFileXML(loggedInUserId);//powinno byc w konstruktorze, ale tam nie ma "loggedInUserId"
+//pokazWszystkiePrzychody();//tymczasowo
+    Incomies incomiesC = enterNewIncomeDetails(loggedInUserId);//"podajDaneNowegoPrzychodu"
 
     incomiesV.push_back(incomiesC);
 
-    wyswietlDaneZVectora();//tymczasowo
+    fileWithIncomies.addIncomiesToFileXML(incomiesC);
 }
 
-Incomies IncomiesAndExpensesManager::podajDaneNowegoPrzychodu(int loggedInUserId)
+Incomies IncomiesAndExpensesManager::enterNewIncomeDetails(int loggedInUserId)//"podajDaneNowegoPrzychodu"
 {
     Incomies incomiesC;
-    string dataZKreskami;
+    string dateWithDashes;//"dataZKreskami"
 
-    incomiesC.setIncomeId(getNewIncomieId());
     incomiesC.setUserId(loggedInUserId);
+    incomiesC.setIncomeId(getNewIncomieId());
 
     cout<<"Podaj date: ";
-    do{
-        dataZKreskami = AuxiliaryMethods::loadLine();
-        if(!czyDataJestPrawidlowa(dataZKreskami))
-            cout<<"Data niepoprawna. Podaj date: ";
-    }while(!czyDataJestPrawidlowa(dataZKreskami));
+    while(true){
+        dateWithDashes = AuxiliaryMethods::loadLine();
+        if(isDateIsCorrect(dateWithDashes))
+            break;
+        cout<<"Data niepoprawna. Podaj date: ";
+    }
 
-    incomiesC.setDate(atoi(zamienDateNaTekstBezKresek(dataZKreskami).c_str()));
+    incomiesC.setDate(atoi(replaceDateToTextWithoutDashes(dateWithDashes).c_str()));
 
     cout<<"Podaj przedmiot: ";
     incomiesC.setItem(AuxiliaryMethods::loadLine());
 
     cout<<"Podaj kwote: ";
-    incomiesC.setAmount(AuxiliaryMethods::loadLine());
+    incomiesC.setAmount(AuxiliaryMethods::loadInteger());
 
     return incomiesC;
 }
@@ -42,73 +44,74 @@ int IncomiesAndExpensesManager::getNewIncomieId(){
         return incomiesV.back().getIncomeId() + 1;
 }
 
-//wersja ktora zwroci date bez kresek jako string, oraz zapisze jako "int" wszystkie skladowe daty (przygotuje do sprawdzenia daty)
-void IncomiesAndExpensesManager::zamienDateNaZmienneInt(string dataZKreskami){
-    string skladowaDaty = "";
-    int numerPojedynczejDaty = 1;
+//zamiana daty z kreskami na date bez kresek
+string IncomiesAndExpensesManager::replaceDateToTextWithoutDashes(string dateWithDashes){//"zamienDateNaTekstBezKresek"
+    string dateWithoutDashes;//"dataBezKresek"
+    for (int charPosition=0; charPosition<(int)dateWithDashes.length(); charPosition++)
+        if(dateWithDashes[charPosition]!='-'){
+            dateWithoutDashes+=dateWithDashes[charPosition];
+        }
+    return dateWithoutDashes;
+}
 
-    dataZKreskami=dataZKreskami+'-';//dodajemy na koncu dodatkowa kreske do daty, aby petla nizej dzialala bez modyfikacji
 
-    for (int pozycjaZnaku=0; pozycjaZnaku<(int)dataZKreskami.length(); pozycjaZnaku++)
+//------------------------sprawdzanie-daty------------------------------------------------------------------------------
+//zapisze jako "int" wszystkie skladowe daty (przygotuje do sprawdzenia daty)
+void IncomiesAndExpensesManager::splitDateIntoIntVariables(string dateWithDashes){//"rozdzielDateNaZmienneInt"
+    string dateElement = "";//"elementDaty"
+    int dateElementNumber = 1;//"numerElementuDaty"
+
+    dateWithDashes=dateWithDashes+'-';//dodajemy na koncu dodatkowa kreske do daty, aby petla nizej dzialala bez modyfikacji
+
+    for (int charPosition=0; charPosition<(int)dateWithDashes.length(); charPosition++)
     {
-        if(dataZKreskami[pozycjaZnaku]!='-'){
-            skladowaDaty+=dataZKreskami[pozycjaZnaku];
+        if(dateWithDashes[charPosition]!='-'){
+            dateElement+=dateWithDashes[charPosition];
         }else{
-            switch(numerPojedynczejDaty){
+            switch(dateElementNumber){
                 case 1:
-                    rok = atoi(skladowaDaty.c_str());        break;
+                    year = atoi(dateElement.c_str());       break;
                 case 2:
-                    miesiac = atoi(skladowaDaty.c_str());    break;
+                    month = atoi(dateElement.c_str());      break;
                 case 3:
-                    dzien = atoi(skladowaDaty.c_str());      break;
+                    day = atoi(dateElement.c_str());        break;
             }
-        skladowaDaty = "";
-        numerPojedynczejDaty++;
+        dateElement = "";
+        dateElementNumber++;
         }
     }
 }
 
-//zamienia na tekst bez kresek
-string IncomiesAndExpensesManager::zamienDateNaTekstBezKresek(string dataZKreskami){
-    string dataBezKresek;
-    for (int pozycjaZnaku=0; pozycjaZnaku<(int)dataZKreskami.length(); pozycjaZnaku++)
-        if(dataZKreskami[pozycjaZnaku]!='-'){
-            dataBezKresek+=dataZKreskami[pozycjaZnaku];
-        }
-    return dataBezKresek;
-}
-
-//-------------sprawdzamy-poprawnosc-daty------------------------------------------------------------------
-
-bool IncomiesAndExpensesManager::czyRokJestPrzestepny(){
-	if ((rok % 4 == 0 && rok % 100 != 0) && (rok % 400 == 0))
+bool IncomiesAndExpensesManager::isLeapYear(){//"czyRokJestPrzestepny"
+	if ((year % 4 == 0 && year % 100 != 0) && (year % 400 == 0))
 		return true;
 	else
 		return false;
 }
 
-int IncomiesAndExpensesManager::maksymalnaIloscDniWMiesiacu(bool rokPrzestepny){
-    int luty=2, lipiec=7;
+int IncomiesAndExpensesManager::maxNumberOfDaysInMonth(bool leapYear){
+    int february=2, juli=7;
 
-	if (miesiac == luty)
-		return rokPrzestepny ? 29 : 28;
-// jesli "rokPrzestepny" to "true" to zwroc "29", jesli nie to "28"
-	if (miesiac <= lipiec)
-		return miesiac % 2 == 0 ? 30 : 31;
+	if (month == february)
+		return leapYear ? 29 : 28;//"rokPrzestepny"
+// jesli "leapYear" to "true" to zwroc "29", jesli nie to "28"
+	if (month <= juli)
+		return month % 2 == 0 ? 30 : 31;
 
-	return miesiac % 2 == 0 ? 31 : 30;
+	return month % 2 == 0 ? 31 : 30;
 }
 
-bool IncomiesAndExpensesManager::czyDataJestPrawidlowa(string dataZKreskami){
-    zamienDateNaZmienneInt(dataZKreskami);
-	if (dzien <= 0 || dzien > 31 || miesiac <= 0 || miesiac > 12)
+bool IncomiesAndExpensesManager::isDateIsCorrect(string dateWithDashes){//"czyDataJestPrawidlowa"
+    splitDateIntoIntVariables(dateWithDashes);
+	if (day <= 0 || day > 31 || month <= 0 || month > 12)
 		return false;
 
-	int maksymalnaIloscDni = maksymalnaIloscDniWMiesiacu(czyRokJestPrzestepny());
-	return dzien <= maksymalnaIloscDni;
+	int maxNumbersOfDays = maxNumberOfDaysInMonth(isLeapYear());
+	return day <= maxNumbersOfDays;
 }
 
-//-------------------------puste----------------------------------------------------------------------------
+
+//------------------------puste------------------------------------------------------------------------------
 void IncomiesAndExpensesManager::dodajWydatek()//puste
 {
     cout<<"dodajWydatek:"<<endl;   system("pause");
@@ -128,16 +131,16 @@ void IncomiesAndExpensesManager::bilansZWybranegoOkresu()//puste
 {
     cout<<"bilansZWybranegoOkresu:"<<endl;   system("pause");
 }
-//----------------------------------------------------------------------------------------------------------
 
 
-void IncomiesAndExpensesManager::wyswietlDaneZVectora()//tymczasowe
+//------------------------tymczasowe------------------------------------------------------------------------------
+void IncomiesAndExpensesManager::pokazWszystkiePrzychody()//tymczasowe
 {
     if (!incomiesV.empty()){
         cout << "             >>> Przychody <<<" << endl;
         cout << "-----------------------------------------------" << endl;
         for (vector <Incomies> :: iterator itr = incomiesV.begin(); itr != incomiesV.end(); itr++){
-            wyswietl(*itr);
+            pokazWszystkiePrzychodyCD(*itr);
         }
         cout << endl;
     }else{
@@ -147,10 +150,10 @@ void IncomiesAndExpensesManager::wyswietlDaneZVectora()//tymczasowe
     system("cls");
 }
 
-void IncomiesAndExpensesManager::wyswietl(Incomies incomiesC)//tymczasowe
+void IncomiesAndExpensesManager::pokazWszystkiePrzychodyCD(Incomies incomiesC)//tymczasowe
 {
-    cout<<"incomiesC.getIncomeId(): "<<incomiesC.getIncomeId()<<endl;
     cout<<"incomiesC.getUserId(): "<<incomiesC.getUserId()<<endl;
+    cout<<"incomiesC.getIncomeId(): "<<incomiesC.getIncomeId()<<endl;
     cout<<"incomiesC.getDate(): "<<incomiesC.getDate()<<endl;
     cout<<"incomiesC.getItem(): "<<incomiesC.getItem()<<endl;
     cout<<"incomiesC.getAmount(): "<<incomiesC.getAmount()<<endl<<endl;
