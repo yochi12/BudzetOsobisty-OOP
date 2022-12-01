@@ -20,12 +20,7 @@ Incomies IncomiesAndExpensesManager::enterNewIncomeDetails(int loggedInUserId)//
     incomiesC.setIncomeId(getNewIncomieId());
 
     cout<<"Podaj date: ";//te kilka linijek powtarza sie w wydatkach, mozna z tego zrobic osobna funkcje
-    while(true){
-        dateWithDashes = AuxiliaryMethods::loadLine();
-        if(isDateCorrect(dateWithDashes))
-            break;
-        cout<<"Data niepoprawna. Podaj date: ";
-    }
+    enterDate(dateWithDashes);
 
     incomiesC.setDate(atoi(AuxiliaryMethods::replaceDateToTextWithoutDashes(dateWithDashes).c_str()));
 
@@ -65,12 +60,7 @@ Expenses IncomiesAndExpensesManager::enterNewExpenseDetails(int loggedInUserId)/
     expensesC.setExpenseId(getNewExpenseId());
 
     cout<<"Podaj date: ";
-    while(true){
-        dateWithDashes = AuxiliaryMethods::loadLine();
-        if(isDateCorrect(dateWithDashes))
-            break;
-        cout<<"Data niepoprawna. Podaj date: ";
-    }
+    enterDate(dateWithDashes);
 
     expensesC.setDate(atoi(AuxiliaryMethods::replaceDateToTextWithoutDashes(dateWithDashes).c_str()));
 
@@ -90,60 +80,15 @@ int IncomiesAndExpensesManager::getNewExpenseId(){
         return expensesV.back().getExpenseId() + 1;
 }
 
-
-//------------------------sprawdzanie-daty------------------------------------------------------------------------------cale sprawdzanie daty mozna chyba przerzucic do metod pomocniczych
-//zapisze jako "int" wszystkie skladowe daty (przygotuje do sprawdzenia daty)
-void IncomiesAndExpensesManager::splitDateIntoIntVariables(string dateWithDashes){//"rozdzielDateNaZmienneInt"
-    string dateElement = "";//"elementDaty"
-    int dateElementNumber = 1;//"numerElementuDaty"
-
-    dateWithDashes=dateWithDashes+'-';//dodajemy na koncu dodatkowa kreske do daty, aby petla nizej dzialala bez modyfikacji
-
-    for (int charPosition=0; charPosition<(int)dateWithDashes.length(); charPosition++)
-    {
-        if(dateWithDashes[charPosition]!='-'){
-            dateElement+=dateWithDashes[charPosition];
-        }else{
-            switch(dateElementNumber){
-                case 1:
-                    year = atoi(dateElement.c_str());       break;
-                case 2:
-                    month = atoi(dateElement.c_str());      break;
-                case 3:
-                    day = atoi(dateElement.c_str());        break;
-            }
-        dateElement = "";
-        dateElementNumber++;
-        }
+//------------------------puste------------------------------------------------------------------------------
+void IncomiesAndExpensesManager::enterDate(string dateWithDashes)
+{
+    while(true){
+        dateWithDashes = AuxiliaryMethods::loadLine();
+        if(checkingDate.isDateCorrect(dateWithDashes))
+            break;
+        cout<<"Data niepoprawna. Podaj date: ";
     }
-}
-
-bool IncomiesAndExpensesManager::isLeapYear(){//"czyRokJestPrzestepny"
-	if ((year % 4 == 0 && year % 100 != 0) && (year % 400 == 0))
-		return true;
-	else
-		return false;
-}
-
-int IncomiesAndExpensesManager::maxNumberOfDaysInMonth(bool leapYear){
-    int february=2, juli=7;
-
-	if (month == february)
-		return leapYear ? 29 : 28;//"rokPrzestepny"
-// jesli "leapYear" to "true" to zwroc "29", jesli nie to "28"
-	if (month <= juli)
-		return month % 2 == 0 ? 30 : 31;
-
-	return month % 2 == 0 ? 31 : 30;
-}
-
-bool IncomiesAndExpensesManager::isDateCorrect(string dateWithDashes){//"czyDataJestPrawidlowa"
-    splitDateIntoIntVariables(dateWithDashes);
-	if (day <= 0 || day > 31 || month <= 0 || month > 12)
-		return false;
-
-	int maxNumbersOfDays = maxNumberOfDaysInMonth(isLeapYear());
-	return day <= maxNumbersOfDays;
 }
 
 

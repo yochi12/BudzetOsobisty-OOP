@@ -8,6 +8,7 @@
 #include "AuxiliaryMethods.h" //nie wiem czemu, ale bez tego nie dzialaja metody z tej klasy... (w Ksiazce Adresowej dzialalo bez)
 #include "FileWithIncomies.h"
 #include "FileWithExpenses.h"
+#include "CheckingDate.h"
 
 using namespace std;
 
@@ -17,16 +18,15 @@ class IncomiesAndExpensesManager
     vector <Expenses> expensesV;
     FileWithIncomies fileWithIncomies;
     FileWithExpenses fileWithExpenses;
+    CheckingDate checkingDate;
 
     //int loggedInUserId; //przyda sie w sytuacji, kiedy w konstruktorze dostaniemy "idZalogowanegoUzytkownika"
-    int day, month, year;
 
 public:
     IncomiesAndExpensesManager()//nie moge wyslac nic do tego konstruktora....
     {
         //loggedInUserId = idZalogowanegoUzytkownika; //<- to trzeba przeslac przez konstruktor, a nie jak teraz przez metody....ghb
         //incomiesV = fileWithIncomies.loadIncomiessFromFileXML();//<- to powinno tu wrocic, ale jest problem z zalogowanym uzytkownikiem....
-        day = 0; month = 0; year = 0;
     };
 
 
@@ -42,11 +42,8 @@ public:
     int getNewExpenseId(); //przypisuje nowe ID do wydatku
 
 
-//------------------------sprawdzanie-daty------------------------------------------------------------------------------
-    void splitDateIntoIntVariables(string dateWithDashes);//"rozdzielDateNaZmienneInt"
-    bool isDateCorrect(string dateWithDashes);//czyDataJestPrawidlowa
-    int maxNumberOfDaysInMonth(bool rokPrzestepny);
-    bool isLeapYear();//"czyRokJestPrzestepny"
+//------------------------dodatkowe------------------------------------------------------------------------------
+    void enterDate(string dateWithDashes);
 
 
 //------------------------tymczasowe------------------------------------------------------------------------------
