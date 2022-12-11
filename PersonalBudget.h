@@ -13,22 +13,30 @@ using namespace std;
 class PersonalBudget
 {
     UserManager userManager;
-    IncomiesAndExpensesManager incomiesAndExpensesManager;
+    IncomiesAndExpensesManager *incomiesAndExpensesManager;
 
     vector <User> users;
 
     int tymczasowaZmiennaDoKonstruktora = 1;
 
 public:
+    PersonalBudget(){
+        incomiesAndExpensesManager = NULL;
+    }
+    ~PersonalBudget(){
+        delete incomiesAndExpensesManager;
+        incomiesAndExpensesManager = NULL;
+    }
+
+
     char selectOptionFromMainMenu();
     char selectOptionFromUserMenu();
-    char loadChar();
     void registerUser();
     void loginUser();
 
     bool isUserLoggedIn();
-    void dodajPrzychod();//puste
-    void dodajWydatek();//puste
+    void addIncome();//dodajPrzychod
+    void addExpense();//dodajWydatek
     void bilansZBiezacegoMiasiaca();//puste
     void bilansZPoprzedniegoMiesiaca();//puste
     void bilansZWybranegoOkresu();//puste
@@ -36,7 +44,7 @@ public:
     void wylogujUzytkownika();//puste
 
 
-    void pokazWszystkichUzytkownikow(); //tymczasowe, pokazuje wszystkich uzytkownikow
+    void pokazWszystkichUzytkownikow(); //tymczasowe,
 };
 
 #endif

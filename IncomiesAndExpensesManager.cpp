@@ -1,26 +1,22 @@
-#include "IncomiesAndExpensesManager.h"// ogarnac temat tego konstruktora, sprawdzic czy NA PEWNO vector jest pusty przy wyborze innego uzytkownika
+#include "IncomiesAndExpensesManager.h"
 
 //------------------------przychody------------------------------------------------------------------------------
-void IncomiesAndExpensesManager::addIncome(int loggedInUserId)//"dodajPrzychod"
-{incomiesV = fileWithIncomies.loadIncomiesFromFileXML(loggedInUserId);//powinno byc w konstruktorze, ale tam nie ma "loggedInUserId"
+void IncomiesAndExpensesManager::addIncome(){//"dodajPrzychod"
 pokazWszystkiePrzychody();//tymczasowo
-    Incomies incomiesC = enterNewIncomeDetails(loggedInUserId);//"podajDaneNowegoPrzychodu"
-
+    Incomies incomiesC = enterNewIncomeDetails();//"podajDaneNowegoPrzychodu"
     incomiesV.push_back(incomiesC);
-
     fileWithIncomies.addIncomiesToFileXML(incomiesC);
 }
 
-Incomies IncomiesAndExpensesManager::enterNewIncomeDetails(int loggedInUserId)//"podajDaneNowegoPrzychodu"
-{
+Incomies IncomiesAndExpensesManager::enterNewIncomeDetails(){//"podajDaneNowegoPrzychodu"
     Incomies incomiesC;
-    string dateWithDashes;//"dataZKreskami"
+    string dateWithDashes;
 
-    incomiesC.setUserId(loggedInUserId);
+    incomiesC.setUserId(LOGGED_IN_USER_ID);
     incomiesC.setIncomeId(getNewIncomieId());
 
-    cout<<"Podaj date: ";//te kilka linijek powtarza sie w wydatkach, mozna z tego zrobic osobna funkcje
-    enterDate(dateWithDashes);
+    cout<<"Podaj date: ";
+    dateWithDashes = enterDate(dateWithDashes);
 
     incomiesC.setDate(atoi(AuxiliaryMethods::replaceDateToTextWithoutDashes(dateWithDashes).c_str()));
 
@@ -28,7 +24,8 @@ Incomies IncomiesAndExpensesManager::enterNewIncomeDetails(int loggedInUserId)//
     incomiesC.setItem(AuxiliaryMethods::loadLine());
 
     cout<<"Podaj kwote: ";
-    incomiesC.setAmount(AuxiliaryMethods::loadInteger());
+    incomiesC.setAmount(AuxiliaryMethods::loadFloat());
+    //cout<<incomiesC.getAmount();    system("pause");//musi byc  z kropka, zeby bylo z "groszami"
 
     return incomiesC;
 }
@@ -41,26 +38,22 @@ int IncomiesAndExpensesManager::getNewIncomieId(){
 }
 
 //------------------------wydatki------------------------------------------------------------------------------
-void IncomiesAndExpensesManager::addExpense(int loggedInUserId)//"dodajWydatek"
-{expensesV = fileWithExpenses.loadExpensesFromFileXML(loggedInUserId);//jeszcze chwile poczeka
+void IncomiesAndExpensesManager::addExpense(){//"dodajWydatek"
 pokazWszystkieWydatki();//tymczasowo
-    Expenses expensesC = enterNewExpenseDetails(loggedInUserId);
-
+    Expenses expensesC = enterNewExpenseDetails();
     expensesV.push_back(expensesC);
-
     fileWithExpenses.addExpensesToFileXML(expensesC);
 }
 
-Expenses IncomiesAndExpensesManager::enterNewExpenseDetails(int loggedInUserId)//"podajDaneNowegoWydatku"
-{
+Expenses IncomiesAndExpensesManager::enterNewExpenseDetails(){//"podajDaneNowegoWydatku"
     Expenses expensesC;
-    string dateWithDashes;//"dataZKreskami"
+    string dateWithDashes;
 
-    expensesC.setUserId(loggedInUserId);
+    expensesC.setUserId(LOGGED_IN_USER_ID);
     expensesC.setExpenseId(getNewExpenseId());
 
     cout<<"Podaj date: ";
-    enterDate(dateWithDashes);
+    dateWithDashes = enterDate(dateWithDashes);
 
     expensesC.setDate(atoi(AuxiliaryMethods::replaceDateToTextWithoutDashes(dateWithDashes).c_str()));
 
@@ -80,15 +73,15 @@ int IncomiesAndExpensesManager::getNewExpenseId(){
         return expensesV.back().getExpenseId() + 1;
 }
 
-//------------------------puste------------------------------------------------------------------------------
-void IncomiesAndExpensesManager::enterDate(string dateWithDashes)
-{
+//------------------------dodatkowe------------------------------------------------------------------------------
+string IncomiesAndExpensesManager::enterDate(string dateWithDashes){
     while(true){
         dateWithDashes = AuxiliaryMethods::loadLine();
         if(checkingDate.isDateCorrect(dateWithDashes))
             break;
         cout<<"Data niepoprawna. Podaj date: ";
     }
+    return dateWithDashes;
 }
 
 

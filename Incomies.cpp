@@ -12,7 +12,7 @@ void Incomies::setDate(int newDate){
 void Incomies::setItem(string newItem){
         item=newItem;
 }
-void Incomies::setAmount(int newAmount){
+void Incomies::setAmount(float newAmount){
         amount=newAmount;
 }
 
@@ -28,6 +28,6 @@ int Incomies::getDate(){
 string Incomies::getItem(){
     return item;
 }
-int Incomies::getAmount(){
+float Incomies::getAmount(){
     return amount;
 }

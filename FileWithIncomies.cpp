@@ -17,9 +17,9 @@ void FileWithIncomies::addIncomiesToFileXML(Incomies incomiesC){
     xml.AddElem("IncomeID", incomiesC.getIncomeId());
     xml.AddElem("Date", incomiesC.getDate());
     xml.AddElem("Item", incomiesC.getItem());
-    xml.AddElem("Amount", incomiesC.getAmount());
+    xml.AddElem("Amount", incomiesC.getAmount());   //cout<<incomiesC.getAmount()<<endl;
     //MCD_STR strXML = xml.GetDoc(); //zmienna "strXML" pokazuje pelen tekst obiektu "xml"
-    //cout<<"Pelen tekst obiektu 'xml':"<<endl<<strXML<<endl;
+    //cout<<"Pelen tekst obiektu 'xml':"<<endl<<strXML<<endl;   system("pause");
     ///dwa wiersze wyzej pokazuja aktualnie wpisana osobe tak jak w pliku .XML
     xml.Save("incomies.xml");
 }
@@ -41,13 +41,13 @@ vector <Incomies> FileWithIncomies::loadIncomiesFromFileXML(int loggedInUserId){
         if(line == to_string(loggedInUserId)){
                                                 incomiesC.setUserId(atoi(line.c_str()));         //cout<<"line = "<<line<<endl;
             xml.FindElem(); //IncomeID
-            line = xml.GetData();              incomiesC.setIncomeId(atoi(line.c_str()));       //cout<<"line = "<<line<<endl;
+            line = xml.GetData();               incomiesC.setIncomeId(atoi(line.c_str()));       //cout<<"line = "<<line<<endl;
             xml.FindElem(); //Date
-            line = xml.GetData();              incomiesC.setDate(atoi(line.c_str()));           //cout<<"line = "<<line<<endl;
+            line = xml.GetData();               incomiesC.setDate(atoi(line.c_str()));           //cout<<"line = "<<line<<endl;
             xml.FindElem(); //Item
-            line = xml.GetData();              incomiesC.setItem(line);                         //cout<<"line = "<<line<<endl;
+            line = xml.GetData();               incomiesC.setItem(line);                         //cout<<"line = "<<line<<endl;
             xml.FindElem(); //Amount
-            line = xml.GetData();              incomiesC.setAmount(atoi(line.c_str()));         //cout<<"line = "<<line<<endl;
+            line = xml.GetData();               incomiesC.setAmount(atoi(line.c_str()));         //cout<<"line = "<<line<<endl;
 
             incomiesV.push_back(incomiesC);
         }

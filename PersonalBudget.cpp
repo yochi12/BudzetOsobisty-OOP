@@ -42,36 +42,32 @@ void PersonalBudget::registerUser(){
 
 void PersonalBudget::loginUser(){
     userManager.loginUser();
-
-    //incomiesAndExpensesManager(); //pozniej trzeba do tego wrocic (problem z konstruktorem)
+    if(userManager.getLoggedInUserId()!=0){
+        incomiesAndExpensesManager = new IncomiesAndExpensesManager(userManager.getLoggedInUserId());
+    }
 }
 
-void PersonalBudget::pokazWszystkichUzytkownikow(){//tymczasowe
-    userManager.pokazWszystkichUzytkownikow();
+void PersonalBudget::addIncome(){
+    incomiesAndExpensesManager -> addIncome();
+}
+
+void PersonalBudget::addExpense(){
+    incomiesAndExpensesManager -> addExpense();
 }
 
 
-
-
-void PersonalBudget::dodajPrzychod(){
-    incomiesAndExpensesManager.addIncome(userManager.getLoggedInUserId());//trzeba gdzies dac informacje dotyczaca zalogowanego uzytkownika
-}
-
-void PersonalBudget::dodajWydatek(){
-    incomiesAndExpensesManager.addExpense(userManager.getLoggedInUserId());
-}
 
 
 void PersonalBudget::bilansZBiezacegoMiasiaca(){
-    incomiesAndExpensesManager.bilansZBiezacegoMiasiaca();//puste
+    incomiesAndExpensesManager -> bilansZBiezacegoMiasiaca();//puste
 }
 
 void PersonalBudget::bilansZPoprzedniegoMiesiaca(){
-    incomiesAndExpensesManager.bilansZPoprzedniegoMiesiaca();//puste
+    incomiesAndExpensesManager -> bilansZPoprzedniegoMiesiaca();//puste
 }
 
 void PersonalBudget::bilansZWybranegoOkresu(){
-    incomiesAndExpensesManager.bilansZWybranegoOkresu();//puste
+    incomiesAndExpensesManager -> bilansZWybranegoOkresu();//puste
 }
 
 
@@ -84,4 +80,7 @@ void PersonalBudget::wylogujUzytkownika(){
 }
 
 
+void PersonalBudget::pokazWszystkichUzytkownikow(){//tymczasowe
+    userManager.pokazWszystkichUzytkownikow();
+}
 

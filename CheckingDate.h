@@ -17,7 +17,7 @@ public:
     CheckingDate(){
         day = 0; month = 0; year = 0;
     };
-    bool isDateCorrect(string dateWithDashes);//czyDataJestPrawidlowa
+    bool isDateCorrect(string dateWithDashes);//"czyDataJestPrawidlowa"
 };
 
 #endif

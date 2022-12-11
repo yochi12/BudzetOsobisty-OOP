@@ -37,6 +37,21 @@ int AuxiliaryMethods::loadInteger(){
     return number;
 }
 
+float AuxiliaryMethods::loadFloat(){
+    string input = "";
+    float number = 0;
+
+    while (true){
+        getline(cin, input);
+
+        stringstream myStream(input);
+        if (myStream >> number)
+            break;
+        cout << "To nie jest liczba. Wpisz ponownie. " << endl;
+    }
+    return number;
+}
+
 //zamiana daty z kreskami na date bez kresek
 string AuxiliaryMethods::replaceDateToTextWithoutDashes(string dateWithDashes){
     string dateWithoutDashes;//"dataBezKresek"

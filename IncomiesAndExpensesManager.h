@@ -1,4 +1,4 @@
-#ifndef IncomiesAndExpensesManager_H
+#ifndef IncomiesAndExpensesManager_H///teraz czas na zabawe z groszami w XML
 #define IncomiesAndExpensesManager_H
 #include <iostream>
 #include <vector>
@@ -14,36 +14,36 @@ using namespace std;
 
 class IncomiesAndExpensesManager
 {
+    const int LOGGED_IN_USER_ID;
+
     vector <Incomies> incomiesV; //IncomiesV -> vector, incomiesC -> class
     vector <Expenses> expensesV;
+
     FileWithIncomies fileWithIncomies;
     FileWithExpenses fileWithExpenses;
     CheckingDate checkingDate;
 
-    //int loggedInUserId; //przyda sie w sytuacji, kiedy w konstruktorze dostaniemy "idZalogowanegoUzytkownika"
-
 public:
-    IncomiesAndExpensesManager()//nie moge wyslac nic do tego konstruktora....
-    {
-        //loggedInUserId = idZalogowanegoUzytkownika; //<- to trzeba przeslac przez konstruktor, a nie jak teraz przez metody....ghb
-        //incomiesV = fileWithIncomies.loadIncomiessFromFileXML();//<- to powinno tu wrocic, ale jest problem z zalogowanym uzytkownikiem....
-    };
+    IncomiesAndExpensesManager(int loggedInUserId) : LOGGED_IN_USER_ID(loggedInUserId){
+        incomiesV = fileWithIncomies.loadIncomiesFromFileXML(LOGGED_IN_USER_ID);
+        expensesV = fileWithExpenses.loadExpensesFromFileXML(LOGGED_IN_USER_ID);
+    }
 
 
 //------------------------przychody------------------------------------------------------------------------------
-    void addIncome(int loggedInUserId); //dodajPrzychod, nie wiem jak przeslac ID zalogowanego uzytkownika z "PersonalBudget", wiec chwilowo kombinuje
-    Incomies enterNewIncomeDetails(int loggedInUserId);//"podajDaneNowegoPrzychodu"
-    int getNewIncomieId(); //przypisuje nowe ID do przychodu
+    void addIncome();                   //"dodajPrzychod"
+    Incomies enterNewIncomeDetails();   //"podajDaneNowegoPrzychodu"
+    int getNewIncomieId();              //przypisuje nowe ID do przychodu
 
 
 //------------------------wydatki------------------------------------------------------------------------------
-    void addExpense(int loggedInUserId); //dodajWydatek, nie wiem jak przeslac ID zalogowanego uzytkownika z "PersonalBudget", wiec chwilowo kombinuje
-    Expenses enterNewExpenseDetails(int loggedInUserId);//"podajDaneNowegoWydatku"
-    int getNewExpenseId(); //przypisuje nowe ID do wydatku
+    void addExpense();                  //"dodajWydatek"
+    Expenses enterNewExpenseDetails();  //"podajDaneNowegoWydatku"
+    int getNewExpenseId();              //przypisuje nowe ID do wydatku
 
 
 //------------------------dodatkowe------------------------------------------------------------------------------
-    void enterDate(string dateWithDashes);
+    string enterDate(string dateWithDashes);
 
 
 //------------------------tymczasowe------------------------------------------------------------------------------
@@ -54,7 +54,6 @@ public:
 
 
 //------------------------puste------------------------------------------------------------------------------
-    void dodajWydatek();//puste
     void bilansZBiezacegoMiasiaca();//puste
     void bilansZPoprzedniegoMiesiaca();//puste
     void bilansZWybranegoOkresu();//puste

@@ -43,9 +43,9 @@ int main()
 
             switch (choice){
                 case '1':
-                    personalBudget.dodajPrzychod();                         break;
+                    personalBudget.addIncome();                         break;
                 case '2':
-                    personalBudget.dodajWydatek();                          break;
+                    personalBudget.addExpense();                          break;
                 case '3':
                     personalBudget.bilansZBiezacegoMiasiaca();              break;//puste
                 case '4':
