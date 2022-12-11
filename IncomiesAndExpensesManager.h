@@ -1,7 +1,8 @@
-#ifndef IncomiesAndExpensesManager_H///teraz czas na zabawe z groszami w XML
-#define IncomiesAndExpensesManager_H
+#ifndef IncomiesAndExpensesManager_H//czas na kolejne opcje uzytkownika (bilans z miesiaca) (jeszcze chwile!)
+#define IncomiesAndExpensesManager_H//czas sprawdzic czy wszystko dobrze chodzxi i dodac informacje ze dodano nowy wydatek etc
 #include <iostream>
 #include <vector>
+#include <iomanip>
 
 #include "Incomies.h"
 #include "Expenses.h"
@@ -44,6 +45,7 @@ public:
 
 //------------------------dodatkowe------------------------------------------------------------------------------
     string enterDate(string dateWithDashes);
+    string loadAmount();
 
 
 //------------------------tymczasowe------------------------------------------------------------------------------

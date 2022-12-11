@@ -6,6 +6,7 @@
 
 #include "Markup.h"
 #include "Incomies.h"
+#include "AuxiliaryMethods.h"
 
 using namespace std;
 

@@ -61,3 +61,23 @@ string AuxiliaryMethods::replaceDateToTextWithoutDashes(string dateWithDashes){
         }
     return dateWithoutDashes;
 }
+
+
+string AuxiliaryMethods::convertFloatToString(float floatNumber){
+    ostringstream ss;
+    ss << floatNumber;
+    string stringNumber = ss.str();
+
+    return stringNumber;
+}
+
+string AuxiliaryMethods::convertCommaToDot(string numberToCheck){
+    string finalNumber;
+    for (int i=0; i<(int)numberToCheck.length(); i++)
+        if(numberToCheck[i]!=',')
+            finalNumber+=numberToCheck[i];
+        else
+            finalNumber+='.';
+    return finalNumber;
+}
+

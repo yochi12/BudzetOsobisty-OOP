@@ -17,7 +17,7 @@ void FileWithIncomies::addIncomiesToFileXML(Incomies incomiesC){
     xml.AddElem("IncomeID", incomiesC.getIncomeId());
     xml.AddElem("Date", incomiesC.getDate());
     xml.AddElem("Item", incomiesC.getItem());
-    xml.AddElem("Amount", incomiesC.getAmount());   //cout<<incomiesC.getAmount()<<endl;
+    xml.AddElem("Amount", AuxiliaryMethods::convertFloatToString(incomiesC.getAmount()));
     //MCD_STR strXML = xml.GetDoc(); //zmienna "strXML" pokazuje pelen tekst obiektu "xml"
     //cout<<"Pelen tekst obiektu 'xml':"<<endl<<strXML<<endl;   system("pause");
     ///dwa wiersze wyzej pokazuja aktualnie wpisana osobe tak jak w pliku .XML
@@ -27,7 +27,7 @@ void FileWithIncomies::addIncomiesToFileXML(Incomies incomiesC){
 vector <Incomies> FileWithIncomies::loadIncomiesFromFileXML(int loggedInUserId){
     Incomies incomiesC;
     vector <Incomies> incomiesV;
-    CMarkup xml;//trzeba pozniej ta jedynke zlikwidowac
+    CMarkup xml;
 
     xml.Load("incomies.xml");
     xml.FindElem(); //<Incomies>
@@ -47,7 +47,7 @@ vector <Incomies> FileWithIncomies::loadIncomiesFromFileXML(int loggedInUserId){
             xml.FindElem(); //Item
             line = xml.GetData();               incomiesC.setItem(line);                         //cout<<"line = "<<line<<endl;
             xml.FindElem(); //Amount
-            line = xml.GetData();               incomiesC.setAmount(atoi(line.c_str()));         //cout<<"line = "<<line<<endl;
+            line = xml.GetData();               incomiesC.setAmount(atof(line.c_str()));         //cout<<"line = "<<line<<endl;
 
             incomiesV.push_back(incomiesC);
         }

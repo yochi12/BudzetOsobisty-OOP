@@ -12,7 +12,7 @@ void Expenses::setDate(int newDate){
 void Expenses::setItem(string newItem){
         item=newItem;
 }
-void Expenses::setAmount(int newAmount){
+void Expenses::setAmount(float newAmount){
         amount=newAmount;
 }
 
@@ -28,6 +28,6 @@ int Expenses::getDate(){
 string Expenses::getItem(){
     return item;
 }
-int Expenses::getAmount(){
+float Expenses::getAmount(){
     return amount;
 }

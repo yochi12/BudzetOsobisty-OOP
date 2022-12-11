@@ -2,10 +2,12 @@
 
 //------------------------przychody------------------------------------------------------------------------------
 void IncomiesAndExpensesManager::addIncome(){//"dodajPrzychod"
-pokazWszystkiePrzychody();//tymczasowo
+//pokazWszystkiePrzychody();//tymczasowo
     Incomies incomiesC = enterNewIncomeDetails();//"podajDaneNowegoPrzychodu"
     incomiesV.push_back(incomiesC);
     fileWithIncomies.addIncomiesToFileXML(incomiesC);
+    cout<<endl<<"Dodano nowy przychod."<<endl<<endl;
+    system("pause");
 }
 
 Incomies IncomiesAndExpensesManager::enterNewIncomeDetails(){//"podajDaneNowegoPrzychodu"
@@ -15,7 +17,7 @@ Incomies IncomiesAndExpensesManager::enterNewIncomeDetails(){//"podajDaneNowegoP
     incomiesC.setUserId(LOGGED_IN_USER_ID);
     incomiesC.setIncomeId(getNewIncomieId());
 
-    cout<<"Podaj date: ";
+    cout<<endl<<"Podaj date: ";
     dateWithDashes = enterDate(dateWithDashes);
 
     incomiesC.setDate(atoi(AuxiliaryMethods::replaceDateToTextWithoutDashes(dateWithDashes).c_str()));
@@ -24,8 +26,7 @@ Incomies IncomiesAndExpensesManager::enterNewIncomeDetails(){//"podajDaneNowegoP
     incomiesC.setItem(AuxiliaryMethods::loadLine());
 
     cout<<"Podaj kwote: ";
-    incomiesC.setAmount(AuxiliaryMethods::loadFloat());
-    //cout<<incomiesC.getAmount();    system("pause");//musi byc  z kropka, zeby bylo z "groszami"
+    incomiesC.setAmount(atof(loadAmount().c_str()));
 
     return incomiesC;
 }
@@ -37,12 +38,19 @@ int IncomiesAndExpensesManager::getNewIncomieId(){
         return incomiesV.back().getIncomeId() + 1;
 }
 
+string IncomiesAndExpensesManager::loadAmount(){
+    return AuxiliaryMethods::convertCommaToDot(AuxiliaryMethods::loadLine());
+}
+
+
 //------------------------wydatki------------------------------------------------------------------------------
 void IncomiesAndExpensesManager::addExpense(){//"dodajWydatek"
-pokazWszystkieWydatki();//tymczasowo
+//pokazWszystkieWydatki();//tymczasowo
     Expenses expensesC = enterNewExpenseDetails();
     expensesV.push_back(expensesC);
     fileWithExpenses.addExpensesToFileXML(expensesC);
+    cout<<endl<<"Dodano nowy wydatek."<<endl<<endl;
+    system("pause");
 }
 
 Expenses IncomiesAndExpensesManager::enterNewExpenseDetails(){//"podajDaneNowegoWydatku"
@@ -52,7 +60,7 @@ Expenses IncomiesAndExpensesManager::enterNewExpenseDetails(){//"podajDaneNowego
     expensesC.setUserId(LOGGED_IN_USER_ID);
     expensesC.setExpenseId(getNewExpenseId());
 
-    cout<<"Podaj date: ";
+    cout<<endl<<"Podaj date: ";
     dateWithDashes = enterDate(dateWithDashes);
 
     expensesC.setDate(atoi(AuxiliaryMethods::replaceDateToTextWithoutDashes(dateWithDashes).c_str()));
@@ -61,7 +69,7 @@ Expenses IncomiesAndExpensesManager::enterNewExpenseDetails(){//"podajDaneNowego
     expensesC.setItem(AuxiliaryMethods::loadLine());
 
     cout<<"Podaj kwote: ";
-    expensesC.setAmount(AuxiliaryMethods::loadInteger());
+    expensesC.setAmount(AuxiliaryMethods::loadFloat());
 
     return expensesC;
 }
@@ -125,7 +133,7 @@ void IncomiesAndExpensesManager::pokazWszystkiePrzychodyCD(Incomies incomiesC)//
     cout<<"incomiesC.getIncomeId(): "<<incomiesC.getIncomeId()<<endl;
     cout<<"incomiesC.getDate(): "<<incomiesC.getDate()<<endl;
     cout<<"incomiesC.getItem(): "<<incomiesC.getItem()<<endl;
-    cout<<"incomiesC.getAmount(): "<<incomiesC.getAmount()<<endl<<endl;
+    cout<<"incomiesC.getAmount(): "<<fixed<<setprecision(2)<<incomiesC.getAmount()<<endl<<endl;//probojemy wyswietlic dwa zera po zlotowkach
 }
 
 
@@ -151,6 +159,6 @@ void IncomiesAndExpensesManager::pokazWszystkieWydatkiCD(Expenses expensesC)//ty
     cout<<"expensesC.getExpenseId(): "<<expensesC.getExpenseId()<<endl;
     cout<<"expensesC.getDate(): "<<expensesC.getDate()<<endl;
     cout<<"expensesC.getItem(): "<<expensesC.getItem()<<endl;
-    cout<<"expensesC.getAmount(): "<<expensesC.getAmount()<<endl<<endl;
+    cout<<"expensesC.getAmount(): "<<fixed<<setprecision(2)<<expensesC.getAmount()<<endl<<endl;
 }
 
