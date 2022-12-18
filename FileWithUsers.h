@@ -5,7 +5,7 @@
 
 #include "Markup.h"
 #include "User.h"
-
+#include "AuxiliaryMethods.h"
 
 using namespace std;
 

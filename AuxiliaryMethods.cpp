@@ -37,7 +37,7 @@ int AuxiliaryMethods::loadInteger(){
     return number;
 }
 
-float AuxiliaryMethods::loadFloat(){
+string AuxiliaryMethods::loadFloat(){
     string input = "";
     float number = 0;
 
@@ -49,7 +49,7 @@ float AuxiliaryMethods::loadFloat(){
             break;
         cout << "To nie jest liczba. Wpisz ponownie. " << endl;
     }
-    return number;
+    return input;
 }
 
 //zamiana daty z kreskami na date bez kresek

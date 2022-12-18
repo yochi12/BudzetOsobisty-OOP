@@ -6,7 +6,6 @@
 #include "User.h"
 #include "UserManager.h"
 #include "IncomiesAndExpensesManager.h"
-#include "AuxiliaryMethods.h" //nie wiem czemu, ale bez tego nie dzialaja metody z tej klasy... (w Ksiazce Adresowej dzialalo bez)
 
 using namespace std;
 

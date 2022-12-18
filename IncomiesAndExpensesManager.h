@@ -6,7 +6,6 @@
 
 #include "Incomies.h"
 #include "Expenses.h"
-#include "AuxiliaryMethods.h" //nie wiem czemu, ale bez tego nie dzialaja metody z tej klasy... (w Ksiazce Adresowej dzialalo bez)
 #include "FileWithIncomies.h"
 #include "FileWithExpenses.h"
 #include "CheckingDate.h"

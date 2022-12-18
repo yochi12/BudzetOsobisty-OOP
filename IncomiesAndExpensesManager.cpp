@@ -38,10 +38,6 @@ int IncomiesAndExpensesManager::getNewIncomieId(){
         return incomiesV.back().getIncomeId() + 1;
 }
 
-string IncomiesAndExpensesManager::loadAmount(){
-    return AuxiliaryMethods::convertCommaToDot(AuxiliaryMethods::loadLine());
-}
-
 
 //------------------------wydatki------------------------------------------------------------------------------
 void IncomiesAndExpensesManager::addExpense(){//"dodajWydatek"
@@ -69,7 +65,7 @@ Expenses IncomiesAndExpensesManager::enterNewExpenseDetails(){//"podajDaneNowego
     expensesC.setItem(AuxiliaryMethods::loadLine());
 
     cout<<"Podaj kwote: ";
-    expensesC.setAmount(AuxiliaryMethods::loadFloat());
+    expensesC.setAmount(atof(loadAmount().c_str()));
 
     return expensesC;
 }
@@ -81,6 +77,7 @@ int IncomiesAndExpensesManager::getNewExpenseId(){
         return expensesV.back().getExpenseId() + 1;
 }
 
+
 //------------------------dodatkowe------------------------------------------------------------------------------
 string IncomiesAndExpensesManager::enterDate(string dateWithDashes){
     while(true){
@@ -90,6 +87,10 @@ string IncomiesAndExpensesManager::enterDate(string dateWithDashes){
         cout<<"Data niepoprawna. Podaj date: ";
     }
     return dateWithDashes;
+}
+
+string IncomiesAndExpensesManager::loadAmount(){
+    return AuxiliaryMethods::convertCommaToDot(AuxiliaryMethods::loadFloat());
 }
 
 

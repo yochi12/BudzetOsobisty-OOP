@@ -12,7 +12,7 @@ public:
     static char loadChar();
     static string loadLine();
     static int loadInteger();//"wczytajLiczbeCalkowita"
-    static float loadFloat();
+    static string loadFloat();
     static string replaceDateToTextWithoutDashes(string dateWithDashes);//"zamienDateNaTekstBezKresek"
     static string convertFloatToString(float floatNumber);
     static string convertCommaToDot(string numberToCheck);
