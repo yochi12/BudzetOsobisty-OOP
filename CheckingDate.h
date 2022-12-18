@@ -1,5 +1,6 @@
 #ifndef CheckingDate_H
 #define CheckingDate_H
+#include <time.h>
 
 #include <iostream>
 
@@ -17,7 +18,9 @@ public:
     CheckingDate(){
         day = 0; month = 0; year = 0;
     };
+
     bool isDateCorrect(string dateWithDashes);//"czyDataJestPrawidlowa"
+    string enterCurrentDate();
 };
 
 #endif

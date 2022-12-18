@@ -52,3 +52,13 @@ bool CheckingDate::isDateCorrect(string dateWithDashes){//"czyDataJestPrawidlowa
 	int maxNumbersOfDays = maxNumberOfDaysInMonth(isLeapYear());
 	return day <= maxNumbersOfDays;
 }
+
+string CheckingDate::enterCurrentDate(){//"podajAktualnaDate" srednio rozumiem ta funkcje....
+    char bufor[64];
+    time_t czas;
+    time(&czas);
+    tm czasTM = *localtime(&czas);
+
+    strftime(bufor, sizeof(bufor), "%Y-%m-%d", &czasTM);
+    return bufor;
+}

@@ -1,5 +1,5 @@
-#ifndef IncomiesAndExpensesManager_H//czas na kolejne opcje uzytkownika (bilans z miesiaca) (jeszcze chwile!)
-#define IncomiesAndExpensesManager_H//czas sprawdzic czy wszystko dobrze chodzxi i dodac informacje ze dodano nowy wydatek etc
+#ifndef IncomiesAndExpensesManager_H//czas na kolejne opcje uzytkownika (bilans z miesiaca)
+#define IncomiesAndExpensesManager_H
 #include <iostream>
 #include <vector>
 #include <iomanip>

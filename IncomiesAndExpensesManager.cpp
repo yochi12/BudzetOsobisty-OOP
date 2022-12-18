@@ -17,7 +17,7 @@ Incomies IncomiesAndExpensesManager::enterNewIncomeDetails(){//"podajDaneNowegoP
     incomiesC.setUserId(LOGGED_IN_USER_ID);
     incomiesC.setIncomeId(getNewIncomieId());
 
-    cout<<endl<<"Podaj date: ";
+    cout<<endl<<"Podaj date (wcisnij 'd' dla aktualnej daty): ";
     dateWithDashes = enterDate(dateWithDashes);
 
     incomiesC.setDate(atoi(AuxiliaryMethods::replaceDateToTextWithoutDashes(dateWithDashes).c_str()));
@@ -56,7 +56,7 @@ Expenses IncomiesAndExpensesManager::enterNewExpenseDetails(){//"podajDaneNowego
     expensesC.setUserId(LOGGED_IN_USER_ID);
     expensesC.setExpenseId(getNewExpenseId());
 
-    cout<<endl<<"Podaj date: ";
+    cout<<endl<<"Podaj date (wcisnij 'd' dla aktualnej daty): ";
     dateWithDashes = enterDate(dateWithDashes);
 
     expensesC.setDate(atoi(AuxiliaryMethods::replaceDateToTextWithoutDashes(dateWithDashes).c_str()));
@@ -84,6 +84,13 @@ string IncomiesAndExpensesManager::enterDate(string dateWithDashes){
         dateWithDashes = AuxiliaryMethods::loadLine();
         if(checkingDate.isDateCorrect(dateWithDashes))
             break;
+
+        else if(dateWithDashes == "d"){
+            dateWithDashes = checkingDate.enterCurrentDate();
+            cout<<"("<<dateWithDashes<<")"<<endl;
+            break;
+        }
+
         cout<<"Data niepoprawna. Podaj date: ";
     }
     return dateWithDashes;

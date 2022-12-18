@@ -62,7 +62,6 @@ string AuxiliaryMethods::replaceDateToTextWithoutDashes(string dateWithDashes){
     return dateWithoutDashes;
 }
 
-
 string AuxiliaryMethods::convertFloatToString(float floatNumber){
     ostringstream ss;
     ss << floatNumber;
