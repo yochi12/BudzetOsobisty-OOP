@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <iomanip>
+#include <cmath>
 
 #include "Incomies.h"
 #include "Expenses.h"
@@ -45,6 +46,9 @@ public:
 //------------------------dodatkowe------------------------------------------------------------------------------
     string enterDate(string dateWithDashes);
     string loadAmount();
+    string convertCommaToDot(string cashAmount);
+    bool checkCashAmountFormat(string cashAmount);
+    string roundingToTwoDecimalPlaces(string cashAmount);
 
 
 //------------------------tymczasowe------------------------------------------------------------------------------

@@ -15,7 +15,7 @@ public:
     static string loadFloat();
     static string replaceDateToTextWithoutDashes(string dateWithDashes);//"zamienDateNaTekstBezKresek"
     static string convertFloatToString(float floatNumber);
-    static string convertCommaToDot(string numberToCheck);
+    static float convertStringToFloat(string stringNumber);
 };
 
 #endif

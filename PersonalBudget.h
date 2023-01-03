@@ -40,7 +40,7 @@ public:
     void bilansZPoprzedniegoMiesiaca();//puste
     void bilansZWybranegoOkresu();//puste
     void zmianaHaslaZalogowanegoUzytkownika();//puste
-    void wylogujUzytkownika();//puste
+    void logoutUser();//wylogujUzytkownika
 
 
     void pokazWszystkichUzytkownikow(); //tymczasowe,

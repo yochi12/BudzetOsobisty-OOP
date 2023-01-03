@@ -55,7 +55,7 @@ int main()
                 case '6':
                     personalBudget.zmianaHaslaZalogowanegoUzytkownika();    break;//puste
                 case '7':
-                    personalBudget.wylogujUzytkownika();                    break;
+                    personalBudget.logoutUser();                            break;
                 }
         }
     }

@@ -98,7 +98,7 @@ void UserManager::zmianaHaslaZalogowanegoUzytkownika()
     cout<<"zmianaHaslaZalogowanegoUzytkownika:"<<endl;
 }
 
-void UserManager::wylogujUzytkownika()//puste
+void UserManager::logoutUser()
 {
     cout<<"Trwa wylogowywanie..."<<endl;
     loggedInUserId=0;

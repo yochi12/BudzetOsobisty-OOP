@@ -25,6 +25,7 @@ public:
     int getNewUserId();
     bool isLoginExist(string login);
     int getLoggedInUserId();
+    void logoutUser();
 
 
 //------------------------tymczasowe------------------------------------------------------------------------------
@@ -34,7 +35,7 @@ public:
 
 //------------------------puste------------------------------------------------------------------------------
     void zmianaHaslaZalogowanegoUzytkownika();//puste
-    void wylogujUzytkownika();//puste?
+
 };
 
 #endif

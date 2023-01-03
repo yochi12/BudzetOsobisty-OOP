@@ -17,7 +17,8 @@ Incomies IncomiesAndExpensesManager::enterNewIncomeDetails(){//"podajDaneNowegoP
     incomiesC.setUserId(LOGGED_IN_USER_ID);
     incomiesC.setIncomeId(getNewIncomieId());
 
-    cout<<endl<<"Podaj date (wcisnij 'd' dla aktualnej daty): ";
+    cout<<endl<<"Podaj date w formacie RRRR-MM-DD"<<endl;
+    cout<<"(aktualna data -> wcisnij 'd'): ";
     dateWithDashes = enterDate(dateWithDashes);
 
     incomiesC.setDate(atoi(AuxiliaryMethods::replaceDateToTextWithoutDashes(dateWithDashes).c_str()));
@@ -56,7 +57,8 @@ Expenses IncomiesAndExpensesManager::enterNewExpenseDetails(){//"podajDaneNowego
     expensesC.setUserId(LOGGED_IN_USER_ID);
     expensesC.setExpenseId(getNewExpenseId());
 
-    cout<<endl<<"Podaj date (wcisnij 'd' dla aktualnej daty): ";
+    cout<<endl<<"Podaj date w formacie RRRR-MM-DD"<<endl;
+    cout<<"(aktualna data -> wcisnij 'd'): ";
     dateWithDashes = enterDate(dateWithDashes);
 
     expensesC.setDate(atoi(AuxiliaryMethods::replaceDateToTextWithoutDashes(dateWithDashes).c_str()));
@@ -96,8 +98,52 @@ string IncomiesAndExpensesManager::enterDate(string dateWithDashes){
     return dateWithDashes;
 }
 
-string IncomiesAndExpensesManager::loadAmount(){
-    return AuxiliaryMethods::convertCommaToDot(AuxiliaryMethods::loadFloat());
+string IncomiesAndExpensesManager::loadAmount(){//wczytajKwote
+    string cashAmount;
+    do{
+       cashAmount = convertCommaToDot(AuxiliaryMethods::loadLine());
+
+       if(!checkCashAmountFormat(cashAmount)){
+           cout << "Niepoprawna wartosc. Sprobuj ponownie: " << endl;
+       }
+    }while(!checkCashAmountFormat(cashAmount));
+
+    cashAmount = roundingToTwoDecimalPlaces(cashAmount);
+    return cashAmount;
+}
+
+string IncomiesAndExpensesManager::convertCommaToDot(string cashAmount){//konwersjaPrzecinkaNaKropke
+    replace(cashAmount.begin(), cashAmount.end(), ',', '.');
+    return cashAmount;
+}
+
+bool IncomiesAndExpensesManager::checkCashAmountFormat(string cashAmount){//sprawdzFormatKwoty
+    int numberOfDots = 0;
+
+    numberOfDots = count(cashAmount.begin(), cashAmount.end(), '.');
+
+    if(numberOfDots>1){
+        return false;
+    }
+
+    for(int i=0; i<(int)cashAmount.length(); i++){
+        if(!isdigit(cashAmount[i]) && cashAmount[i] != '.'){
+            return false;
+        }
+    }
+    return true;
+}
+
+string IncomiesAndExpensesManager::roundingToTwoDecimalPlaces(string cashAmount){//"zaokr¹glanieDoDwóchMiejscPoPrzecinku"
+    float cashAmountFloat;
+
+    cashAmountFloat = AuxiliaryMethods::convertStringToFloat(cashAmount);
+    cashAmountFloat *= 100;
+    cashAmountFloat = floor(cashAmountFloat);
+    cashAmountFloat /= 100;
+
+    cashAmount = AuxiliaryMethods::convertFloatToString(cashAmountFloat);
+    return cashAmount;
 }
 
 

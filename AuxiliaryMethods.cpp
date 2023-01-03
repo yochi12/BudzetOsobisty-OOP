@@ -37,7 +37,7 @@ int AuxiliaryMethods::loadInteger(){
     return number;
 }
 
-string AuxiliaryMethods::loadFloat(){
+string AuxiliaryMethods::loadFloat(){//zasadniczo powinno byc "loadString"; ta funkcja zwraca wlasnie string
     string input = "";
     float number = 0;
 
@@ -70,13 +70,12 @@ string AuxiliaryMethods::convertFloatToString(float floatNumber){
     return stringNumber;
 }
 
-string AuxiliaryMethods::convertCommaToDot(string numberToCheck){
-    string finalNumber;
-    for (int i=0; i<(int)numberToCheck.length(); i++)
-        if(numberToCheck[i]!=',')
-            finalNumber+=numberToCheck[i];
-        else
-            finalNumber+='.';
-    return finalNumber;
+float AuxiliaryMethods::convertStringToFloat(string stringNumber){//jest git, tylko trzeba na inny jezyk : ]
+    float floatNumber;
+    istringstream iss(stringNumber);
+    iss >> floatNumber;
+
+    return floatNumber;
 }
+
 

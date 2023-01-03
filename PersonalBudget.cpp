@@ -75,8 +75,8 @@ void PersonalBudget::zmianaHaslaZalogowanegoUzytkownika(){
     userManager.zmianaHaslaZalogowanegoUzytkownika();//puste
 }
 
-void PersonalBudget::wylogujUzytkownika(){
-    userManager.wylogujUzytkownika();
+void PersonalBudget::logoutUser(){
+    userManager.logoutUser();
 }
 
 
