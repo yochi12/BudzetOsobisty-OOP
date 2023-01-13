@@ -70,7 +70,7 @@ string AuxiliaryMethods::convertFloatToString(float floatNumber){
     return stringNumber;
 }
 
-float AuxiliaryMethods::convertStringToFloat(string stringNumber){//jest git, tylko trzeba na inny jezyk : ]
+float AuxiliaryMethods::convertStringToFloat(string stringNumber){
     float floatNumber;
     istringstream iss(stringNumber);
     iss >> floatNumber;

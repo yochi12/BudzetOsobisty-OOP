@@ -100,7 +100,7 @@ void UserManager::zmianaHaslaZalogowanegoUzytkownika()
 
 void UserManager::logoutUser()
 {
-    cout<<"Trwa wylogowywanie..."<<endl;
+    cout<<endl<<"Trwa wylogowywanie..."<<endl;
     loggedInUserId=0;
     system("pause");
     system("cls");
