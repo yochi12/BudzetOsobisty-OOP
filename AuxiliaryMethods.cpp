@@ -78,4 +78,20 @@ float AuxiliaryMethods::convertStringToFloat(string stringNumber){
     return floatNumber;
 }
 
+int AuxiliaryMethods::convertStringToInt(string stringNumber){
+    int intNumber;
+    istringstream iss(stringNumber);
+    iss >> intNumber;
+
+    return intNumber;
+}
+
+string AuxiliaryMethods::convertIntToString(int intNumber){
+    ostringstream ss;
+    ss << intNumber;
+    string stringNumber = ss.str();
+
+    return stringNumber;
+}
+
 

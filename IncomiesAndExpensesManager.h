@@ -1,9 +1,11 @@
-#ifndef IncomiesAndExpensesManager_H//czas na kolejne opcje uzytkownika (bilans z miesiaca)
+#ifndef IncomiesAndExpensesManager_H//czas na kolejne opcje uzytkownika -> bilans z miesiaca (ktory na razie nie dziala...)
 #define IncomiesAndExpensesManager_H
 #include <iostream>
 #include <vector>
 #include <iomanip>
 #include <cmath>
+#include <algorithm>
+#include <sstream>
 
 #include "Incomies.h"
 #include "Expenses.h"
@@ -51,16 +53,23 @@ public:
     string roundingToTwoDecimalPlaces(string cashAmount);
 
 
+//------------------------Eksperymenty------------------------------------------------------------------------------
+
+    void bilansZBiezacegoMiesiaca();
+    void bilansZPoprzedniegoMiesiaca();
+
+
 //------------------------tymczasowe------------------------------------------------------------------------------
     void pokazWszystkiePrzychody();//tymczasowe
     void pokazWszystkiePrzychodyCD(Incomies incomiesC);//tymczasowe
     void pokazWszystkieWydatki();//tymczasowe
     void pokazWszystkieWydatkiCD(Expenses expensesC);//tymczasowe
+    void pokazPojedynczyWydatek(Incomies incomiesC);//tymczasowe
 
 
 //------------------------puste------------------------------------------------------------------------------
     void bilansZBiezacegoMiasiaca();//puste
-    void bilansZPoprzedniegoMiesiaca();//puste
+    //void bilansZPoprzedniegoMiesiaca();//puste
     void bilansZWybranegoOkresu();//puste
 };
 

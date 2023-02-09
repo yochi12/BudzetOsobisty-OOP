@@ -59,7 +59,7 @@ void PersonalBudget::addExpense(){
 
 
 void PersonalBudget::bilansZBiezacegoMiasiaca(){
-    incomiesAndExpensesManager -> bilansZBiezacegoMiasiaca();//puste
+    incomiesAndExpensesManager -> bilansZBiezacegoMiesiaca();//w trakcie testow
 }
 
 void PersonalBudget::bilansZPoprzedniegoMiesiaca(){
