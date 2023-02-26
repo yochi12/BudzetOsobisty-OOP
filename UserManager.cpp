@@ -92,14 +92,7 @@ int UserManager::getLoggedInUserId(){ //pobierzIdZalogowanegoUzytkownika
     return loggedInUserId;
 }
 
-
-void UserManager::zmianaHaslaZalogowanegoUzytkownika()
-{
-    cout<<"zmianaHaslaZalogowanegoUzytkownika:"<<endl;
-}
-
-void UserManager::logoutUser()
-{
+void UserManager::logoutUser(){
     cout<<endl<<"Trwa wylogowywanie..."<<endl;
     loggedInUserId=0;
     system("pause");
@@ -107,7 +100,8 @@ void UserManager::logoutUser()
 }
 
 
-void UserManager::pokazWszystkichUzytkownikow()
+//------------------------tymczasowe------------------------------------------------------------------------------
+void UserManager::pokazWszystkichUzytkownikow()//tymczasowe
 {
     if (!users.empty()){
         cout << "             >>> Uzutkownicy <<<" << endl;
@@ -123,7 +117,7 @@ void UserManager::pokazWszystkichUzytkownikow()
     system("cls");
 }
 
-void UserManager::wyswietlDaneUzytkownikow(User user){
+void UserManager::wyswietlDaneUzytkownikow(User user){//tymczasowe
     cout << endl << "Id:                 " << user.getId() << endl;
     cout << "Login:              " << user.getLogin() << endl;
     cout << "Haslo:              " << user.getPassword() << endl;
@@ -131,5 +125,11 @@ void UserManager::wyswietlDaneUzytkownikow(User user){
     cout << "Nazwisko:           " << user.getSurname() << endl;
 }
 
+
+//------------------------puste------------------------------------------------------------------------------
+void UserManager::zmianaHaslaZalogowanegoUzytkownika()//puste
+{
+    cout<<"zmianaHaslaZalogowanegoUzytkownika:"<<endl;
+}
 
 

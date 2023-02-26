@@ -63,11 +63,11 @@ void PersonalBudget::bilansZBiezacegoMiasiaca(){
 }
 
 void PersonalBudget::bilansZPoprzedniegoMiesiaca(){
-    incomiesAndExpensesManager -> bilansZPoprzedniegoMiesiaca();//puste
+    incomiesAndExpensesManager -> bilansZPoprzedniegoMiesiaca();//w trakcie testow
 }
 
 void PersonalBudget::bilansZWybranegoOkresu(){
-    incomiesAndExpensesManager -> bilansZWybranegoOkresu();//puste
+    incomiesAndExpensesManager -> bilansZWybranegoOkresu();//w trakcie testow
 }
 
 

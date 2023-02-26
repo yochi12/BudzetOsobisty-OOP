@@ -98,31 +98,60 @@ string CheckingDate::zwrocPoczatekPoprzedniegoMiesiacaTM(){
     return bufor;
 }
 
-int CheckingDate::zwrocKoniecMiesiacaTM(string poczatkowaData){
-    string poczatekMiesiaca;
+int CheckingDate::zwrocPoczatekNastepnegoMiesiacaTM(string poczatkowaDataString){
+    char bufor[64];
+    time_t czas;
+    time(&czas);
+    tm czasTM;
 
-    poczatekMiesiaca = poczatkowaData.insert(6, "-");
-    poczatekMiesiaca = poczatekMiesiaca.insert(4, "-");
+    czasTM.tm_mday = AuxiliaryMethods::convertStringToInt(poczatkowaDataString.substr(6,2)) - 1;
+    czasTM.tm_mon = AuxiliaryMethods::convertStringToInt(poczatkowaDataString.substr(4,2)) - 1;
+    czasTM.tm_year = AuxiliaryMethods::convertStringToInt(poczatkowaDataString.substr(0,4)) - 1900;
 
-    splitDateIntoIntVariables(poczatekMiesiaca);
+    if (czasTM.tm_mon == 11){ // "0" to styczen
+        czasTM.tm_mon = 0; // "11" to grudzien
+        czasTM.tm_year += 1;
+    }else{
+        czasTM.tm_mon += 1;
+    }
+    czasTM.tm_mday = 1;
+
+    strftime(bufor, sizeof(bufor), "%Y%m%d", &czasTM);
+
+    return AuxiliaryMethods::convertStringToInt(bufor);
+}
+
+int CheckingDate::zwrocKoniecMiesiaca(string poczatkowaData){
+    string koniecMiesiaca;
+
+    koniecMiesiaca = poczatkowaData.insert(6, "-");
+    koniecMiesiaca = koniecMiesiaca.insert(4, "-");
+
+    splitDateIntoIntVariables(koniecMiesiaca);
 
     return AuxiliaryMethods::convertStringToInt((AuxiliaryMethods::convertIntToString(year) + zwrocDwucyfrowaLiczbe(month) + AuxiliaryMethods::convertIntToString(maxNumberOfDaysInMonth())));
 }
 
-string CheckingDate::zwrocDwucyfrowaLiczbe(int miesiacLubDzien){//tymczasowo tutaj, idzie (chyba) do pomocniczych
+string CheckingDate::zwrocDwucyfrowaLiczbe(int miesiacLubDzien){//tymczasowo tutaj, pozniej trafi do pomocniczych lub do menegera
     string miesiacString = AuxiliaryMethods::convertIntToString(miesiacLubDzien);
     miesiacString.length()==1 ? miesiacString = "0" + miesiacString : miesiacString;
     return miesiacString;
 }
 
-int CheckingDate::podajDateZeZemiennychInt(){//tymczasowo tutaj, pozniej chyba pojdzie do menedzera, a ta klasa udostepni drugiej zmienne jako "frend"
+int CheckingDate::podajDateZeZemiennychInt(){
     string rokString, miesiacString, dzienString;
 
-    rokString = convertIntToString(rok);
-    miesiacString = dwucyfrowyMiesiacLubDzien(miesiac);
-    dzienString = dwucyfrowyMiesiacLubDzien(dzien);
+    rokString = AuxiliaryMethods::convertIntToString(year);
+    miesiacString = dwucyfrowyMiesiacLubDzien(month);
+    dzienString = dwucyfrowyMiesiacLubDzien(day);
 
-    return convertStringToInt (rokString + miesiacString + dzienString);
+    return AuxiliaryMethods::convertStringToInt(rokString + miesiacString + dzienString);
+}
+
+string CheckingDate::dwucyfrowyMiesiacLubDzien(int miesiacLubDzien){//tymczasowo tutaj, pozniej trafi do pomocniczych lub do menegera
+    string miesiacString = AuxiliaryMethods::convertIntToString(miesiacLubDzien);
+    miesiacString.length()==1 ? miesiacString = "0" + miesiacString : miesiacString;
+    return miesiacString;
 }
 
 

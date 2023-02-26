@@ -160,7 +160,7 @@ void IncomiesAndExpensesManager::bilansZBiezacegoMiesiaca(){
     cout<<endl<<"Bilans z biezacego miesiaca: "<<endl<<endl;
 
     for (vector <Incomies> :: iterator itr = incomiesV.begin(); itr != incomiesV.end(); itr++){
-        for(int i=poczatekMiesiaca; i<=aktualnaData; i++){
+        for (int i=poczatekMiesiaca; i<=aktualnaData; i++){
             if(itr -> getDate() == i){
                 pokazPojedynczyWydatek(*itr);
             }
@@ -170,17 +170,17 @@ void IncomiesAndExpensesManager::bilansZBiezacegoMiesiaca(){
 }
 
 void IncomiesAndExpensesManager::bilansZPoprzedniegoMiesiaca(){
-    int poczatekMiesiaca, koniecMiesiaca;
+    int poczatekPoprzedniegoMiesiaca, koniecPoprzedniegoMiesiaca;
 
     sort(incomiesV.begin(), incomiesV.end( ), [ ](Incomies a, Incomies b)  {return a.getDate() < b.getDate();} ); ///wyrazenie lambda
 
-    poczatekMiesiaca = AuxiliaryMethods::convertStringToInt(checkingDate.zwrocPoczatekPoprzedniegoMiesiacaTM());//20221201
-    koniecMiesiaca = checkingDate.zwrocKoniecMiesiacaTM(AuxiliaryMethods::convertIntToString(poczatekMiesiaca));
+    poczatekPoprzedniegoMiesiaca = AuxiliaryMethods::convertStringToInt(checkingDate.zwrocPoczatekPoprzedniegoMiesiacaTM());//20221201
+    koniecPoprzedniegoMiesiaca = checkingDate.zwrocKoniecMiesiaca(AuxiliaryMethods::convertIntToString(poczatekPoprzedniegoMiesiaca));
 
-    cout<<endl<<"UserID IncomeID Date        Item      Amount"<<endl;
+    cout<<endl<<"Bilans z poprzedniego miesiaca: "<<endl<<endl;
 
     for (vector <Incomies> :: iterator itr = incomiesV.begin(); itr != incomiesV.end(); itr++){
-        for(int i=poczatekMiesiaca; i<=koniecMiesiaca; i++){
+        for (int i=poczatekPoprzedniegoMiesiaca; i<=koniecPoprzedniegoMiesiaca; i++){
             if(itr -> getDate() == i){
                 pokazPojedynczyWydatek(*itr);
             }
@@ -189,39 +189,44 @@ void IncomiesAndExpensesManager::bilansZPoprzedniegoMiesiaca(){
     system("pause");
 }
 
-void IncomiesAndExpensesManager::bilansZWybranegoOkresu(){//funkcja jest dluga i brzydka, ale dziala... trzeba by ja jakos upiekrzyc, albo czesc wywalic do innej funkcji
-    int poczatkowaData, koncowaData, koniecMiesiaca, maksymalnaIloscDniWMiesiacu, koniecPrzedzialu, tymczasowePoczatkowaData, tymczasoweKoniecPrzedzialu, tymczasoweKoniecMiesiaca;
-    string wpisanaDataPierwsza ="2021-11-30", wpisanaDataDruga = "2022-12-26";
+void IncomiesAndExpensesManager::bilansZWybranegoOkresu(){//funkcja jest dluga i brzydka, ale dziala...
+    Incomies incomiesC;
+    int poczatkowaData, koncowaData, koniecMiesiaca, koniecPrzedzialu, tymczasowePoczatkowaData, tymczasoweKoniecPrzedzialu, tymczasoweKoniecMiesiaca;
+    string wpisanaDataPierwsza, wpisanaDataDruga;
+
+    sort(incomiesV.begin(), incomiesV.end( ), [ ](Incomies a, Incomies b)  {return a.getDate() < b.getDate();} ); ///wyrazenie lambda
+
+    cout<<endl<<"Bilans z wybranego okresu: "<<endl<<endl;
+
+    cout<<"Wprowadz pierwsza date (RRRR-MM-DD): ";   cin>>wpisanaDataPierwsza;
+    cout<<"Wprowadz druga date (RRRR-MM-DD): ";   cin>>wpisanaDataDruga;
 
     //tutaj musimy jeszcze sprawdzic poprawnosc obu dat, oraz dac warunek: wpisanaDataDruga>=wpisanaDataPierwsza
 
     checkingDate.splitDateIntoIntVariables(wpisanaDataPierwsza);
-    poczatkowaData = podajDateZeZemiennychInt();//tu jeszcze trzeba ogarnac
+    poczatkowaData = checkingDate.podajDateZeZemiennychInt();
 
-    maksymalnaIloscDniWMiesiacu = checkingDate.maxNumberOfDaysInMonth();//to chyba nie jest w ogole potrzebne
-    koniecMiesiaca = checkingDate.zwrocKoniecMiesiacaTM(convertIntToString(poczatkowaData));///tu skonczylismy
+    koniecMiesiaca = checkingDate.zwrocKoniecMiesiaca(AuxiliaryMethods::convertIntToString(poczatkowaData));
 
     checkingDate.splitDateIntoIntVariables(wpisanaDataDruga);
-    koncowaData = podajDateZeZemiennychInt();
+    koncowaData = checkingDate.podajDateZeZemiennychInt();
 
-    koncowaData >= koniecMiesiaca ? koniecPrzedzialu = koniecMiesiaca : koniecPrzedzialu = koncowaData;
+    koncowaData >= koniecMiesiaca ? koniecPrzedzialu = koniecMiesiaca : koniecPrzedzialu = koncowaData;//jesli damy funkcje uniemozliwiajaca wpisanie drugiej daty pozniejszej niz aktualna data, to ta linijka nie bedzie potrzebna
 
-    cout<<endl<<"ID    Date         amount"<<endl;
-    for (vector <Wydatki> :: iterator itr = wydatkiV.begin(); itr != wydatkiV.end(); itr++){
+    for (vector <Incomies> :: iterator itr = incomiesV.begin(); itr != incomiesV.end(); itr++){
         tymczasowePoczatkowaData = poczatkowaData;
         tymczasoweKoniecMiesiaca = koniecMiesiaca;
         tymczasoweKoniecPrzedzialu = koniecPrzedzialu;
 
-        for(int i=poczatkowaData; i<=koniecPrzedzialu; i++){
-            if(itr -> date == i){
+        for (int i=poczatkowaData; i<=koniecPrzedzialu; i++){
+            if(itr -> getDate() == i){
                 pokazPojedynczyWydatek(*itr);
             }
-            if (i==koniecPrzedzialu && koniecPrzedzialu!=koniecMiesiaca)
+            if(i==koniecPrzedzialu && koniecPrzedzialu!=koniecMiesiaca)
                 break;
-//fajnie byloby nie angazowac zmiennych glownych int do "koniecMiesiaca"
             if(i==koniecPrzedzialu){
-                poczatkowaData = zwrocPoczatekNastepnegoMiesiacaTM(convertIntToString(poczatkowaData));
-                koniecMiesiaca = zwrocKoniecMiesiacaTM(convertIntToString(poczatkowaData));
+                poczatkowaData = checkingDate.zwrocPoczatekNastepnegoMiesiacaTM(AuxiliaryMethods::convertIntToString(poczatkowaData));
+                koniecMiesiaca = checkingDate.zwrocKoniecMiesiaca(AuxiliaryMethods::convertIntToString(poczatkowaData));
                 koncowaData >= koniecMiesiaca ? koniecPrzedzialu = koniecMiesiaca : koniecPrzedzialu = koncowaData;
                 i = poczatkowaData - 1;
             }
@@ -230,6 +235,7 @@ void IncomiesAndExpensesManager::bilansZWybranegoOkresu(){//funkcja jest dluga i
         koniecMiesiaca = tymczasoweKoniecMiesiaca;
         koniecPrzedzialu = tymczasoweKoniecPrzedzialu;
     }
+    system("pause");
 }
 
 
@@ -291,10 +297,11 @@ void IncomiesAndExpensesManager::pokazWszystkieWydatkiCD(Expenses expensesC)//ty
 
 
 void IncomiesAndExpensesManager::pokazPojedynczyWydatek(Incomies incomiesC){
-    cout<<incomiesC.getUserId()<<"      ";
-    cout<<incomiesC.getIncomeId()<<"        ";
-    cout<<incomiesC.getDate()<<"    ";
-    cout<<incomiesC.getItem()<<"       ";
+    cout<<left;
+    cout<<setw(6)<<incomiesC.getUserId();
+    cout<<setw(6)<<incomiesC.getIncomeId();
+    cout<<setw(13)<<incomiesC.getDate();
+    cout<<setw(13)<<incomiesC.getItem();
     cout<<fixed<<setprecision(2)<<incomiesC.getAmount()<<endl;
 }
 

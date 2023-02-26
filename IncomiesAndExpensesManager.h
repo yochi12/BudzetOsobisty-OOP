@@ -57,6 +57,7 @@ public:
 
     void bilansZBiezacegoMiesiaca();
     void bilansZPoprzedniegoMiesiaca();
+    void bilansZWybranegoOkresu();
 
 
 //------------------------tymczasowe------------------------------------------------------------------------------
@@ -70,7 +71,7 @@ public:
 //------------------------puste------------------------------------------------------------------------------
     void bilansZBiezacegoMiasiaca();//puste
     //void bilansZPoprzedniegoMiesiaca();//puste
-    void bilansZWybranegoOkresu();//puste
+    //void bilansZWybranegoOkresu();//puste
 };
 
 #endif
