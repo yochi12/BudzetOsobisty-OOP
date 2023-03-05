@@ -95,3 +95,51 @@ string AuxiliaryMethods::convertIntToString(int intNumber){
 }
 
 
+string AuxiliaryMethods::loadAmount(){//wczytajKwote
+    string cashAmount;
+    do{
+       cashAmount = convertCommaToDot(loadLine());
+
+       if(!checkCashAmountFormat(cashAmount)){
+           cout << "Niepoprawna wartosc. Sprobuj ponownie: " << endl;
+       }
+    }while(!checkCashAmountFormat(cashAmount));
+
+    cashAmount = roundingToTwoDecimalPlaces(cashAmount);
+    return cashAmount;
+}
+
+string AuxiliaryMethods::convertCommaToDot(string cashAmount){//konwersjaPrzecinkaNaKropke
+    replace(cashAmount.begin(), cashAmount.end(), ',', '.');
+    return cashAmount;
+}
+
+bool AuxiliaryMethods::checkCashAmountFormat(string cashAmount){//sprawdzFormatKwoty
+    int numberOfDots = 0;
+
+    numberOfDots = count(cashAmount.begin(), cashAmount.end(), '.');
+
+    if(numberOfDots>1){
+        return false;
+    }
+
+    for(int i=0; i<(int)cashAmount.length(); i++){
+        if(!isdigit(cashAmount[i]) && cashAmount[i] != '.'){
+            return false;
+        }
+    }
+    return true;
+}
+
+string AuxiliaryMethods::roundingToTwoDecimalPlaces(string cashAmount){//"zaokraglanieDoDwóchMiejscPoPrzecinku"
+    float cashAmountFloat;
+
+    cashAmountFloat = convertStringToFloat(cashAmount);
+    cashAmountFloat *= 100;
+    cashAmountFloat = floor(cashAmountFloat);
+    cashAmountFloat /= 100;
+
+    cashAmount = convertFloatToString(cashAmountFloat);
+    return cashAmount;
+}
+

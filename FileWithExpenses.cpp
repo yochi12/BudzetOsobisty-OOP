@@ -1,6 +1,6 @@
 #include "FileWithExpenses.h"
 
-void FileWithExpenses::addExpensesToFileXML(Expenses expensesC){
+void FileWithExpenses::addExpensesToFileXML(Expense expense){
     CMarkup xml;
 
     bool fileExists = xml.Load("expenses.xml");
@@ -13,18 +13,18 @@ void FileWithExpenses::addExpensesToFileXML(Expenses expensesC){
     xml.IntoElem();
     xml.AddElem("Expenses");
     xml.IntoElem();
-    xml.AddElem("UserID", expensesC.getUserId());
-    xml.AddElem("IncomeID", expensesC.getExpenseId());
-    xml.AddElem("Date", expensesC.getDate());
-    xml.AddElem("Item", expensesC.getItem());
-    xml.AddElem("Amount", AuxiliaryMethods::convertFloatToString(expensesC.getAmount()));
+    xml.AddElem("UserID", expense.getUserId());
+    xml.AddElem("IncomeID", expense.getExpenseId());
+    xml.AddElem("Date", expense.getDate());
+    xml.AddElem("Item", expense.getItem());
+    xml.AddElem("Amount", AuxiliaryMethods::convertFloatToString(expense.getAmount()));
 
     xml.Save("expenses.xml");
 }
 
-vector <Expenses> FileWithExpenses::loadExpensesFromFileXML(int loggedInUserId){
-    Expenses expensesC;
-    vector <Expenses> expensesV;
+vector <Expense> FileWithExpenses::loadExpensesFromFileXML(int loggedInUserId){
+    Expense expense;
+    vector <Expense> expenses;
     CMarkup xml;
 
     xml.Load("expenses.xml");
@@ -37,21 +37,21 @@ vector <Expenses> FileWithExpenses::loadExpensesFromFileXML(int loggedInUserId){
         MCD_STR line = xml.GetData();
 
         if(line == to_string(loggedInUserId)){
-                                                expensesC.setUserId(atoi(line.c_str()));
+                                                expense.setUserId(atoi(line.c_str()));
             xml.FindElem(); //IncomeID
-            line = xml.GetData();              expensesC.setExpenseId(atoi(line.c_str()));
+            line = xml.GetData();              expense.setExpenseId(atoi(line.c_str()));
             xml.FindElem(); //Date
-            line = xml.GetData();              expensesC.setDate(atoi(line.c_str()));
+            line = xml.GetData();              expense.setDate(atoi(line.c_str()));
             xml.FindElem(); //Item
-            line = xml.GetData();              expensesC.setItem(line);
+            line = xml.GetData();              expense.setItem(line);
             xml.FindElem(); //Amount
-            line = xml.GetData();              expensesC.setAmount(atof(line.c_str()));
+            line = xml.GetData();              expense.setAmount(atof(line.c_str()));
 
-            expensesV.push_back(expensesC);
+            expenses.push_back(expense);
         }
         xml.OutOfElem();
     }
-    return expensesV;
+    return expenses;
 }
 
 

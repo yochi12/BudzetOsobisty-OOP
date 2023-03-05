@@ -5,7 +5,7 @@
 #include <string>
 
 #include "Markup.h"
-#include "Expenses.h"
+#include "Expense.h"
 #include "AuxiliaryMethods.h"
 
 using namespace std;
@@ -14,8 +14,8 @@ class FileWithExpenses
 {
 
 public:
-    void addExpensesToFileXML(Expenses expensesC);
-    vector <Expenses> loadExpensesFromFileXML(int loggedInUserId);
+    void addExpensesToFileXML(Expense expense);
+    vector <Expense> loadExpensesFromFileXML(int loggedInUserId);
 };
 
 #endif

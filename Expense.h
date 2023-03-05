@@ -1,11 +1,11 @@
-#ifndef Expenses_H
-#define Expenses_H
+#ifndef Expense_H
+#define Expense_H
 
 #include <iostream>
 
 using namespace std;
 
-class Expenses
+class Expense
 {
 int expenseId;
     int userId;

@@ -11,6 +11,7 @@ using namespace std;
 
 class FileWithUsers
 {
+    CMarkup xml;
 public:
     void addUserToFileXML(User user);
     vector <User> loadUsersFromFileXML();

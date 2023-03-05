@@ -3,6 +3,7 @@
 #include <iostream>
 #include <sstream>
 #include <algorithm>
+#include <cmath>
 
 using namespace std;
 
@@ -18,6 +19,11 @@ public:
     static float convertStringToFloat(string stringNumber);
     static int convertStringToInt(string stringNumber);
     static string convertIntToString(int intNumber);
+
+    static string loadAmount();//wczytajKwote
+    static string convertCommaToDot(string cashAmount);//konwersjaPrzecinkaNaKropke
+    static bool checkCashAmountFormat(string cashAmount);//sprawdzFormatKwoty
+    static string roundingToTwoDecimalPlaces(string cashAmount);//"zaokraglanieDoDwóchMiejscPoPrzecinku"
 
 };
 

@@ -5,16 +5,17 @@
 #include <string>
 
 #include "Markup.h"
-#include "Incomies.h"
+#include "Income.h"
 #include "AuxiliaryMethods.h"
 
 using namespace std;
 
 class FileWithIncomies
 {
+    CMarkup xml;
 public:
-    void addIncomiesToFileXML(Incomies incomiesC);
-    vector <Incomies> loadIncomiesFromFileXML(int loggedInUserId);
+    void addIncomiesToFileXML(Income income);
+    vector <Income> loadIncomiesFromFileXML(int loggedInUserId);
 };
 
 #endif

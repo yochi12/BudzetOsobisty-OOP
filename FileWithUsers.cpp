@@ -1,8 +1,6 @@
 #include "FileWithUsers.h"
 
 void FileWithUsers::addUserToFileXML(User user){
-    CMarkup xml;
-
     bool fileExists = xml.Load("users.xml");
     if (!fileExists){ //jesli plik nie istnieje, to dodajemy glowny element "Users"
         xml.SetDoc("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
@@ -27,26 +25,25 @@ void FileWithUsers::addUserToFileXML(User user){
 vector <User> FileWithUsers::loadUsersFromFileXML(){
     User user;
     vector <User> users;
-    CMarkup xml1;
 
-    xml1.Load("users.xml");
-    xml1.FindElem(); //<Users>
-    xml1.IntoElem();
+    xml.Load("users.xml");
+    xml.FindElem(); //<Users>
+    xml.IntoElem();
 
-    while (xml1.FindElem("User")){
-        xml1.IntoElem();
-        xml1.FindElem(); //ID
-        MCD_STR line = xml1.GetData();     user.setId(atoi(line.c_str()));        //cout<<"line = "<<line<<endl;
-        xml1.FindElem(); //Login
-        line = xml1.GetData();             user.setLogin(line);                   //cout<<"line = "<<line<<endl;
-        xml1.FindElem(); //Password
-        line = xml1.GetData();             user.setPassword(line);                //cout<<"line = "<<line<<endl;
-        xml1.FindElem(); //Name
-        line = xml1.GetData();             user.setName(line);                    //cout<<"line = "<<line<<endl;
-        xml1.FindElem(); //Surname
-        line = xml1.GetData();             user.setSurname(line);                 //cout<<"line = "<<line<<endl;
+    while (xml.FindElem("User")){
+        xml.IntoElem();
+        xml.FindElem(); //ID
+        MCD_STR line = xml.GetData();     user.setId(atoi(line.c_str()));        //cout<<"line = "<<line<<endl;
+        xml.FindElem(); //Login
+        line = xml.GetData();             user.setLogin(line);                   //cout<<"line = "<<line<<endl;
+        xml.FindElem(); //Password
+        line = xml.GetData();             user.setPassword(line);                //cout<<"line = "<<line<<endl;
+        xml.FindElem(); //Name
+        line = xml.GetData();             user.setName(line);                    //cout<<"line = "<<line<<endl;
+        xml.FindElem(); //Surname
+        line = xml.GetData();             user.setSurname(line);                 //cout<<"line = "<<line<<endl;
 
-        xml1.OutOfElem();
+        xml.OutOfElem();
 
         users.push_back(user);
     }

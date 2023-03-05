@@ -25,15 +25,17 @@ public:
     bool isDateCorrect(string dateWithDashes);//"czyDataJestPrawidlowa"
     string enterCurrentDate();
 
-//------------------------Eksperymenty------------------------------------------------------------------------------
-    ////////////////Daty (w tym struktury tm)//////////////////////////////////////////////////////////
-    string zwrocPoczatekMiesiacaTM();
-    string zwrocPoczatekPoprzedniegoMiesiacaTM();
-    int zwrocPoczatekNastepnegoMiesiacaTM(string poczatkowaDataString);
-    int zwrocKoniecMiesiaca(string koniecMiesiaca);
+//------------------------do bilansow------------------------------------------------------------------------------
+    string zwrocDateZPoczatkiemMiesiaca();
+    string zwrocDateZPoczatkiemPoprzedniegoMiesiaca();
+    int zwrocDateZPoczatkiemNastepnegoMiesiaca(string poczatkowaDataString);
+    int zwrocDateZKoncemMiesiaca(string koniecMiesiaca);
     string zwrocDwucyfrowaLiczbe(int miesiacLubDzien);//tymczasowo tutaj, idzie pozniej do pomocniczych
-    int podajDateZeZemiennychInt();
+    int zwrocDateZeZemiennychGlobalnych();
     string dwucyfrowyMiesiacLubDzien(int miesiacLubDzien);
+
+//------------------------Funkcje zwiazane z data------------------------------------------------------------------------------
+    string enterDate(string dateWithDashes);
 
 
 

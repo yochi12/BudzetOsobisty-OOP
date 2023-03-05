@@ -1,11 +1,11 @@
-#ifndef Incomies_H
-#define Incomies_H
+#ifndef Income_H
+#define Income_H
 
 #include <iostream>
 
 using namespace std;
 
-class Incomies
+class Income
 {
     int incomeId;
     int userId;

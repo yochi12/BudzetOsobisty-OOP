@@ -1,14 +1,13 @@
-#ifndef IncomiesAndExpensesManager_H//czas na kolejne opcje uzytkownika -> bilans z miesiaca (ktory na razie nie dziala...)
+#ifndef IncomiesAndExpensesManager_H
 #define IncomiesAndExpensesManager_H
 #include <iostream>
 #include <vector>
 #include <iomanip>
-#include <cmath>
 #include <algorithm>
 #include <sstream>
 
-#include "Incomies.h"
-#include "Expenses.h"
+#include "Income.h"
+#include "Expense.h"
 #include "FileWithIncomies.h"
 #include "FileWithExpenses.h"
 #include "CheckingDate.h"
@@ -18,9 +17,10 @@ using namespace std;
 class IncomiesAndExpensesManager
 {
     const int LOGGED_IN_USER_ID;
+    int poczatkowaData, koncowaData, dataZKoncemMiesiaca;
 
-    vector <Incomies> incomiesV; //IncomiesV -> vector, incomiesC -> class
-    vector <Expenses> expensesV;
+    vector <Income> incomies; //Income -> klasa, income -> obiekt klasy, incomies -> wektor
+    vector <Expense> expenses;
 
     FileWithIncomies fileWithIncomies;
     FileWithExpenses fileWithExpenses;
@@ -28,50 +28,46 @@ class IncomiesAndExpensesManager
 
 public:
     IncomiesAndExpensesManager(int loggedInUserId) : LOGGED_IN_USER_ID(loggedInUserId){
-        incomiesV = fileWithIncomies.loadIncomiesFromFileXML(LOGGED_IN_USER_ID);
-        expensesV = fileWithExpenses.loadExpensesFromFileXML(LOGGED_IN_USER_ID);
+        incomies = fileWithIncomies.loadIncomiesFromFileXML(LOGGED_IN_USER_ID);
+        expenses = fileWithExpenses.loadExpensesFromFileXML(LOGGED_IN_USER_ID);
     }
 
 
 //------------------------przychody------------------------------------------------------------------------------
     void addIncome();                   //"dodajPrzychod"
-    Incomies enterNewIncomeDetails();   //"podajDaneNowegoPrzychodu"
+    Income enterNewIncomeDetails();   //"podajDaneNowegoPrzychodu"
     int getNewIncomieId();              //przypisuje nowe ID do przychodu
 
 
 //------------------------wydatki------------------------------------------------------------------------------
     void addExpense();                  //"dodajWydatek"
-    Expenses enterNewExpenseDetails();  //"podajDaneNowegoWydatku"
+    Expense enterNewExpenseDetails();  //"podajDaneNowegoWydatku"
     int getNewExpenseId();              //przypisuje nowe ID do wydatku
 
 
 //------------------------dodatkowe------------------------------------------------------------------------------
-    string enterDate(string dateWithDashes);
-    string loadAmount();
-    string convertCommaToDot(string cashAmount);
-    bool checkCashAmountFormat(string cashAmount);
-    string roundingToTwoDecimalPlaces(string cashAmount);
 
 
-//------------------------Eksperymenty------------------------------------------------------------------------------
-
+//------------------------bilanse------------------------------------------------------------------------------
     void bilansZBiezacegoMiesiaca();
     void bilansZPoprzedniegoMiesiaca();
     void bilansZWybranegoOkresu();
+    void zapiszObieDatyDoBilansu();
+    bool sprawdzCzyPierwszaDataJestMniejszaOdDrugiej();
+    int przesunDatyOJedenMiesiacDoPrzodu(int koniecPrzedzialu);
 
 
 //------------------------tymczasowe------------------------------------------------------------------------------
     void pokazWszystkiePrzychody();//tymczasowe
-    void pokazWszystkiePrzychodyCD(Incomies incomiesC);//tymczasowe
+    void pokazWszystkiePrzychodyCD(Income income);//tymczasowe
     void pokazWszystkieWydatki();//tymczasowe
-    void pokazWszystkieWydatkiCD(Expenses expensesC);//tymczasowe
-    void pokazPojedynczyWydatek(Incomies incomiesC);//tymczasowe
+    void pokazWszystkieWydatkiCD(Expense expense);//tymczasowe
+    void pokazPojedynczyPrzychod(Income income);//tymczasowe
 
 
 //------------------------puste------------------------------------------------------------------------------
-    void bilansZBiezacegoMiasiaca();//puste
-    //void bilansZPoprzedniegoMiesiaca();//puste
-    //void bilansZWybranegoOkresu();//puste
+
+
 };
 
 #endif

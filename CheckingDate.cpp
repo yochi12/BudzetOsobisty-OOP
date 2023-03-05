@@ -54,7 +54,7 @@ bool CheckingDate::isDateCorrect(string dateWithDashes){//"czyDataJestPrawidlowa
 	return day <= maxNumbersOfDays;
 }
 
-string CheckingDate::enterCurrentDate(){//"podajAktualnaDate" srednio rozumiem ta funkcje....
+string CheckingDate::enterCurrentDate(){//"podajAktualnaDate"
     char bufor[64];
     time_t czas;
     time(&czas);
@@ -64,64 +64,49 @@ string CheckingDate::enterCurrentDate(){//"podajAktualnaDate" srednio rozumiem t
     return bufor;
 }
 
-//------------------------Eksperymenty------------------------------------------------------------------------------
-
-string CheckingDate::zwrocPoczatekMiesiacaTM(){
-    char bufor[64];
-    time_t czas;
-    time(&czas);
-    tm czasTM = *localtime(&czas);
-
-    czasTM.tm_mday = 1;
-
-    strftime(bufor, sizeof(bufor), "%Y%m%d", &czasTM);
-    return bufor;
+//------------------------Bilanse------------------------------------------------------------------------------
+string CheckingDate::zwrocDateZPoczatkiemMiesiaca(){
+    string dataZPoczatiemMiesiaca, aktualnaData = enterCurrentDate(); //np. 2023-03-05
+    aktualnaData = AuxiliaryMethods::replaceDateToTextWithoutDashes(aktualnaData);//2023-03-05 - >20230305
+    return dataZPoczatiemMiesiaca = aktualnaData.replace(6, 2, "01");//20230305 -> 20230301
 }
 
-string CheckingDate::zwrocPoczatekPoprzedniegoMiesiacaTM(){
-    char bufor[64];
-    time_t czas;
-    time(&czas);
-    tm czasTM = *localtime(&czas);
+string CheckingDate::zwrocDateZPoczatkiemPoprzedniegoMiesiaca(){
+    string dataZPoczatiemPoprzedniegoMiesiaca, poprzedniMiesiac, poprzedniRok, aktualnaData = enterCurrentDate();
 
-    if (czasTM.tm_mon == 0) // "0" to styczen
-    {
-        czasTM.tm_mday = 1;
-        czasTM.tm_mon = 11; // "11" to grudzien
-        czasTM.tm_year -= 1;
-    }else{
-        czasTM.tm_mon -= 1;
-        czasTM.tm_mday = 1;
+    aktualnaData = AuxiliaryMethods::replaceDateToTextWithoutDashes(aktualnaData);
+
+    poprzedniMiesiac = AuxiliaryMethods::convertIntToString(AuxiliaryMethods::convertStringToInt(aktualnaData.substr(4, 2)) - 1);
+    poprzedniRok = AuxiliaryMethods::convertIntToString(AuxiliaryMethods::convertStringToInt(aktualnaData.substr(0, 4)) - 1);
+
+    if (poprzedniMiesiac != "0"){ //ten sam rok
+        poprzedniMiesiac.length()==1 ? poprzedniMiesiac = "0" + poprzedniMiesiac : poprzedniMiesiac;
+        dataZPoczatiemPoprzedniegoMiesiaca = aktualnaData.replace(4, 2, poprzedniMiesiac);
+    }else{ //kolejny rok
+        dataZPoczatiemPoprzedniegoMiesiaca = poprzedniRok + "01";
     }
 
-    strftime(bufor, sizeof(bufor), "%Y%m%d", &czasTM);
-    return bufor;
+    return dataZPoczatiemPoprzedniegoMiesiaca.replace(6, 2, "01");
 }
 
-int CheckingDate::zwrocPoczatekNastepnegoMiesiacaTM(string poczatkowaDataString){
-    char bufor[64];
-    time_t czas;
-    time(&czas);
-    tm czasTM;
+int CheckingDate::zwrocDateZPoczatkiemNastepnegoMiesiaca(string poczatkowaDataString){
+    string dataZPoczatiemNastepnegoMiesiaca, nastepnyMiesiac, nastepnyRok, aktualnaData = enterCurrentDate(); //np. 2023-03-05
 
-    czasTM.tm_mday = AuxiliaryMethods::convertStringToInt(poczatkowaDataString.substr(6,2)) - 1;
-    czasTM.tm_mon = AuxiliaryMethods::convertStringToInt(poczatkowaDataString.substr(4,2)) - 1;
-    czasTM.tm_year = AuxiliaryMethods::convertStringToInt(poczatkowaDataString.substr(0,4)) - 1900;
+    aktualnaData = AuxiliaryMethods::replaceDateToTextWithoutDashes(aktualnaData);//2023-03-05 - >20230305
 
-    if (czasTM.tm_mon == 11){ // "0" to styczen
-        czasTM.tm_mon = 0; // "11" to grudzien
-        czasTM.tm_year += 1;
-    }else{
-        czasTM.tm_mon += 1;
+    nastepnyMiesiac = AuxiliaryMethods::convertIntToString(AuxiliaryMethods::convertStringToInt(aktualnaData.substr(4, 2)) + 1);
+    nastepnyRok = AuxiliaryMethods::convertIntToString(AuxiliaryMethods::convertStringToInt(aktualnaData.substr(0, 4)) + 1);
+
+    if (nastepnyMiesiac != "13"){ //ten sam rok
+        nastepnyMiesiac.length()==1 ? nastepnyMiesiac = "0" + nastepnyMiesiac : nastepnyMiesiac;
+        dataZPoczatiemNastepnegoMiesiaca = aktualnaData.replace(4, 2, nastepnyMiesiac);
+    }else{ //kolejny rok
+        dataZPoczatiemNastepnegoMiesiaca = nastepnyRok + "01";
     }
-    czasTM.tm_mday = 1;
-
-    strftime(bufor, sizeof(bufor), "%Y%m%d", &czasTM);
-
-    return AuxiliaryMethods::convertStringToInt(bufor);
+    return AuxiliaryMethods::convertStringToInt(dataZPoczatiemNastepnegoMiesiaca.replace(6, 2, "01"));
 }
 
-int CheckingDate::zwrocKoniecMiesiaca(string poczatkowaData){
+int CheckingDate::zwrocDateZKoncemMiesiaca(string poczatkowaData){
     string koniecMiesiaca;
 
     koniecMiesiaca = poczatkowaData.insert(6, "-");
@@ -132,13 +117,13 @@ int CheckingDate::zwrocKoniecMiesiaca(string poczatkowaData){
     return AuxiliaryMethods::convertStringToInt((AuxiliaryMethods::convertIntToString(year) + zwrocDwucyfrowaLiczbe(month) + AuxiliaryMethods::convertIntToString(maxNumberOfDaysInMonth())));
 }
 
-string CheckingDate::zwrocDwucyfrowaLiczbe(int miesiacLubDzien){//tymczasowo tutaj, pozniej trafi do pomocniczych lub do menegera
+string CheckingDate::zwrocDwucyfrowaLiczbe(int miesiacLubDzien){
     string miesiacString = AuxiliaryMethods::convertIntToString(miesiacLubDzien);
     miesiacString.length()==1 ? miesiacString = "0" + miesiacString : miesiacString;
     return miesiacString;
 }
 
-int CheckingDate::podajDateZeZemiennychInt(){
+int CheckingDate::zwrocDateZeZemiennychGlobalnych(){
     string rokString, miesiacString, dzienString;
 
     rokString = AuxiliaryMethods::convertIntToString(year);
@@ -148,10 +133,29 @@ int CheckingDate::podajDateZeZemiennychInt(){
     return AuxiliaryMethods::convertStringToInt(rokString + miesiacString + dzienString);
 }
 
-string CheckingDate::dwucyfrowyMiesiacLubDzien(int miesiacLubDzien){//tymczasowo tutaj, pozniej trafi do pomocniczych lub do menegera
+string CheckingDate::dwucyfrowyMiesiacLubDzien(int miesiacLubDzien){
     string miesiacString = AuxiliaryMethods::convertIntToString(miesiacLubDzien);
     miesiacString.length()==1 ? miesiacString = "0" + miesiacString : miesiacString;
     return miesiacString;
 }
+
+//------------------------Funkcje zwiazane z data------------------------------------------------------------------------------
+string CheckingDate::enterDate(string dateWithDashes){
+    while(true){
+        dateWithDashes = AuxiliaryMethods::loadLine();
+        if(isDateCorrect(dateWithDashes))
+            break;
+
+        else if(dateWithDashes == "d"){
+            dateWithDashes = enterCurrentDate();
+            cout<<"("<<dateWithDashes<<")"<<endl;
+            break;
+        }
+
+        cout<<"Data niepoprawna. Podaj date: ";
+    }
+    return dateWithDashes;
+}
+
 
 
