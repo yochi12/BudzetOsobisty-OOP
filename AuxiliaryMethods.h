@@ -15,6 +15,7 @@ public:
     static int loadInteger();//"wczytajLiczbeCalkowita"
     static string loadFloat();
     static string replaceDateToTextWithoutDashes(string dateWithDashes);//"zamienDateNaTekstBezKresek"
+    static string dodajKreskiDoDaty(string dateWithoutDashes);
     static string convertFloatToString(float floatNumber);
     static float convertStringToFloat(string stringNumber);
     static int convertStringToInt(string stringNumber);

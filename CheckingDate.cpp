@@ -60,58 +60,46 @@ string CheckingDate::enterCurrentDate(){//"podajAktualnaDate"
     time(&czas);
     tm czasTM = *localtime(&czas);
 
-    strftime(bufor, sizeof(bufor), "%Y-%m-%d", &czasTM);
+    strftime(bufor, sizeof(bufor), "%Y%m%d", &czasTM);
     return bufor;
 }
 
 //------------------------Bilanse------------------------------------------------------------------------------
-string CheckingDate::zwrocDateZPoczatkiemMiesiaca(){
-    string dataZPoczatiemMiesiaca, aktualnaData = enterCurrentDate(); //np. 2023-03-05
-    aktualnaData = AuxiliaryMethods::replaceDateToTextWithoutDashes(aktualnaData);//2023-03-05 - >20230305
-    return dataZPoczatiemMiesiaca = aktualnaData.replace(6, 2, "01");//20230305 -> 20230301
+int CheckingDate::zwrocDateZPoczatkiemMiesiaca(int aktualnaDataInt){
+    string aktualnaData = AuxiliaryMethods::convertIntToString(aktualnaDataInt);
+    return AuxiliaryMethods::convertStringToInt(aktualnaData.replace(6, 2, "01"));
 }
 
-string CheckingDate::zwrocDateZPoczatkiemPoprzedniegoMiesiaca(){
-    string dataZPoczatiemPoprzedniegoMiesiaca, poprzedniMiesiac, poprzedniRok, aktualnaData = enterCurrentDate();
+int CheckingDate::zwrocDateZPoczatkiemPoprzedniegoMiesiaca(int aktualnaDataInt){
+    string aktualnaData = AuxiliaryMethods::convertIntToString(aktualnaDataInt);
+    string poprzedniMiesiac = AuxiliaryMethods::convertIntToString(AuxiliaryMethods::convertStringToInt(aktualnaData.substr(4, 2)) - 1);
+    string poprzedniRok = AuxiliaryMethods::convertIntToString(AuxiliaryMethods::convertStringToInt(aktualnaData.substr(0, 4)) - 1);
 
-    aktualnaData = AuxiliaryMethods::replaceDateToTextWithoutDashes(aktualnaData);
-
-    poprzedniMiesiac = AuxiliaryMethods::convertIntToString(AuxiliaryMethods::convertStringToInt(aktualnaData.substr(4, 2)) - 1);
-    poprzedniRok = AuxiliaryMethods::convertIntToString(AuxiliaryMethods::convertStringToInt(aktualnaData.substr(0, 4)) - 1);
-
-    if (poprzedniMiesiac != "0"){ //ten sam rok
+    if (poprzedniMiesiac != "0"){   //ten sam rok
         poprzedniMiesiac.length()==1 ? poprzedniMiesiac = "0" + poprzedniMiesiac : poprzedniMiesiac;
-        dataZPoczatiemPoprzedniegoMiesiaca = aktualnaData.replace(4, 2, poprzedniMiesiac);
-    }else{ //kolejny rok
-        dataZPoczatiemPoprzedniegoMiesiaca = poprzedniRok + "01";
+        return AuxiliaryMethods::convertStringToInt(aktualnaData.replace(4, 4, poprzedniMiesiac + "01"));
+    }else{                          //poprzedni rok
+        return AuxiliaryMethods::convertStringToInt(poprzedniRok + "01" + "01");
     }
-
-    return dataZPoczatiemPoprzedniegoMiesiaca.replace(6, 2, "01");
 }
 
-int CheckingDate::zwrocDateZPoczatkiemNastepnegoMiesiaca(string poczatkowaDataString){
-    string dataZPoczatiemNastepnegoMiesiaca, nastepnyMiesiac, nastepnyRok, aktualnaData = enterCurrentDate(); //np. 2023-03-05
+int CheckingDate::zwrocDateZPoczatkiemNastepnegoMiesiaca(int dataInt){
+    string data = AuxiliaryMethods::convertIntToString(dataInt);
+    string nastepnyMiesiac = AuxiliaryMethods::convertIntToString(AuxiliaryMethods::convertStringToInt(data.substr(4, 2)) + 1);
+    string nastepnyRok = AuxiliaryMethods::convertIntToString(AuxiliaryMethods::convertStringToInt(data.substr(0, 4)) + 1);
 
-    aktualnaData = AuxiliaryMethods::replaceDateToTextWithoutDashes(aktualnaData);//2023-03-05 - >20230305
-
-    nastepnyMiesiac = AuxiliaryMethods::convertIntToString(AuxiliaryMethods::convertStringToInt(aktualnaData.substr(4, 2)) + 1);
-    nastepnyRok = AuxiliaryMethods::convertIntToString(AuxiliaryMethods::convertStringToInt(aktualnaData.substr(0, 4)) + 1);
-
-    if (nastepnyMiesiac != "13"){ //ten sam rok
+    if (nastepnyMiesiac != "13"){   //ten sam rok
         nastepnyMiesiac.length()==1 ? nastepnyMiesiac = "0" + nastepnyMiesiac : nastepnyMiesiac;
-        dataZPoczatiemNastepnegoMiesiaca = aktualnaData.replace(4, 2, nastepnyMiesiac);
-    }else{ //kolejny rok
-        dataZPoczatiemNastepnegoMiesiaca = nastepnyRok + "01";
+        return AuxiliaryMethods::convertStringToInt(data.replace(4, 4, nastepnyMiesiac + "01"));
+    }else{                          //kolejny rok
+        return AuxiliaryMethods::convertStringToInt(nastepnyRok + "01" + "01");
     }
-    return AuxiliaryMethods::convertStringToInt(dataZPoczatiemNastepnegoMiesiaca.replace(6, 2, "01"));
 }
 
-int CheckingDate::zwrocDateZKoncemMiesiaca(string poczatkowaData){
-    string koniecMiesiaca;
+int CheckingDate::zwrocDateZKoncemMiesiaca(int poczatkowaDataInt){
+    string koniecMiesiaca, poczatkowaData = AuxiliaryMethods::convertIntToString(poczatkowaDataInt);
 
-    koniecMiesiaca = poczatkowaData.insert(6, "-");
-    koniecMiesiaca = koniecMiesiaca.insert(4, "-");
-
+    koniecMiesiaca = AuxiliaryMethods::dodajKreskiDoDaty(poczatkowaData);
     splitDateIntoIntVariables(koniecMiesiaca);
 
     return AuxiliaryMethods::convertStringToInt((AuxiliaryMethods::convertIntToString(year) + zwrocDwucyfrowaLiczbe(month) + AuxiliaryMethods::convertIntToString(maxNumberOfDaysInMonth())));
@@ -123,21 +111,6 @@ string CheckingDate::zwrocDwucyfrowaLiczbe(int miesiacLubDzien){
     return miesiacString;
 }
 
-int CheckingDate::zwrocDateZeZemiennychGlobalnych(){
-    string rokString, miesiacString, dzienString;
-
-    rokString = AuxiliaryMethods::convertIntToString(year);
-    miesiacString = dwucyfrowyMiesiacLubDzien(month);
-    dzienString = dwucyfrowyMiesiacLubDzien(day);
-
-    return AuxiliaryMethods::convertStringToInt(rokString + miesiacString + dzienString);
-}
-
-string CheckingDate::dwucyfrowyMiesiacLubDzien(int miesiacLubDzien){
-    string miesiacString = AuxiliaryMethods::convertIntToString(miesiacLubDzien);
-    miesiacString.length()==1 ? miesiacString = "0" + miesiacString : miesiacString;
-    return miesiacString;
-}
 
 //------------------------Funkcje zwiazane z data------------------------------------------------------------------------------
 string CheckingDate::enterDate(string dateWithDashes){
@@ -147,7 +120,7 @@ string CheckingDate::enterDate(string dateWithDashes){
             break;
 
         else if(dateWithDashes == "d"){
-            dateWithDashes = enterCurrentDate();
+            dateWithDashes = AuxiliaryMethods::dodajKreskiDoDaty(enterCurrentDate());
             cout<<"("<<dateWithDashes<<")"<<endl;
             break;
         }
@@ -156,6 +129,7 @@ string CheckingDate::enterDate(string dateWithDashes){
     }
     return dateWithDashes;
 }
+
 
 
 

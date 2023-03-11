@@ -26,17 +26,15 @@ public:
     string enterCurrentDate();
 
 //------------------------do bilansow------------------------------------------------------------------------------
-    string zwrocDateZPoczatkiemMiesiaca();
-    string zwrocDateZPoczatkiemPoprzedniegoMiesiaca();
-    int zwrocDateZPoczatkiemNastepnegoMiesiaca(string poczatkowaDataString);
-    int zwrocDateZKoncemMiesiaca(string koniecMiesiaca);
+    int zwrocDateZPoczatkiemMiesiaca(int aktualnaDataInt);
+    int zwrocDateZPoczatkiemPoprzedniegoMiesiaca(int aktualnaDataInt);
+    int zwrocDateZPoczatkiemNastepnegoMiesiaca(int dataInt);
+    int zwrocDateZKoncemMiesiaca(int poczatkowaDataInt);
     string zwrocDwucyfrowaLiczbe(int miesiacLubDzien);//tymczasowo tutaj, idzie pozniej do pomocniczych
-    int zwrocDateZeZemiennychGlobalnych();
-    string dwucyfrowyMiesiacLubDzien(int miesiacLubDzien);
+
 
 //------------------------Funkcje zwiazane z data------------------------------------------------------------------------------
     string enterDate(string dateWithDashes);
-
 
 
 };

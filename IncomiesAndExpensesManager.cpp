@@ -80,130 +80,43 @@ int IncomiesAndExpensesManager::getNewExpenseId(){
 
 
 //------------------------bilanse------------------------------------------------------------------------------
-void IncomiesAndExpensesManager::bilansZBiezacegoMiesiaca(){
-    int poczatekMiesiaca, aktualnaData;
-
+void IncomiesAndExpensesManager::bilansZBiezacegoLubPoprzedniegoMiesiaca(int pierwszaData, int drugaData){///cale te dwie funkcje sa takie same
     sort(incomies.begin(), incomies.end( ), [ ](Income a, Income b)  {return a.getDate() < b.getDate();} ); //wyrazenie lambda
 
-    poczatekMiesiaca = AuxiliaryMethods::convertStringToInt(checkingDate.zwrocDateZPoczatkiemMiesiaca());
-    aktualnaData = AuxiliaryMethods::convertStringToInt(AuxiliaryMethods::replaceDateToTextWithoutDashes(checkingDate.enterCurrentDate()));
+    policzBilansZJednegoMiesiaca(pierwszaData, drugaData);
 
-    cout<<endl<<"Bilans z biezacego miesiaca: "<<endl<<endl;
-
-    for (vector <Income> :: iterator itr = incomies.begin(); itr != incomies.end(); itr++){
-        for (int i=poczatekMiesiaca; i<=aktualnaData; i++){
-            if(itr -> getDate() == i){
-                pokazPojedynczyPrzychod(*itr);
-            }
-        }
-    }
     system("pause");
 }
 
-void IncomiesAndExpensesManager::bilansZPoprzedniegoMiesiaca(){
-    int poczatekPoprzedniegoMiesiaca, koniecPoprzedniegoMiesiaca;
+void IncomiesAndExpensesManager::bilansZWybranegoOkresu(int wpisanaPierwszaData, int wpisanaDrugaData){
+    int pierwszaData = wpisanaPierwszaData;
+    int drugaData = wpisanaDrugaData;
+    int dataZKoncemMiesiaca = checkingDate.zwrocDateZKoncemMiesiaca(wpisanaPierwszaData);
 
     sort(incomies.begin(), incomies.end( ), [ ](Income a, Income b)  {return a.getDate() < b.getDate();} ); //wyrazenie lambda
-
-    poczatekPoprzedniegoMiesiaca = AuxiliaryMethods::convertStringToInt(checkingDate.zwrocDateZPoczatkiemPoprzedniegoMiesiaca());
-    koniecPoprzedniegoMiesiaca = checkingDate.zwrocDateZKoncemMiesiaca(AuxiliaryMethods::convertIntToString(poczatekPoprzedniegoMiesiaca));
-
-    cout<<endl<<"Bilans z poprzedniego miesiaca: "<<endl<<endl;
-
-    for (vector <Income> :: iterator itr = incomies.begin(); itr != incomies.end(); itr++){
-        for (int i=poczatekPoprzedniegoMiesiaca; i<=koniecPoprzedniegoMiesiaca; i++){
-            if(itr -> getDate() == i){
-                pokazPojedynczyPrzychod(*itr);
-            }
-        }
-    }
-    system("pause");
-}
-
-void IncomiesAndExpensesManager::bilansZWybranegoOkresu(){
-    int koniecPrzedzialu, tymczasowePoczatkowaData, tymczasoweKoniecPrzedzialu, tymczasoweKoniecMiesiaca;//"poczatekPrzedzialu" -> dla spojnosci trzeba bedzie wprowadzic ta zmienna
-
-    sort(incomies.begin(), incomies.end( ), [ ](Income a, Income b)  {return a.getDate() < b.getDate();} ); //wyrazenie lambda
+    drugaData >= dataZKoncemMiesiaca ? drugaData = dataZKoncemMiesiaca : drugaData = wpisanaDrugaData;
 
     do{
-        zapiszObieDatyDoBilansu();
-    }while (!sprawdzCzyPierwszaDataJestMniejszaOdDrugiej());
+        policzBilansZJednegoMiesiaca(pierwszaData, drugaData);
 
-    dataZKoncemMiesiaca = checkingDate.zwrocDateZKoncemMiesiaca(AuxiliaryMethods::convertIntToString(poczatkowaData));
+        pierwszaData = checkingDate.zwrocDateZPoczatkiemNastepnegoMiesiaca(pierwszaData);
+        drugaData = checkingDate.zwrocDateZKoncemMiesiaca(pierwszaData);
 
-    koncowaData >= dataZKoncemMiesiaca ? koniecPrzedzialu = dataZKoncemMiesiaca : koniecPrzedzialu = koncowaData;
+        drugaData < wpisanaDrugaData ? drugaData : drugaData = wpisanaDrugaData;
+    }while(pierwszaData < wpisanaDrugaData);
 
-    tymczasowePoczatkowaData = poczatkowaData;
-    tymczasoweKoniecMiesiaca = dataZKoncemMiesiaca;
-    tymczasoweKoniecPrzedzialu = koniecPrzedzialu;
-
-    for (vector <Income> :: iterator itr = incomies.begin(); itr != incomies.end(); itr++){
-        if(itr -> getDate() >= poczatkowaData){
-            for (int i=poczatkowaData; i<=koniecPrzedzialu; i++){
-                if(itr -> getDate() == i)
-                    pokazPojedynczyPrzychod(*itr);
-                if(i==koniecPrzedzialu && koniecPrzedzialu!=dataZKoncemMiesiaca)
-                    break;
-                if(i==koniecPrzedzialu)
-                    koniecPrzedzialu = przesunDatyOJedenMiesiacDoPrzodu(koniecPrzedzialu);
-                }
-                poczatkowaData = tymczasowePoczatkowaData;
-                dataZKoncemMiesiaca = tymczasoweKoniecMiesiaca;
-                koniecPrzedzialu = tymczasoweKoniecPrzedzialu;
-            }
-    }
     system("pause");
 }
 
-void IncomiesAndExpensesManager::zapiszObieDatyDoBilansu(){
-    string pierwszaDataDoBilansuZKreskami, drugaDataDoBilansuZKreskami;
-
-    cout<<endl<<"Bilans z wybranego okresu: "<<endl;
-
-    cout<<"Wprowadz pierwsza date (RRRR-MM-DD): ";
-    pierwszaDataDoBilansuZKreskami = checkingDate.enterDate(pierwszaDataDoBilansuZKreskami);
-
-    cout<<"Wprowadz druga date (RRRR-MM-DD) (aktualna data -> wcisnij 'd'): ";
-    drugaDataDoBilansuZKreskami = checkingDate.enterDate(drugaDataDoBilansuZKreskami);
-
-    checkingDate.splitDateIntoIntVariables(pierwszaDataDoBilansuZKreskami);
-    poczatkowaData = checkingDate.zwrocDateZeZemiennychGlobalnych();
-
-    dataZKoncemMiesiaca = checkingDate.zwrocDateZKoncemMiesiaca(AuxiliaryMethods::convertIntToString(poczatkowaData));
-
-    checkingDate.splitDateIntoIntVariables(drugaDataDoBilansuZKreskami);
-    koncowaData = checkingDate.zwrocDateZeZemiennychGlobalnych();
-}
-
-bool IncomiesAndExpensesManager::sprawdzCzyPierwszaDataJestMniejszaOdDrugiej(){
-    if(poczatkowaData>koncowaData)
-    {
-        cout<<"Pierwsza data nie moze byc wieksza od drugiej. Sproboj ponownie."<<endl;
-        return false;
+void IncomiesAndExpensesManager::policzBilansZJednegoMiesiaca(int pierwszaData, int drugaData){
+    for (vector <Income> :: iterator itr = incomies.begin(); itr != incomies.end(); itr++){
+        for (int i=pierwszaData; i<=drugaData; i++){
+            if(itr -> getDate() == i){
+                pokazPojedynczyPrzychod(*itr);
+            }
+        }
     }
-    return true;
 }
-
-int IncomiesAndExpensesManager::przesunDatyOJedenMiesiacDoPrzodu(int koniecPrzedzialu){
-    poczatkowaData = checkingDate.zwrocDateZPoczatkiemNastepnegoMiesiaca(AuxiliaryMethods::convertIntToString(poczatkowaData));
-    dataZKoncemMiesiaca = checkingDate.zwrocDateZKoncemMiesiaca(AuxiliaryMethods::convertIntToString(poczatkowaData));
-    koncowaData >= dataZKoncemMiesiaca ? koniecPrzedzialu = dataZKoncemMiesiaca : koniecPrzedzialu = koncowaData;
-
-    return koniecPrzedzialu;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

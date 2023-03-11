@@ -62,6 +62,12 @@ string AuxiliaryMethods::replaceDateToTextWithoutDashes(string dateWithDashes){
     return dateWithoutDashes;
 }
 
+string AuxiliaryMethods::dodajKreskiDoDaty(string dateWithoutDashes)
+{
+    dateWithoutDashes = dateWithoutDashes.insert(6, "-");
+    return dateWithoutDashes = dateWithoutDashes.insert(4, "-");
+}
+
 string AuxiliaryMethods::convertFloatToString(float floatNumber){
     ostringstream ss;
     ss << floatNumber;

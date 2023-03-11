@@ -59,15 +59,41 @@ void PersonalBudget::addExpense(){
 
 
 void PersonalBudget::bilansZBiezacegoMiasiaca(){
-    incomiesAndExpensesManager -> bilansZBiezacegoMiesiaca();//w trakcie testow
+    int aktualnaData, dataZPoczatekiemMiesiaca;
+
+    aktualnaData = AuxiliaryMethods::convertStringToInt(checkingDate.enterCurrentDate());//tutaj byc moze pozniej zamienimy typ zwracany w "enterCurrentDate"
+    dataZPoczatekiemMiesiaca = checkingDate.zwrocDateZPoczatkiemMiesiaca(aktualnaData);
+
+    cout<<endl<<"Bilans z biezacego miesiaca: "<<endl<<endl;
+    incomiesAndExpensesManager -> bilansZBiezacegoLubPoprzedniegoMiesiaca(dataZPoczatekiemMiesiaca, aktualnaData);
 }
 
 void PersonalBudget::bilansZPoprzedniegoMiesiaca(){
-    incomiesAndExpensesManager -> bilansZPoprzedniegoMiesiaca();//w trakcie testow
+    int aktualnaData, poczatekPoprzedniegoMiesiaca, koniecPoprzedniegoMiesiaca;
+
+    aktualnaData = AuxiliaryMethods::convertStringToInt(checkingDate.enterCurrentDate());
+
+    poczatekPoprzedniegoMiesiaca = checkingDate.zwrocDateZPoczatkiemPoprzedniegoMiesiaca(aktualnaData);///chyba tak bedzie (zwr. pocz. pop. mies.)
+    koniecPoprzedniegoMiesiaca = checkingDate.zwrocDateZKoncemMiesiaca(poczatekPoprzedniegoMiesiaca);
+
+    cout<<endl<<"Bilans z poprzedniego miesiaca: "<<endl<<endl;
+    incomiesAndExpensesManager -> bilansZBiezacegoLubPoprzedniegoMiesiaca(poczatekPoprzedniegoMiesiaca, koniecPoprzedniegoMiesiaca);
 }
 
 void PersonalBudget::bilansZWybranegoOkresu(){
-    incomiesAndExpensesManager -> bilansZWybranegoOkresu();//w trakcie testow
+    string poczatkowaData, koncowaData, pomocniczaData;
+
+    cout<<endl<<"Bilans z wybranego okresu: "<<endl;
+
+    cout<<"Wprowadz pierwsza date (RRRR-MM-DD): ";
+    poczatkowaData = AuxiliaryMethods::replaceDateToTextWithoutDashes(checkingDate.enterDate(poczatkowaData));
+
+    cout<<"Wprowadz druga date (RRRR-MM-DD) (aktualna data -> wcisnij 'd'): ";
+    koncowaData = AuxiliaryMethods::replaceDateToTextWithoutDashes(checkingDate.enterDate(koncowaData));
+
+    poczatkowaData >= koncowaData ? pomocniczaData = poczatkowaData, poczatkowaData = koncowaData, koncowaData = pomocniczaData : pomocniczaData;
+
+    incomiesAndExpensesManager -> bilansZWybranegoOkresu(AuxiliaryMethods::convertStringToInt(poczatkowaData), AuxiliaryMethods::convertStringToInt(koncowaData));//w trakcie testow
 }
 
 

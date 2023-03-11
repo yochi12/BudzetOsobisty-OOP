@@ -49,12 +49,9 @@ public:
 
 
 //------------------------bilanse------------------------------------------------------------------------------
-    void bilansZBiezacegoMiesiaca();
-    void bilansZPoprzedniegoMiesiaca();
-    void bilansZWybranegoOkresu();
-    void zapiszObieDatyDoBilansu();
-    bool sprawdzCzyPierwszaDataJestMniejszaOdDrugiej();
-    int przesunDatyOJedenMiesiacDoPrzodu(int koniecPrzedzialu);
+    void bilansZBiezacegoLubPoprzedniegoMiesiaca(int pierwszaData, int drugaData);
+    void bilansZWybranegoOkresu(int poczatkowaData, int koncowaData);
+    void policzBilansZJednegoMiesiaca(int pierwszaData, int drugaData);
 
 
 //------------------------tymczasowe------------------------------------------------------------------------------

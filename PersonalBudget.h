@@ -6,6 +6,7 @@
 #include "User.h"
 #include "UserManager.h"
 #include "IncomiesAndExpensesManager.h"
+#include "CheckingDate.h"
 
 using namespace std;
 
@@ -13,6 +14,7 @@ class PersonalBudget
 {
     UserManager userManager;
     IncomiesAndExpensesManager *incomiesAndExpensesManager;
+    CheckingDate checkingDate;  //aby sie tego pozbyc, musimy zrobic w "CheckingDate" wszystkie metody statyczne
 
     vector <User> users;
 
