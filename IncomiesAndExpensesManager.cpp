@@ -31,10 +31,7 @@ Income IncomiesAndExpensesManager::enterNewIncomeDetails(){//"podajDaneNowegoPrz
 }
 
 int IncomiesAndExpensesManager::getNewIncomieId(){
-    if (incomies.empty() == true)
-        return 1;
-    else
-        return incomies.back().getIncomeId() + 1;
+        return fileWithIncomies.loadLastIncomeID() + 1;
 }
 
 
@@ -69,10 +66,7 @@ Expense IncomiesAndExpensesManager::enterNewExpenseDetails(){//"podajDaneNowegoW
 }
 
 int IncomiesAndExpensesManager::getNewExpenseId(){
-    if (expenses.empty() == true)
-        return 1;
-    else
-        return expenses.back().getExpenseId() + 1;
+    return fileWithExpenses.loadLastExpenseID() + 1;
 }
 
 
@@ -80,11 +74,10 @@ int IncomiesAndExpensesManager::getNewExpenseId(){
 
 
 //------------------------bilanse------------------------------------------------------------------------------
-void IncomiesAndExpensesManager::bilansZBiezacegoLubPoprzedniegoMiesiaca(int pierwszaData, int drugaData){///cale te dwie funkcje sa takie same
+void IncomiesAndExpensesManager::bilansZBiezacegoLubPoprzedniegoMiesiaca(int pierwszaData, int drugaData){///trzeba jeszcze zrobic te bilanse dla wydatkow!
     sort(incomies.begin(), incomies.end( ), [ ](Income a, Income b)  {return a.getDate() < b.getDate();} ); //wyrazenie lambda
 
     policzBilansZJednegoMiesiaca(pierwszaData, drugaData);
-
     system("pause");
 }
 
@@ -104,7 +97,6 @@ void IncomiesAndExpensesManager::bilansZWybranegoOkresu(int wpisanaPierwszaData,
 
         drugaData < wpisanaDrugaData ? drugaData : drugaData = wpisanaDrugaData;
     }while(pierwszaData < wpisanaDrugaData);
-
     system("pause");
 }
 

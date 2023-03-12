@@ -121,7 +121,7 @@ string CheckingDate::enterDate(string dateWithDashes){
 
         else if(dateWithDashes == "d"){
             dateWithDashes = AuxiliaryMethods::dodajKreskiDoDaty(enterCurrentDate());
-            cout<<"("<<dateWithDashes<<")"<<endl;
+            cout<<"(Aktualna data: "<<dateWithDashes<<")"<<endl;
             break;
         }
 

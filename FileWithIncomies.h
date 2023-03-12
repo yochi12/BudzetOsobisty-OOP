@@ -13,9 +13,11 @@ using namespace std;
 class FileWithIncomies
 {
     CMarkup xml;
+
 public:
     void addIncomiesToFileXML(Income income);
     vector <Income> loadIncomiesFromFileXML(int loggedInUserId);
+    int loadLastIncomeID();
 };
 
 #endif

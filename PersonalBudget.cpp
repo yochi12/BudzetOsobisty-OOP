@@ -1,7 +1,6 @@
 #include "PersonalBudget.h"
 
 char PersonalBudget::selectOptionFromMainMenu(){
-
     cout << "    >>> MENU  GLOWNE <<<" <<       endl;
     cout << "---------------------------" <<    endl;
     cout << "1. Rejestracja" <<                 endl;

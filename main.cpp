@@ -36,9 +36,7 @@ int main()
                     system("cls");
                     break;
             }
-        }
-        else
-        {
+        }else{
             choice=personalBudget.selectOptionFromUserMenu();
 
             switch (choice){

@@ -9,7 +9,7 @@ void FileWithIncomies::addIncomiesToFileXML(Income income){
 
     xml.FindElem(); //szuka elementu w pliku
     xml.IntoElem(); //robi ten element elementem glownym
-    xml.AddElem("Incomies"); //do obiektu dodajemy "Incomies"
+    xml.AddElem("Income"); //do obiektu dodajemy "Incomies"
     xml.IntoElem(); //wchodzimy do tej galezi
     xml.AddElem("UserID", income.getUserId());
     xml.AddElem("IncomeID", income.getIncomeId());
@@ -30,7 +30,7 @@ vector <Income> FileWithIncomies::loadIncomiesFromFileXML(int loggedInUserId){
     xml.FindElem(); //<Incomies>
     xml.IntoElem();
 
-    while (xml.FindElem("Incomies")){
+    while (xml.FindElem("Income")){
         xml.IntoElem();
         xml.FindElem(); //<UserID>
         MCD_STR line = xml.GetData();
@@ -51,6 +51,21 @@ vector <Income> FileWithIncomies::loadIncomiesFromFileXML(int loggedInUserId){
         xml.OutOfElem();
     }
     return incomiesV;
+}
+
+int FileWithIncomies::loadLastIncomeID(){
+    xml.Load("incomies.xml");
+    xml.FindElem(); //<Incomies>
+    xml.IntoElem();
+    MCD_STR line = xml.GetData();
+
+    while (xml.FindElem("Income")){
+        xml.IntoElem();
+        xml.FindElem("IncomeID");
+        line = xml.GetData();
+        xml.OutOfElem();
+    }
+    return atoi(line.c_str());
 }
 
 

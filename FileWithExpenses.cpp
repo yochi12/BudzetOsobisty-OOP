@@ -1,8 +1,6 @@
 #include "FileWithExpenses.h"
 
 void FileWithExpenses::addExpensesToFileXML(Expense expense){
-    CMarkup xml;
-
     bool fileExists = xml.Load("expenses.xml");
     if (!fileExists){ //jesli plik nie istnieje, to dodajemy glowny element "Expenses"
         xml.SetDoc("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
@@ -11,7 +9,7 @@ void FileWithExpenses::addExpensesToFileXML(Expense expense){
 
     xml.FindElem();
     xml.IntoElem();
-    xml.AddElem("Expenses");
+    xml.AddElem("Expense");
     xml.IntoElem();
     xml.AddElem("UserID", expense.getUserId());
     xml.AddElem("IncomeID", expense.getExpenseId());
@@ -25,13 +23,12 @@ void FileWithExpenses::addExpensesToFileXML(Expense expense){
 vector <Expense> FileWithExpenses::loadExpensesFromFileXML(int loggedInUserId){
     Expense expense;
     vector <Expense> expenses;
-    CMarkup xml;
 
     xml.Load("expenses.xml");
     xml.FindElem(); //<Expenses>
     xml.IntoElem();
 
-    while (xml.FindElem("Expenses")){
+    while (xml.FindElem("Expense")){
         xml.IntoElem();
         xml.FindElem(); //<UserID>
         MCD_STR line = xml.GetData();
@@ -54,5 +51,19 @@ vector <Expense> FileWithExpenses::loadExpensesFromFileXML(int loggedInUserId){
     return expenses;
 }
 
+int FileWithExpenses::loadLastExpenseID(){
+    xml.Load("expenses.xml");
+    xml.FindElem(); //<Expenses>
+    xml.IntoElem();
+    MCD_STR line = xml.GetData();
+
+    while (xml.FindElem("Expense")){
+        xml.IntoElem();
+        xml.FindElem("ExpenseID");
+        line = xml.GetData();
+        xml.OutOfElem();
+    }
+    return atoi(line.c_str());
+}
 
 
