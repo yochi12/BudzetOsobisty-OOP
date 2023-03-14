@@ -1,5 +1,4 @@
 #include <iostream>
-
 #include "PersonalBudget.h"
 
 using namespace std;
@@ -61,6 +60,6 @@ int main()
 }
 
 ///rzeczy do zrobienia
-///blad w funkcji "getNewIncomeID" od minuty 5 i 8.30 (to samo w "getNewExpenseID") ---------- nie potrafie znalezc problemu
-///w bilansach z tego i porzedniego miesiaca trzeba cos poprawic 7,35 ------------------------ nie wiem gdzie lezy problem, wszystko wydaje sie dzialac dobrze
 ///funkcje w "checkingDate" jako statyczne 8,45 --------------------------------------------- nie udalo sie...
+///zmieniamy haslo!
+///przychody i wydatki juz dzialaja, teraz trzeba to jakos ladnie w grafike ubrac

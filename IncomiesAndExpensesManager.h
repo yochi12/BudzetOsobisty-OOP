@@ -1,6 +1,6 @@
 #ifndef IncomiesAndExpensesManager_H
-#define IncomiesAndExpensesManager_H
-#include <iostream>
+#define IncomiesAndExpensesManager_H///ogarniecie rowniez WYDATKOW do bilansow!
+#include <iostream>                 ///do tego trzeba jeszcze na dole pokazac sume przychodow i wydatkow - chyba zrobione
 #include <vector>
 #include <iomanip>
 #include <algorithm>
@@ -17,7 +17,7 @@ using namespace std;
 class IncomiesAndExpensesManager
 {
     const int LOGGED_IN_USER_ID;
-    int poczatkowaData, koncowaData, dataZKoncemMiesiaca;
+    float sumaWszystkichPrzychodow, sumaWszystkichWydatkow;
 
     vector <Income> incomies; //Income -> klasa, income -> obiekt klasy, incomies -> wektor
     vector <Expense> expenses;
@@ -35,13 +35,13 @@ public:
 
 //------------------------przychody------------------------------------------------------------------------------
     void addIncome();                   //"dodajPrzychod"
-    Income enterNewIncomeDetails();   //"podajDaneNowegoPrzychodu"
+    Income enterNewIncomeDetails();     //"podajDaneNowegoPrzychodu"
     int getNewIncomieId();              //przypisuje nowe ID do przychodu
 
 
 //------------------------wydatki------------------------------------------------------------------------------
     void addExpense();                  //"dodajWydatek"
-    Expense enterNewExpenseDetails();  //"podajDaneNowegoWydatku"
+    Expense enterNewExpenseDetails();   //"podajDaneNowegoWydatku"
     int getNewExpenseId();              //przypisuje nowe ID do wydatku
 
 
@@ -52,6 +52,10 @@ public:
     void bilansZBiezacegoLubPoprzedniegoMiesiaca(int pierwszaData, int drugaData);
     void bilansZWybranegoOkresu(int poczatkowaData, int koncowaData);
     void policzBilansZJednegoMiesiaca(int pierwszaData, int drugaData);
+    void policzBilansZJednegoMiesiacaDlaPrzychodu(int pierwszaData, int drugaData);
+    void policzBilansZJednegoMiesiacaDlaWydatkow(int pierwszaData, int drugaData);
+    void policzBilansDlaPrzychodow(int pierwszaData, int drugaData, int wpisanaDrugaData);
+    void policzBilansDlaWydatkow(int pierwszaData, int drugaData, int wpisanaDrugaData);
 
 
 //------------------------tymczasowe------------------------------------------------------------------------------
@@ -60,6 +64,7 @@ public:
     void pokazWszystkieWydatki();//tymczasowe
     void pokazWszystkieWydatkiCD(Expense expense);//tymczasowe
     void pokazPojedynczyPrzychod(Income income);//tymczasowe
+    void pokazPojedynczyWydatek(Expense expense);//tymczasowe
 
 
 //------------------------puste------------------------------------------------------------------------------

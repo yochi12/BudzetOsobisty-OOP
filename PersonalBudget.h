@@ -36,10 +36,10 @@ public:
     bool isUserLoggedIn();
     void addIncome();//dodajPrzychod
     void addExpense();//dodajWydatek
-    void bilansZBiezacegoMiasiaca();            //puste
-    void bilansZPoprzedniegoMiesiaca();         //puste
-    void bilansZWybranegoOkresu();              //puste
-    void zmianaHaslaZalogowanegoUzytkownika();  //puste
+    void bilansZBiezacegoMiasiaca();
+    void bilansZPoprzedniegoMiesiaca();
+    void bilansZWybranegoOkresu();
+    void zmianaHaslaZalogowanegoUzytkownika();
     void logoutUser();//wylogujUzytkownika
 
 

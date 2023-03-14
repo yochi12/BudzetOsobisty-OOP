@@ -72,7 +72,7 @@ void PersonalBudget::bilansZPoprzedniegoMiesiaca(){
 
     aktualnaData = AuxiliaryMethods::convertStringToInt(checkingDate.enterCurrentDate());
 
-    poczatekPoprzedniegoMiesiaca = checkingDate.zwrocDateZPoczatkiemPoprzedniegoMiesiaca(aktualnaData);///chyba tak bedzie (zwr. pocz. pop. mies.)
+    poczatekPoprzedniegoMiesiaca = checkingDate.zwrocDateZPoczatkiemPoprzedniegoMiesiaca(aktualnaData);
     koniecPoprzedniegoMiesiaca = checkingDate.zwrocDateZKoncemMiesiaca(poczatekPoprzedniegoMiesiaca);
 
     cout<<endl<<"Bilans z poprzedniego miesiaca: "<<endl<<endl;
@@ -92,7 +92,7 @@ void PersonalBudget::bilansZWybranegoOkresu(){
 
     poczatkowaData >= koncowaData ? pomocniczaData = poczatkowaData, poczatkowaData = koncowaData, koncowaData = pomocniczaData : pomocniczaData;
 
-    incomiesAndExpensesManager -> bilansZWybranegoOkresu(AuxiliaryMethods::convertStringToInt(poczatkowaData), AuxiliaryMethods::convertStringToInt(koncowaData));//w trakcie testow
+    incomiesAndExpensesManager -> bilansZWybranegoOkresu(AuxiliaryMethods::convertStringToInt(poczatkowaData), AuxiliaryMethods::convertStringToInt(koncowaData));
 }
 
 

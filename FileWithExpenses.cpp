@@ -12,7 +12,7 @@ void FileWithExpenses::addExpensesToFileXML(Expense expense){
     xml.AddElem("Expense");
     xml.IntoElem();
     xml.AddElem("UserID", expense.getUserId());
-    xml.AddElem("IncomeID", expense.getExpenseId());
+    xml.AddElem("ExpenseID", expense.getExpenseId());
     xml.AddElem("Date", expense.getDate());
     xml.AddElem("Item", expense.getItem());
     xml.AddElem("Amount", AuxiliaryMethods::convertFloatToString(expense.getAmount()));
@@ -35,7 +35,7 @@ vector <Expense> FileWithExpenses::loadExpensesFromFileXML(int loggedInUserId){
 
         if(line == to_string(loggedInUserId)){
                                                 expense.setUserId(atoi(line.c_str()));
-            xml.FindElem(); //IncomeID
+            xml.FindElem(); //ExpenseID
             line = xml.GetData();              expense.setExpenseId(atoi(line.c_str()));
             xml.FindElem(); //Date
             line = xml.GetData();              expense.setDate(atoi(line.c_str()));
