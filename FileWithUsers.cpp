@@ -50,6 +50,23 @@ vector <User> FileWithUsers::loadUsersFromFileXML(){
     return users;
 }
 
+vector <User> FileWithUsers::zmienHaslo(int loggedInUserId, string newPassword){
+    xml.Load("users.xml");
+    xml.FindElem(); //<Users>
+    xml.IntoElem();
 
+    while (xml.FindElem("User")){
+        xml.IntoElem();
+        xml.FindElem(); //ID
+
+        if (AuxiliaryMethods::convertStringToInt(xml.GetData()) == loggedInUserId){
+            xml.FindElem("Password"); //Password
+            xml.SetData(newPassword);
+        }
+        xml.OutOfElem();
+    }
+    xml.Save("users.xml");
+    return loadUsersFromFileXML();
+}
 
 

@@ -127,9 +127,13 @@ void UserManager::wyswietlDaneUzytkownikow(User user){//tymczasowe
 
 
 //------------------------puste------------------------------------------------------------------------------
-void UserManager::zmianaHaslaZalogowanegoUzytkownika()//puste
-{
-    cout<<"zmianaHaslaZalogowanegoUzytkownika:"<<endl;
+void UserManager::zmianaHaslaZalogowanegoUzytkownika(){
+    cout<<"Podaj nowe haslo: ";
+    string newPassword = AuxiliaryMethods::loadLine();
+    users = fileWithUsers.zmienHaslo(loggedInUserId, newPassword);
+
+    cout<<"Haslo zmienione."<<endl<<endl;
+    system("pause");
 }
 
 
