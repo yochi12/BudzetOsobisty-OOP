@@ -16,7 +16,7 @@ Income IncomiesAndExpensesManager::enterNewIncomeDetails(){//"podajDaneNowegoPrz
     income.setUserId(LOGGED_IN_USER_ID);
     income.setIncomeId(getNewIncomieId());
 
-    cout<<endl<<"Podaj date w formacie RRRR-MM-DD  (aktualna data -> wcisnij 'd'): "<<endl;
+    cout<<endl<<"Podaj date w formacie RRRR-MM-DD  (aktualna data -> wcisnij 'd'): ";
     dateWithDashes = checkingDate.enterDate(dateWithDashes);
 
     income.setDate(atoi(AuxiliaryMethods::replaceDateToTextWithoutDashes(dateWithDashes).c_str()));
@@ -51,7 +51,7 @@ Expense IncomiesAndExpensesManager::enterNewExpenseDetails(){//"podajDaneNowegoW
     expense.setUserId(LOGGED_IN_USER_ID);
     expense.setExpenseId(getNewExpenseId());
 
-    cout<<endl<<"Podaj date w formacie RRRR-MM-DD  (aktualna data -> wcisnij 'd'): "<<endl;
+    cout<<endl<<"Podaj date w formacie RRRR-MM-DD  (aktualna data -> wcisnij 'd'): ";
     dateWithDashes = checkingDate.enterDate(dateWithDashes);
 
     expense.setDate(atoi(AuxiliaryMethods::replaceDateToTextWithoutDashes(dateWithDashes).c_str()));
@@ -70,168 +70,119 @@ int IncomiesAndExpensesManager::getNewExpenseId(){
 }
 
 
-//------------------------dodatkowe------------------------------------------------------------------------------
-
-
 //------------------------bilanse------------------------------------------------------------------------------
-void IncomiesAndExpensesManager::bilansZBiezacegoLubPoprzedniegoMiesiaca(int pierwszaData, int drugaData){///moze zrobic pierwsza i druga date jako glowne? chyba sie nie da przez przesylanie argumentow od innej klasy...
+void IncomiesAndExpensesManager::bilansZJednegoMiesiaca(int pierwszaData, int drugaData){///moze zrobic pierwsza i druga date jako glowne? chyba sie nie da przez przesylanie argumentow od innej klasy...
     sort(incomies.begin(), incomies.end( ), [ ](Income a, Income b)  {return a.getDate() < b.getDate();} ); //wyrazenie lambda
     sort(expenses.begin(), expenses.end( ), [ ](Expense a, Expense b)  {return a.getDate() < b.getDate();} );
-                                                                                    ///trzeba jeszcze zrobic te bilanse dla wydatkow!
-    policzBilansZJednegoMiesiacaDlaPrzychodu(pierwszaData, drugaData);
-    policzBilansZJednegoMiesiacaDlaWydatkow(pierwszaData, drugaData);
 
-    cout<<endl<<"Calkowite przychody: "<<fixed<<setprecision(2)<<sumaWszystkichPrzychodow<<endl;    sumaWszystkichPrzychodow = 0;
-    cout<<"Calkowite wydatki: "<<fixed<<setprecision(2)<<sumaWszystkichWydatkow<<endl<<endl;    sumaWszystkichWydatkow = 0;
+    cout << "             >>> Przychody <<<" << endl;
+    cout << "-----------------------------------------------" << endl;
+    policzBilansDlaPrzychodowZJednegoMiesiaca(pierwszaData, drugaData);
+    sprawdzCzyBilansJestPusty();
+
+    cout << "             >>> Wydatki <<<" << endl;
+    cout << "-----------------------------------------------" << endl;
+    policzBilansDlaWydatkowZJednegoMiesiaca(pierwszaData, drugaData);
+    sprawdzCzyBilansJestPusty();
+
+    wyswietlSumePrzychodowIWydatkow();
 
     system("pause");
 }
 
-void IncomiesAndExpensesManager::bilansZWybranegoOkresu(int wpisanaPierwszaData, int wpisanaDrugaData){
-    int pierwszaData = wpisanaPierwszaData;
-    int drugaData = wpisanaDrugaData;
-    int dataZKoncemMiesiaca = checkingDate.zwrocDateZKoncemMiesiaca(wpisanaPierwszaData);
+void IncomiesAndExpensesManager::bilansZWybranegoOkresu(int pierwszaData, int drugaData){
+    int dataZKoncemMiesiaca = checkingDate.zwrocDateZKoncemMiesiaca(pierwszaData);
+    int dataPoczatekPrzedzialu = pierwszaData;
+    int dataKoniecPrzedzialu = drugaData;
 
     sort(incomies.begin(), incomies.end( ), [ ](Income a, Income b)  {return a.getDate() < b.getDate();} ); //wyrazenie lambda
     sort(expenses.begin(), expenses.end( ), [ ](Expense a, Expense b)  {return a.getDate() < b.getDate();} );
-    drugaData >= dataZKoncemMiesiaca ? drugaData = dataZKoncemMiesiaca : drugaData = wpisanaDrugaData;
+    dataKoniecPrzedzialu >= dataZKoncemMiesiaca ? dataKoniecPrzedzialu = dataZKoncemMiesiaca : dataKoniecPrzedzialu = drugaData;
 
-    policzBilansDlaPrzychodow(pierwszaData, drugaData, wpisanaDrugaData);
-    policzBilansDlaWydatkow(pierwszaData, drugaData, wpisanaDrugaData);
+    cout << "             >>> Przychody <<<" << endl;
+    cout << "-----------------------------------------------" << endl;
+    policzBilansDlaPrzychodow(dataPoczatekPrzedzialu, dataKoniecPrzedzialu, drugaData);
+    sprawdzCzyBilansJestPusty();
 
-    cout<<endl<<"Calkowite przychody: "<<fixed<<setprecision(2)<<sumaWszystkichPrzychodow<<endl;    sumaWszystkichPrzychodow = 0;
-    cout<<"Calkowite wydatki: "<<fixed<<setprecision(2)<<sumaWszystkichWydatkow<<endl<<endl;    sumaWszystkichWydatkow = 0;
+    cout << "             >>> Wydatki <<<" << endl;
+    cout << "-----------------------------------------------" << endl;
+    policzBilansDlaWydatkow(dataPoczatekPrzedzialu, dataKoniecPrzedzialu, drugaData);
+    sprawdzCzyBilansJestPusty();
+
+    wyswietlSumePrzychodowIWydatkow();
+
     system("pause");
 }
 
-void IncomiesAndExpensesManager::policzBilansDlaPrzychodow(int pierwszaData, int drugaData, int wpisanaDrugaData){
+void IncomiesAndExpensesManager::policzBilansDlaPrzychodow(int dataPoczatekPrzedzialu, int dataKoniecPrzedzialu, int drugaData){
     do{
-        policzBilansZJednegoMiesiacaDlaPrzychodu(pierwszaData, drugaData);
+        policzBilansDlaPrzychodowZJednegoMiesiaca(dataPoczatekPrzedzialu, dataKoniecPrzedzialu);
 
-        pierwszaData = checkingDate.zwrocDateZPoczatkiemNastepnegoMiesiaca(pierwszaData);
-        drugaData = checkingDate.zwrocDateZKoncemMiesiaca(pierwszaData);
-        drugaData < wpisanaDrugaData ? drugaData : drugaData = wpisanaDrugaData;
-    }while(pierwszaData < wpisanaDrugaData);
+        dataPoczatekPrzedzialu = checkingDate.zwrocDateZPoczatkiemNastepnegoMiesiaca(dataPoczatekPrzedzialu);
+        dataKoniecPrzedzialu = checkingDate.zwrocDateZKoncemMiesiaca(dataPoczatekPrzedzialu);
+        dataKoniecPrzedzialu < drugaData ? dataKoniecPrzedzialu : dataKoniecPrzedzialu = drugaData;
+    }while(dataPoczatekPrzedzialu < drugaData);
 }
 
-void IncomiesAndExpensesManager::policzBilansDlaWydatkow(int pierwszaData, int drugaData, int wpisanaDrugaData){
+void IncomiesAndExpensesManager::policzBilansDlaWydatkow(int dataPoczatekPrzedzialu, int dataKoniecPrzedzialu, int drugaData){
     do{
-        policzBilansZJednegoMiesiacaDlaWydatkow(pierwszaData, drugaData);
+        policzBilansDlaWydatkowZJednegoMiesiaca(dataPoczatekPrzedzialu, dataKoniecPrzedzialu);
 
-        pierwszaData = checkingDate.zwrocDateZPoczatkiemNastepnegoMiesiaca(pierwszaData);
-        drugaData = checkingDate.zwrocDateZKoncemMiesiaca(pierwszaData);
-        drugaData < wpisanaDrugaData ? drugaData : drugaData = wpisanaDrugaData;
-    }while(pierwszaData < wpisanaDrugaData);
+        dataPoczatekPrzedzialu = checkingDate.zwrocDateZPoczatkiemNastepnegoMiesiaca(dataPoczatekPrzedzialu);
+        dataKoniecPrzedzialu = checkingDate.zwrocDateZKoncemMiesiaca(dataPoczatekPrzedzialu);
+        dataKoniecPrzedzialu < drugaData ? dataKoniecPrzedzialu : dataKoniecPrzedzialu = drugaData;
+    }while(dataPoczatekPrzedzialu < drugaData);                                             ///trzeba sprawdzic czy ten warunek jest dobry
 }
 
-void IncomiesAndExpensesManager::policzBilansZJednegoMiesiacaDlaPrzychodu(int pierwszaData, int drugaData){
+void IncomiesAndExpensesManager::policzBilansDlaPrzychodowZJednegoMiesiaca(int dataPoczatekPrzedzialu, int dataKoniecPrzedzialu){
     for (vector <Income> :: iterator itr = incomies.begin(); itr != incomies.end(); itr++){
-        for (int i=pierwszaData; i<=drugaData; i++){
+        for (int i=dataPoczatekPrzedzialu; i<=dataKoniecPrzedzialu; i++){
             if(itr -> getDate() == i){
-                pokazPojedynczyPrzychod(*itr);//a tutaj nie bedzie mozna dac jednego dla obu...
-                sumaWszystkichPrzychodow += itr -> getAmount();//CHYBA bedzie mozna dac jedno dla przychodow i wydatkow
+                pokazPojedynczyPrzychod(*itr);
+                sumaWszystkichPrzychodow += itr -> getAmount();
+                brakPlatnosci = false;
             }
         }
     }
 }
 
-void IncomiesAndExpensesManager::policzBilansZJednegoMiesiacaDlaWydatkow(int pierwszaData, int drugaData){
+void IncomiesAndExpensesManager::policzBilansDlaWydatkowZJednegoMiesiaca(int dataPoczatekPrzedzialu, int dataKoniecPrzedzialu){
     for (vector <Expense> :: iterator itr = expenses.begin(); itr != expenses.end(); itr++){
-        for (int i=pierwszaData; i<=drugaData; i++){
+        for (int i=dataPoczatekPrzedzialu; i<=dataKoniecPrzedzialu; i++){
             if(itr -> getDate() == i){
                 pokazPojedynczyWydatek(*itr);
                 sumaWszystkichWydatkow += itr -> getAmount();
+                brakPlatnosci = false;
             }
         }
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-//------------------------puste------------------------------------------------------------------------------
-
-
-
-//------------------------tymczasowe------------------------------------------------------------------------------
-void IncomiesAndExpensesManager::pokazWszystkiePrzychody()//tymczasowe
-{
-    if (!incomies.empty()){
-        cout << "             >>> Przychody <<<" << endl;
-        cout << "-----------------------------------------------" << endl;
-        for (vector <Income> :: iterator itr = incomies.begin(); itr != incomies.end(); itr++){
-            pokazWszystkiePrzychodyCD(*itr);
-        }
-        cout << endl;
-    }else{
-        cout << endl << "Przychodow brak." << endl << endl;
-    }
-    system("pause");
-    system("cls");
+void IncomiesAndExpensesManager::sprawdzCzyBilansJestPusty(){
+    if(brakPlatnosci == true)
+        cout<<"Brak platnosci w tym okresie."<<endl<<endl;
+    brakPlatnosci = true;
 }
 
-void IncomiesAndExpensesManager::pokazWszystkiePrzychodyCD(Income income)//tymczasowe
-{
-    cout<<"income.getUserId(): "<<income.getUserId()<<endl;
-    cout<<"income.getIncomeId(): "<<income.getIncomeId()<<endl;
-    cout<<"income.getDate(): "<<income.getDate()<<endl;
-    cout<<"income.getItem(): "<<income.getItem()<<endl;
-    cout<<"income.getAmount(): "<<fixed<<setprecision(2)<<income.getAmount()<<endl<<endl;//probojemy wyswietlic dwa zera po zlotowkach
+void IncomiesAndExpensesManager::wyswietlSumePrzychodowIWydatkow(){
+    cout<<endl<<"Calkowite przychody: "<<fixed<<setprecision(2)<<sumaWszystkichPrzychodow<<endl;    sumaWszystkichPrzychodow = 0;
+    cout<<"Calkowite wydatki: "<<fixed<<setprecision(2)<<sumaWszystkichWydatkow<<endl<<endl;    sumaWszystkichWydatkow = 0;
 }
 
 
-void IncomiesAndExpensesManager::pokazWszystkieWydatki()//tymczasowe
-{
-    if (!expenses.empty()){
-        cout << "             >>> Wydatki <<<" << endl;
-        cout << "-----------------------------------------------" << endl;
-        for (vector <Expense> :: iterator itr = expenses.begin(); itr != expenses.end(); itr++){
-            pokazWszystkieWydatkiCD(*itr);
-        }
-        cout << endl;
-    }else{
-        cout << endl << "Wydatkow brak." << endl << endl;
-    }
-    system("pause");
-    system("cls");
-}
-
-void IncomiesAndExpensesManager::pokazWszystkieWydatkiCD(Expense expense)//tymczasowe
-{
-    cout<<"expense.getUserId(): "<<expense.getUserId()<<endl;
-    cout<<"expense.getExpenseId(): "<<expense.getExpenseId()<<endl;
-    cout<<"expense.getDate(): "<<expense.getDate()<<endl;
-    cout<<"expense.getItem(): "<<expense.getItem()<<endl;
-    cout<<"expense.getAmount(): "<<fixed<<setprecision(2)<<expense.getAmount()<<endl<<endl;
-}
-
-
+//------------------------Wyswietlanie-danych------------------------------------------------------------------------------
 void IncomiesAndExpensesManager::pokazPojedynczyPrzychod(Income income){
     cout<<left;
-    cout<<setw(6)<<income.getUserId();
-    cout<<setw(6)<<income.getIncomeId();
-    cout<<setw(13)<<income.getDate();
-    cout<<setw(13)<<income.getItem();
-    cout<<fixed<<setprecision(2)<<income.getAmount()<<endl;
+    cout<<setw(13)<<"  Data:"<<AuxiliaryMethods::dodajKreskiDoDaty(AuxiliaryMethods::convertIntToString(income.getDate()))<<endl;
+    cout<<setw(13)<<"  Przedmiot:"<<income.getItem()<<endl;
+    cout<<setw(13)<<"  Kwota:"<<fixed<<setprecision(2)<<income.getAmount()<<endl<<endl;
 }
 
 void IncomiesAndExpensesManager::pokazPojedynczyWydatek(Expense expense){
     cout<<left;
-    cout<<setw(6)<<expense.getUserId();
-    cout<<setw(6)<<expense.getExpenseId();
-    cout<<setw(13)<<expense.getDate();
-    cout<<setw(13)<<expense.getItem();
-    cout<<fixed<<setprecision(2)<<expense.getAmount()<<endl;
+    cout<<setw(13)<<"  Data:"<<AuxiliaryMethods::dodajKreskiDoDaty(AuxiliaryMethods::convertIntToString(expense.getDate()))<<endl;
+    cout<<setw(13)<<"  Przedmiot:"<<expense.getItem()<<endl;
+    cout<<setw(13)<<"  Kwota:"<<fixed<<setprecision(2)<<expense.getAmount()<<endl<<endl;
 }
 
 

@@ -118,13 +118,11 @@ string CheckingDate::enterDate(string dateWithDashes){
         dateWithDashes = AuxiliaryMethods::loadLine();
         if(isDateCorrect(dateWithDashes))
             break;
-
         else if(dateWithDashes == "d"){
             dateWithDashes = AuxiliaryMethods::dodajKreskiDoDaty(enterCurrentDate());
-            cout<<"(Aktualna data: "<<dateWithDashes<<")"<<endl;
+            cout<<"(Aktualna data: "<<dateWithDashes<<")"<<endl<<endl;
             break;
         }
-
         cout<<"Data niepoprawna. Podaj date: ";
     }
     return dateWithDashes;

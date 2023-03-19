@@ -1,6 +1,7 @@
 #include "PersonalBudget.h"
 
 char PersonalBudget::selectOptionFromMainMenu(){
+    cout << "   >>>> BUDZET OSOBISTY <<<<" <<   endl;
     cout << "    >>> MENU  GLOWNE <<<" <<       endl;
     cout << "---------------------------" <<    endl;
     cout << "1. Rejestracja" <<                 endl;
@@ -30,11 +31,6 @@ char PersonalBudget::selectOptionFromUserMenu(){
     return AuxiliaryMethods::loadChar();
 }
 
-bool PersonalBudget::isUserLoggedIn(){
-    return userManager.getLoggedInUserId();
-}
-
-
 void PersonalBudget::registerUser(){
     userManager.registerUser();
 }
@@ -46,6 +42,19 @@ void PersonalBudget::loginUser(){
     }
 }
 
+void PersonalBudget::zmianaHaslaZalogowanegoUzytkownika(){  //pozniej na ang
+    userManager.zmianaHaslaZalogowanegoUzytkownika();       //pozniej na ang
+}
+
+bool PersonalBudget::isUserLoggedIn(){
+    return userManager.getLoggedInUserId();
+}
+
+void PersonalBudget::logoutUser(){
+    userManager.logoutUser();
+}
+
+
 void PersonalBudget::addIncome(){
     incomiesAndExpensesManager -> addIncome();
 }
@@ -54,35 +63,33 @@ void PersonalBudget::addExpense(){
     incomiesAndExpensesManager -> addExpense();
 }
 
-
-
-
-void PersonalBudget::bilansZBiezacegoMiasiaca(){
+//------------------------bilanse------------------------------------------------------------------------------
+void PersonalBudget::bilansZBiezacegoMiasiaca(){    //pozniej na ang
     int aktualnaData, dataZPoczatekiemMiesiaca;
 
     aktualnaData = AuxiliaryMethods::convertStringToInt(checkingDate.enterCurrentDate());//tutaj byc moze pozniej zamienimy typ zwracany w "enterCurrentDate"
     dataZPoczatekiemMiesiaca = checkingDate.zwrocDateZPoczatkiemMiesiaca(aktualnaData);
 
-    cout<<endl<<"Bilans z biezacego miesiaca: "<<endl<<endl;
-    incomiesAndExpensesManager -> bilansZBiezacegoLubPoprzedniegoMiesiaca(dataZPoczatekiemMiesiaca, aktualnaData);
+    cout<<endl<<"BILANS Z BIEZACEGO MIESIACA"<<endl<<endl;
+    incomiesAndExpensesManager -> bilansZJednegoMiesiaca(dataZPoczatekiemMiesiaca, aktualnaData);
 }
 
-void PersonalBudget::bilansZPoprzedniegoMiesiaca(){
-    int aktualnaData, poczatekPoprzedniegoMiesiaca, koniecPoprzedniegoMiesiaca;
+void PersonalBudget::bilansZPoprzedniegoMiesiaca(){ //pozniej na ang
+    int aktualnaData, dataZPoczatkiemPoprzedniegoMiesiaca, dataZKoncemPoprzedniegoMiesiaca;
 
     aktualnaData = AuxiliaryMethods::convertStringToInt(checkingDate.enterCurrentDate());
 
-    poczatekPoprzedniegoMiesiaca = checkingDate.zwrocDateZPoczatkiemPoprzedniegoMiesiaca(aktualnaData);
-    koniecPoprzedniegoMiesiaca = checkingDate.zwrocDateZKoncemMiesiaca(poczatekPoprzedniegoMiesiaca);
+    dataZPoczatkiemPoprzedniegoMiesiaca = checkingDate.zwrocDateZPoczatkiemPoprzedniegoMiesiaca(aktualnaData);
+    dataZKoncemPoprzedniegoMiesiaca = checkingDate.zwrocDateZKoncemMiesiaca(dataZPoczatkiemPoprzedniegoMiesiaca);
 
-    cout<<endl<<"Bilans z poprzedniego miesiaca: "<<endl<<endl;
-    incomiesAndExpensesManager -> bilansZBiezacegoLubPoprzedniegoMiesiaca(poczatekPoprzedniegoMiesiaca, koniecPoprzedniegoMiesiaca);
+    cout<<endl<<"BILANS Z POPRZEDNIEGO MIESIACA"<<endl<<endl;
+    incomiesAndExpensesManager -> bilansZJednegoMiesiaca(dataZPoczatkiemPoprzedniegoMiesiaca, dataZKoncemPoprzedniegoMiesiaca);
 }
 
-void PersonalBudget::bilansZWybranegoOkresu(){
+void PersonalBudget::bilansZWybranegoOkresu(){      //pozniej na ang
     string poczatkowaData, koncowaData, pomocniczaData;
 
-    cout<<endl<<"Bilans z wybranego okresu: "<<endl;
+    cout<<endl<<"BILANS Z WYBRANEGO OKRESU"<<endl;
 
     cout<<"Wprowadz pierwsza date (RRRR-MM-DD): ";
     poczatkowaData = AuxiliaryMethods::replaceDateToTextWithoutDashes(checkingDate.enterDate(poczatkowaData));
@@ -91,21 +98,7 @@ void PersonalBudget::bilansZWybranegoOkresu(){
     koncowaData = AuxiliaryMethods::replaceDateToTextWithoutDashes(checkingDate.enterDate(koncowaData));
 
     poczatkowaData >= koncowaData ? pomocniczaData = poczatkowaData, poczatkowaData = koncowaData, koncowaData = pomocniczaData : pomocniczaData;
-
     incomiesAndExpensesManager -> bilansZWybranegoOkresu(AuxiliaryMethods::convertStringToInt(poczatkowaData), AuxiliaryMethods::convertStringToInt(koncowaData));
 }
 
-
-void PersonalBudget::zmianaHaslaZalogowanegoUzytkownika(){
-    userManager.zmianaHaslaZalogowanegoUzytkownika();//puste
-}
-
-void PersonalBudget::logoutUser(){
-    userManager.logoutUser();
-}
-
-
-void PersonalBudget::pokazWszystkichUzytkownikow(){//tymczasowe
-    userManager.pokazWszystkichUzytkownikow();
-}
 

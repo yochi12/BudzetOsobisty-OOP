@@ -7,10 +7,10 @@ void FileWithUsers::addUserToFileXML(User user){
         xml.AddElem("Users");
     }
 
-    xml.FindElem(); //szuka elementu w pliku
-    xml.IntoElem(); //robi ten element elementem glownym
-    xml.AddElem("User"); //do obiektu dodajemy "User"
-    xml.IntoElem(); //wchodzimy do tej galezi
+    xml.FindElem();         //szuka elementu w pliku
+    xml.IntoElem();         //robi ten element elementem glownym
+    xml.AddElem("User");    //do obiektu dodajemy "User"
+    xml.IntoElem();         //wchodzimy do tej galezi
     xml.AddElem("ID", user.getId());
     xml.AddElem("Login", user.getLogin());
     xml.AddElem("Password", user.getPassword());
@@ -33,15 +33,15 @@ vector <User> FileWithUsers::loadUsersFromFileXML(){
     while (xml.FindElem("User")){
         xml.IntoElem();
         xml.FindElem(); //ID
-        MCD_STR line = xml.GetData();     user.setId(atoi(line.c_str()));        //cout<<"line = "<<line<<endl;
+        MCD_STR line = xml.GetData();     user.setId(atoi(line.c_str()));
         xml.FindElem(); //Login
-        line = xml.GetData();             user.setLogin(line);                   //cout<<"line = "<<line<<endl;
+        line = xml.GetData();             user.setLogin(line);
         xml.FindElem(); //Password
-        line = xml.GetData();             user.setPassword(line);                //cout<<"line = "<<line<<endl;
+        line = xml.GetData();             user.setPassword(line);
         xml.FindElem(); //Name
-        line = xml.GetData();             user.setName(line);                    //cout<<"line = "<<line<<endl;
+        line = xml.GetData();             user.setName(line);
         xml.FindElem(); //Surname
-        line = xml.GetData();             user.setSurname(line);                 //cout<<"line = "<<line<<endl;
+        line = xml.GetData();             user.setSurname(line);
 
         xml.OutOfElem();
 
@@ -60,7 +60,7 @@ vector <User> FileWithUsers::zmienHaslo(int loggedInUserId, string newPassword){
         xml.FindElem(); //ID
 
         if (AuxiliaryMethods::convertStringToInt(xml.GetData()) == loggedInUserId){
-            xml.FindElem("Password"); //Password
+            xml.FindElem("Password");
             xml.SetData(newPassword);
         }
         xml.OutOfElem();

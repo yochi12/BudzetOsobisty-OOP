@@ -27,23 +27,21 @@ public:
         incomiesAndExpensesManager = NULL;
     }
 
-
     char selectOptionFromMainMenu();
     char selectOptionFromUserMenu();
     void registerUser();
     void loginUser();
-
+    void zmianaHaslaZalogowanegoUzytkownika();  //pozniej na ang
     bool isUserLoggedIn();
-    void addIncome();//dodajPrzychod
-    void addExpense();//dodajWydatek
-    void bilansZBiezacegoMiasiaca();
-    void bilansZPoprzedniegoMiesiaca();
-    void bilansZWybranegoOkresu();
-    void zmianaHaslaZalogowanegoUzytkownika();
     void logoutUser();//wylogujUzytkownika
 
+    void addIncome();//dodajPrzychod
+    void addExpense();//dodajWydatek
 
-    void pokazWszystkichUzytkownikow(); //tymczasowe,
+//------------------------bilanse------------------------------------------------------------------------------
+    void bilansZBiezacegoMiasiaca();            //pozniej na ang
+    void bilansZPoprzedniegoMiesiaca();         //pozniej na ang
+    void bilansZWybranegoOkresu();              //pozniej na ang
 };
 
 #endif

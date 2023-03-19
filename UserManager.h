@@ -25,16 +25,9 @@ public:
     int getNewUserId();
     bool isLoginExist(string login);
     int getLoggedInUserId();
+
+    void zmianaHaslaZalogowanegoUzytkownika();
     void logoutUser();
-
-
-//------------------------tymczasowe------------------------------------------------------------------------------
-    void pokazWszystkichUzytkownikow();//tymczasowe
-    void wyswietlDaneUzytkownikow(User user);//tymczasowe
-
-
-//------------------------puste------------------------------------------------------------------------------
-    void zmianaHaslaZalogowanegoUzytkownika();//puste
 
 };
 

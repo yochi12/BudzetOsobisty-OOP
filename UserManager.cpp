@@ -100,33 +100,6 @@ void UserManager::logoutUser(){
 }
 
 
-//------------------------tymczasowe------------------------------------------------------------------------------
-void UserManager::pokazWszystkichUzytkownikow()//tymczasowe
-{
-    if (!users.empty()){
-        cout << "             >>> Uzutkownicy <<<" << endl;
-        cout << "-----------------------------------------------" << endl;
-        for (vector <User> :: iterator itr = users.begin(); itr != users.end(); itr++){
-            wyswietlDaneUzytkownikow(*itr);//nie trzeba iteratorami, mozna jak za pomoca zwyklych tablic ( :))) )
-        }
-        cout << endl;
-    }else{
-        cout << endl << "Uzytkownikow brak." << endl << endl;
-    }
-    system("pause");
-    system("cls");
-}
-
-void UserManager::wyswietlDaneUzytkownikow(User user){//tymczasowe
-    cout << endl << "Id:                 " << user.getId() << endl;
-    cout << "Login:              " << user.getLogin() << endl;
-    cout << "Haslo:              " << user.getPassword() << endl;
-    cout << "Imie:               " << user.getName() << endl;
-    cout << "Nazwisko:           " << user.getSurname() << endl;
-}
-
-
-//------------------------puste------------------------------------------------------------------------------
 void UserManager::zmianaHaslaZalogowanegoUzytkownika(){
     cout<<"Podaj nowe haslo: ";
     string newPassword = AuxiliaryMethods::loadLine();
