@@ -19,8 +19,8 @@ class IncomiesAndExpensesManager
     const int LOGGED_IN_USER_ID;
     float sumaWszystkichPrzychodow, sumaWszystkichWydatkow;
     bool brakPlatnosci;
-    //int dataPoczatekPrzedzialu, dataKoniecPrzedzialu;
-
+    int dataPoczatekPrzedzialu, dataKoniecPrzedzialu;
+///sprawdzamy teraz zmienne jako glowne
     vector <Income> incomies; //Income -> klasa, income -> obiekt klasy, incomies -> wektor
     vector <Expense> expenses;
 
@@ -51,17 +51,20 @@ public:
 //------------------------bilanse------------------------------------------------------------------------------
     void bilansZJednegoMiesiaca(int dataPierwsza, int drugaData);
     void bilansZWybranegoOkresu(int dataPierwsza, int drugaData);
-    void policzBilansDlaPrzychodowZJednegoMiesiaca(int dataPoaczatekPrzedzialu, int dataKoniecPrzedzialu);
-    void policzBilansDlaWydatkowZJednegoMiesiaca(int dataPoaczatekPrzedzialu, int dataKoniecPrzedzialu);
-    void policzBilansDlaPrzychodow(int dataPoaczatekPrzedzialu, int dataKoniecPrzedzialu, int drugaData);
-    void policzBilansDlaWydatkow(int dataPoaczatekPrzedzialu, int dataKoniecPrzedzialu, int drugaData);
-    void wyswietlSumePrzychodowIWydatkow();
-    void sprawdzCzyBilansJestPusty();
 
+    void policzBilansDlaPrzychodowZJednegoMiesiaca();
+    void policzBilansDlaWydatkowZJednegoMiesiaca();
+    void policzBilansDlaPrzychodow(int drugaData);
+    void policzBilansDlaWydatkow(int drugaData);
+
+    int przypiszDatyDoZmiennychGlownych(int pierwszaData, int drugaData);
+    void posortujWektoryPoDacie();
 
 //------------------------Wyswietlanie-danych------------------------------------------------------------------------------
     void pokazPojedynczyPrzychod(Income income);//tymczasowe
     void pokazPojedynczyWydatek(Expense expense);//tymczasowe
+    void wyswietlSumePrzychodowIWydatkow();
+    void sprawdzCzyBilansJestPusty();
 };
 
 #endif
