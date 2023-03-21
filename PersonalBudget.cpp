@@ -42,8 +42,8 @@ void PersonalBudget::loginUser(){
     }
 }
 
-void PersonalBudget::zmianaHaslaZalogowanegoUzytkownika(){  //pozniej na ang
-    userManager.zmianaHaslaZalogowanegoUzytkownika();       //pozniej na ang
+void PersonalBudget::changePassword(){
+    userManager.changePassword();
 }
 
 bool PersonalBudget::isUserLoggedIn(){
@@ -64,41 +64,41 @@ void PersonalBudget::addExpense(){
 }
 
 //------------------------bilanse------------------------------------------------------------------------------
-void PersonalBudget::bilansZBiezacegoMiasiaca(){    //pozniej na ang
-    int aktualnaData, dataZPoczatekiemMiesiaca;
+void PersonalBudget::balanceOfCurrentMonth(){
+    int currentDate, dateBeginningOfMonth;
 
-    aktualnaData = AuxiliaryMethods::convertStringToInt(checkingDate.enterCurrentDate());//tutaj byc moze pozniej zamienimy typ zwracany w "enterCurrentDate"
-    dataZPoczatekiemMiesiaca = checkingDate.zwrocDateZPoczatkiemMiesiaca(aktualnaData);
+    currentDate = AuxiliaryMethods::convertStringToInt(checkingDate.enterCurrentDate());
+    dateBeginningOfMonth = checkingDate.returnDateWithBeginningOfMonth(currentDate);
 
     cout<<endl<<"BILANS Z BIEZACEGO MIESIACA"<<endl<<endl;
-    incomiesAndExpensesManager -> bilansZJednegoMiesiaca(dataZPoczatekiemMiesiaca, aktualnaData);
+    incomiesAndExpensesManager -> balanceOfOneMonth(dateBeginningOfMonth, currentDate);
 }
 
-void PersonalBudget::bilansZPoprzedniegoMiesiaca(){ //pozniej na ang
-    int aktualnaData, dataZPoczatkiemPoprzedniegoMiesiaca, dataZKoncemPoprzedniegoMiesiaca;
+void PersonalBudget::balanceOfPreviousMonth(){
+    int currentDate, dateBeginningOfPreviousMonth, dateEndOfPreviousMonth;
 
-    aktualnaData = AuxiliaryMethods::convertStringToInt(checkingDate.enterCurrentDate());
+    currentDate = AuxiliaryMethods::convertStringToInt(checkingDate.enterCurrentDate());
 
-    dataZPoczatkiemPoprzedniegoMiesiaca = checkingDate.zwrocDateZPoczatkiemPoprzedniegoMiesiaca(aktualnaData);
-    dataZKoncemPoprzedniegoMiesiaca = checkingDate.zwrocDateZKoncemMiesiaca(dataZPoczatkiemPoprzedniegoMiesiaca);
+    dateBeginningOfPreviousMonth = checkingDate.returnDateWithBeginningOfPreviousmMonth(currentDate);
+    dateEndOfPreviousMonth = checkingDate.returnDateAtEndOfMonth(dateBeginningOfPreviousMonth);
 
     cout<<endl<<"BILANS Z POPRZEDNIEGO MIESIACA"<<endl<<endl;
-    incomiesAndExpensesManager -> bilansZJednegoMiesiaca(dataZPoczatkiemPoprzedniegoMiesiaca, dataZKoncemPoprzedniegoMiesiaca);
+    incomiesAndExpensesManager -> balanceOfOneMonth(dateBeginningOfPreviousMonth, dateEndOfPreviousMonth);
 }
 
-void PersonalBudget::bilansZWybranegoOkresu(){      //pozniej na ang
-    string poczatkowaData, koncowaData, pomocniczaData;
+void PersonalBudget::balanceOfSelectedTime(){
+    string firstDate, secondDate, supportingDate;
 
     cout<<endl<<"BILANS Z WYBRANEGO OKRESU"<<endl;
 
     cout<<"Wprowadz pierwsza date (RRRR-MM-DD): ";
-    poczatkowaData = AuxiliaryMethods::replaceDateToTextWithoutDashes(checkingDate.enterDate(poczatkowaData));
+    firstDate = AuxiliaryMethods::replaceDateToTextWithoutDashes(checkingDate.enterDate(firstDate));
 
     cout<<"Wprowadz druga date (RRRR-MM-DD) (aktualna data -> wcisnij 'd'): ";
-    koncowaData = AuxiliaryMethods::replaceDateToTextWithoutDashes(checkingDate.enterDate(koncowaData));
+    secondDate = AuxiliaryMethods::replaceDateToTextWithoutDashes(checkingDate.enterDate(secondDate));
 
-    poczatkowaData >= koncowaData ? pomocniczaData = poczatkowaData, poczatkowaData = koncowaData, koncowaData = pomocniczaData : pomocniczaData;
-    incomiesAndExpensesManager -> bilansZWybranegoOkresu(AuxiliaryMethods::convertStringToInt(poczatkowaData), AuxiliaryMethods::convertStringToInt(koncowaData));
+    firstDate >= secondDate ? supportingDate = firstDate, firstDate = secondDate, secondDate = supportingDate : supportingDate;
+    incomiesAndExpensesManager -> balanceOfSelectedTime(AuxiliaryMethods::convertStringToInt(firstDate), AuxiliaryMethods::convertStringToInt(secondDate));
 }
 
 

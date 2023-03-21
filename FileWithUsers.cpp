@@ -16,9 +16,6 @@ void FileWithUsers::addUserToFileXML(User user){
     xml.AddElem("Password", user.getPassword());
     xml.AddElem("Name", user.getName());
     xml.AddElem("Surname", user.getSurname());
-    //MCD_STR strXML = xml.GetDoc(); //zmienna "strXML" pokazuje pelen tekst obiektu "xml"
-    //cout<<"Pelen tekst obiektu 'xml':"<<endl<<strXML<<endl;
-    ///dwa wiersze wyzej pokazuja aktualnie wpisana osobe tak jak w pliku .XML
     xml.Save("users.xml");
 }
 
@@ -50,7 +47,7 @@ vector <User> FileWithUsers::loadUsersFromFileXML(){
     return users;
 }
 
-vector <User> FileWithUsers::zmienHaslo(int loggedInUserId, string newPassword){
+vector <User> FileWithUsers::changePassword(int loggedInUserId, string newPassword){
     xml.Load("users.xml");
     xml.FindElem(); //<Users>
     xml.IntoElem();

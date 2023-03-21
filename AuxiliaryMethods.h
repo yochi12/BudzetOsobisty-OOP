@@ -14,7 +14,7 @@ public:
     static string loadLine();
     static int loadInteger();//"wczytajLiczbeCalkowita"
     static string replaceDateToTextWithoutDashes(string dateWithDashes);//"zamienDateNaTekstBezKresek"
-    static string dodajKreskiDoDaty(string dateWithoutDashes);
+    static string addDashesToDate(string dateWithoutDashes);
     static string convertFloatToString(float floatNumber);
     static float convertStringToFloat(string stringNumber);
     static int convertStringToInt(string stringNumber);
@@ -24,7 +24,7 @@ public:
     static string convertCommaToDot(string cashAmount);//konwersjaPrzecinkaNaKropke
     static bool checkCashAmountFormat(string cashAmount);//sprawdzFormatKwoty
     static string roundingToTwoDecimalPlaces(string cashAmount);//"zaokraglanieDoDwóchMiejscPoPrzecinku"
-
+    static string returnTwoDigitNumber(int monthOrDay);//zwrocDwucyfrowaLiczbe
 };
 
 #endif

@@ -15,7 +15,7 @@ class FileWithUsers
 public:
     void addUserToFileXML(User user);
     vector <User> loadUsersFromFileXML();
-    vector <User> zmienHaslo(int loggedInUserId, string newPassword);
+    vector <User> changePassword(int loggedInUserId, string newPassword);
 };
 
 #endif

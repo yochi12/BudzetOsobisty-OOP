@@ -65,52 +65,45 @@ string CheckingDate::enterCurrentDate(){//"podajAktualnaDate"
 }
 
 //------------------------Bilanse------------------------------------------------------------------------------
-int CheckingDate::zwrocDateZPoczatkiemMiesiaca(int aktualnaDataInt){
-    string aktualnaData = AuxiliaryMethods::convertIntToString(aktualnaDataInt);
-    return AuxiliaryMethods::convertStringToInt(aktualnaData.replace(6, 2, "01"));
+int CheckingDate::returnDateWithBeginningOfMonth(int currentDate){
+    string currentDateStr = AuxiliaryMethods::convertIntToString(currentDate);
+    return AuxiliaryMethods::convertStringToInt(currentDateStr.replace(6, 2, "01"));
 }
 
-int CheckingDate::zwrocDateZPoczatkiemPoprzedniegoMiesiaca(int aktualnaDataInt){
-    string aktualnaData = AuxiliaryMethods::convertIntToString(aktualnaDataInt);
-    string poprzedniMiesiac = AuxiliaryMethods::convertIntToString(AuxiliaryMethods::convertStringToInt(aktualnaData.substr(4, 2)) - 1);
-    string poprzedniRok = AuxiliaryMethods::convertIntToString(AuxiliaryMethods::convertStringToInt(aktualnaData.substr(0, 4)) - 1);
+int CheckingDate::returnDateWithBeginningOfPreviousmMonth(int currentDate){//zwrocDateZPoczatkiemPoprzedniegoMiesiaca
+    string currentDateStr = AuxiliaryMethods::convertIntToString(currentDate);
+    string previousMonth = AuxiliaryMethods::convertIntToString(AuxiliaryMethods::convertStringToInt(currentDateStr.substr(4, 2)) - 1);
+    string previousYear = AuxiliaryMethods::convertIntToString(AuxiliaryMethods::convertStringToInt(currentDateStr.substr(0, 4)) - 1);
 
-    if (poprzedniMiesiac != "0"){   //ten sam rok
-        poprzedniMiesiac.length()==1 ? poprzedniMiesiac = "0" + poprzedniMiesiac : poprzedniMiesiac;
-        return AuxiliaryMethods::convertStringToInt(aktualnaData.replace(4, 4, poprzedniMiesiac + "01"));
-    }else{                          //poprzedni rok
-        return AuxiliaryMethods::convertStringToInt(poprzedniRok + "01" + "01");
+    if (previousMonth != "0"){
+        previousMonth.length()==1 ? previousMonth = "0" + previousMonth : previousMonth;
+        return AuxiliaryMethods::convertStringToInt(currentDateStr.replace(4, 4, previousMonth + "01"));
+    }else{
+        return AuxiliaryMethods::convertStringToInt(previousYear + "01" + "01");
     }
 }
 
-int CheckingDate::zwrocDateZPoczatkiemNastepnegoMiesiaca(int dataInt){
-    string data = AuxiliaryMethods::convertIntToString(dataInt);
-    string nastepnyMiesiac = AuxiliaryMethods::convertIntToString(AuxiliaryMethods::convertStringToInt(data.substr(4, 2)) + 1);
-    string nastepnyRok = AuxiliaryMethods::convertIntToString(AuxiliaryMethods::convertStringToInt(data.substr(0, 4)) + 1);
+int CheckingDate::returnDateWithBeginningOfNextMonth(int date){
+    string dateStr = AuxiliaryMethods::convertIntToString(date);
+    string nextMonth = AuxiliaryMethods::convertIntToString(AuxiliaryMethods::convertStringToInt(dateStr.substr(4, 2)) + 1);
+    string nextYear = AuxiliaryMethods::convertIntToString(AuxiliaryMethods::convertStringToInt(dateStr.substr(0, 4)) + 1);
 
-    if (nastepnyMiesiac != "13"){   //ten sam rok
-        nastepnyMiesiac.length()==1 ? nastepnyMiesiac = "0" + nastepnyMiesiac : nastepnyMiesiac;
-        return AuxiliaryMethods::convertStringToInt(data.replace(4, 4, nastepnyMiesiac + "01"));
-    }else{                          //kolejny rok
-        return AuxiliaryMethods::convertStringToInt(nastepnyRok + "01" + "01");
+    if (nextMonth != "13"){
+        nextMonth.length()==1 ? nextMonth = "0" + nextMonth : nextMonth;
+        return AuxiliaryMethods::convertStringToInt(dateStr.replace(4, 4, nextMonth + "01"));
+    }else{
+        return AuxiliaryMethods::convertStringToInt(nextYear + "01" + "01");
     }
 }
 
-int CheckingDate::zwrocDateZKoncemMiesiaca(int poczatkowaDataInt){
-    string koniecMiesiaca, poczatkowaData = AuxiliaryMethods::convertIntToString(poczatkowaDataInt);
+int CheckingDate::returnDateAtEndOfMonth(int date){
+    string endOfMonth, startDate = AuxiliaryMethods::convertIntToString(date);
 
-    koniecMiesiaca = AuxiliaryMethods::dodajKreskiDoDaty(poczatkowaData);
-    splitDateIntoIntVariables(koniecMiesiaca);
+    endOfMonth = AuxiliaryMethods::addDashesToDate(startDate);
+    splitDateIntoIntVariables(endOfMonth);
 
-    return AuxiliaryMethods::convertStringToInt((AuxiliaryMethods::convertIntToString(year) + zwrocDwucyfrowaLiczbe(month) + AuxiliaryMethods::convertIntToString(maxNumberOfDaysInMonth())));
+    return AuxiliaryMethods::convertStringToInt((AuxiliaryMethods::convertIntToString(year) + AuxiliaryMethods::returnTwoDigitNumber(month) + AuxiliaryMethods::convertIntToString(maxNumberOfDaysInMonth())));
 }
-
-string CheckingDate::zwrocDwucyfrowaLiczbe(int miesiacLubDzien){
-    string miesiacString = AuxiliaryMethods::convertIntToString(miesiacLubDzien);
-    miesiacString.length()==1 ? miesiacString = "0" + miesiacString : miesiacString;
-    return miesiacString;
-}
-
 
 //------------------------Funkcje zwiazane z data------------------------------------------------------------------------------
 string CheckingDate::enterDate(string dateWithDashes){
@@ -119,7 +112,7 @@ string CheckingDate::enterDate(string dateWithDashes){
         if(isDateCorrect(dateWithDashes))
             break;
         else if(dateWithDashes == "d"){
-            dateWithDashes = AuxiliaryMethods::dodajKreskiDoDaty(enterCurrentDate());
+            dateWithDashes = AuxiliaryMethods::addDashesToDate(enterCurrentDate());
             cout<<"(Aktualna data: "<<dateWithDashes<<")"<<endl<<endl;
             break;
         }

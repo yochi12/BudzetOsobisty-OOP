@@ -7,7 +7,7 @@ using namespace std;
 
 class Expense
 {
-int expenseId;
+    int expenseId;
     int userId;
     int date;
     string item;

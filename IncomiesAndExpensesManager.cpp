@@ -71,127 +71,128 @@ int IncomiesAndExpensesManager::getNewExpenseId(){
 
 
 //------------------------bilanse------------------------------------------------------------------------------
-void IncomiesAndExpensesManager::bilansZJednegoMiesiaca(int pierwszaData, int drugaData){///moze zrobic pierwsza i druga date jako glowne? chyba sie nie da przez przesylanie argumentow od innej klasy...
-    przypiszDatyDoZmiennychGlownych(pierwszaData, drugaData);
-    posortujWektoryPoDacie();
+void IncomiesAndExpensesManager::balanceOfOneMonth(int firstDate, int secondDate){//bilansZBiezacegoMiasiaca
+    savesDatesToMainVariables(firstDate, secondDate);
+    sortVectorsByDate();
 
     cout << "             >>> Przychody <<<" << endl;
     cout << "-----------------------------------------------" << endl;
-    policzBilansDlaPrzychodowZJednegoMiesiaca();
-    sprawdzCzyBilansJestPusty();
+    calculateBalanceForOneMonthsIncomies();
+    isBalanceEmpty();
 
     cout << "             >>> Wydatki <<<" << endl;
     cout << "-----------------------------------------------" << endl;
-    policzBilansDlaWydatkowZJednegoMiesiaca();
-    sprawdzCzyBilansJestPusty();
+    calculateBalanceForOneMonthsExpenses();
+    isBalanceEmpty();
 
-    wyswietlSumePrzychodowIWydatkow();
+    showSumOfIncomiesAndExpenses();
 
     system("pause");
 }
 
-void IncomiesAndExpensesManager::bilansZWybranegoOkresu(int pierwszaData, int drugaData){
-    przypiszDatyDoZmiennychGlownych(pierwszaData, drugaData);
-    posortujWektoryPoDacie();
+void IncomiesAndExpensesManager::balanceOfSelectedTime(int firstDate, int secondDate){
+    savesDatesToMainVariables(firstDate, secondDate);
+    sortVectorsByDate();
 
     cout << "             >>> Przychody <<<" << endl;
     cout << "-----------------------------------------------" << endl;
-    policzBilansDlaPrzychodow(drugaData);
-    sprawdzCzyBilansJestPusty();
+    calculateBalanceForIncomies(secondDate);
+    isBalanceEmpty();
 
-    przypiszDatyDoZmiennychGlownych(pierwszaData, drugaData);
+    savesDatesToMainVariables(firstDate, secondDate);
 
     cout << "             >>> Wydatki <<<" << endl;
     cout << "-----------------------------------------------" << endl;
-    policzBilansDlaWydatkow(drugaData);
-    sprawdzCzyBilansJestPusty();
+    calculateBalanceForExpenses(secondDate);
+    isBalanceEmpty();
 
-    wyswietlSumePrzychodowIWydatkow();
+    showSumOfIncomiesAndExpenses();
 
     system("pause");
-}///sprawdzamy teraz zmienne jako glowne
-
-void IncomiesAndExpensesManager::policzBilansDlaPrzychodow(int drugaData){
-    do{
-        policzBilansDlaPrzychodowZJednegoMiesiaca();
-
-        dataPoczatekPrzedzialu = checkingDate.zwrocDateZPoczatkiemNastepnegoMiesiaca(dataPoczatekPrzedzialu);
-        dataKoniecPrzedzialu = checkingDate.zwrocDateZKoncemMiesiaca(dataPoczatekPrzedzialu);
-        dataKoniecPrzedzialu < drugaData ? dataKoniecPrzedzialu : dataKoniecPrzedzialu = drugaData;
-    }while(dataPoczatekPrzedzialu < drugaData);
 }
 
-void IncomiesAndExpensesManager::policzBilansDlaWydatkow(int drugaData){
+void IncomiesAndExpensesManager::calculateBalanceForIncomies(int secondDate){
     do{
-        policzBilansDlaWydatkowZJednegoMiesiaca();
+        calculateBalanceForOneMonthsIncomies();
 
-        dataPoczatekPrzedzialu = checkingDate.zwrocDateZPoczatkiemNastepnegoMiesiaca(dataPoczatekPrzedzialu);
-        dataKoniecPrzedzialu = checkingDate.zwrocDateZKoncemMiesiaca(dataPoczatekPrzedzialu);
-        dataKoniecPrzedzialu < drugaData ? dataKoniecPrzedzialu : dataKoniecPrzedzialu = drugaData;
-    }while(dataPoczatekPrzedzialu < drugaData);                                             ///trzeba sprawdzic czy ten warunek jest dobry
+        dateStartOfRange = checkingDate.returnDateWithBeginningOfNextMonth(dateStartOfRange);///
+        dateEndOfRange = checkingDate.returnDateAtEndOfMonth(dateStartOfRange);//zwrocDateZKoncemMiesiaca
+        dateEndOfRange < secondDate ? dateEndOfRange : dateEndOfRange = secondDate;
+    }while(dateStartOfRange < secondDate);
 }
 
-void IncomiesAndExpensesManager::policzBilansDlaPrzychodowZJednegoMiesiaca(){
+void IncomiesAndExpensesManager::calculateBalanceForExpenses(int secondDate){
+    do{
+        calculateBalanceForOneMonthsExpenses();
+
+        dateStartOfRange = checkingDate.returnDateWithBeginningOfNextMonth(dateStartOfRange);///
+        dateEndOfRange = checkingDate.returnDateAtEndOfMonth(dateStartOfRange);
+        dateEndOfRange < secondDate ? dateEndOfRange : dateEndOfRange = secondDate;
+    }while(dateStartOfRange < secondDate);
+}
+
+void IncomiesAndExpensesManager::calculateBalanceForOneMonthsIncomies(){
     for (vector <Income> :: iterator itr = incomies.begin(); itr != incomies.end(); itr++){
-        for (int i=dataPoczatekPrzedzialu; i<=dataKoniecPrzedzialu; i++){
+        for (int i=dateStartOfRange; i<=dateEndOfRange; i++){
             if(itr -> getDate() == i){
-                pokazPojedynczyPrzychod(*itr);
-                sumaWszystkichPrzychodow += itr -> getAmount();
-                brakPlatnosci = false;
+                showSingleIncome(*itr);
+                sumOfAllIncomies += itr -> getAmount();
+                noPayments = false;
             }
         }
     }
 }
 
-void IncomiesAndExpensesManager::policzBilansDlaWydatkowZJednegoMiesiaca(){
+void IncomiesAndExpensesManager::calculateBalanceForOneMonthsExpenses(){
     for (vector <Expense> :: iterator itr = expenses.begin(); itr != expenses.end(); itr++){
-        for (int i=dataPoczatekPrzedzialu; i<=dataKoniecPrzedzialu; i++){
+        for (int i=dateStartOfRange; i<=dateEndOfRange; i++){
             if(itr -> getDate() == i){
-                pokazPojedynczyWydatek(*itr);
-                sumaWszystkichWydatkow += itr -> getAmount();
-                brakPlatnosci = false;
+                showSingleExpense(*itr);
+                sumOfAllExpenses += itr -> getAmount();
+                noPayments = false;
             }
         }
     }
 }
 
-int IncomiesAndExpensesManager::przypiszDatyDoZmiennychGlownych(int pierwszaData, int drugaData){
-    int dataZKoncemMiesiaca = checkingDate.zwrocDateZKoncemMiesiaca(pierwszaData);
-    dataPoczatekPrzedzialu = pierwszaData;
-    drugaData >= dataZKoncemMiesiaca ? dataKoniecPrzedzialu = dataZKoncemMiesiaca : dataKoniecPrzedzialu = drugaData;
+int IncomiesAndExpensesManager::savesDatesToMainVariables(int firstDate, int secondDate){
+    int dateEndOfMonth = checkingDate.returnDateAtEndOfMonth(firstDate);
+    dateStartOfRange = firstDate;
+    secondDate >= dateEndOfMonth ? dateEndOfRange = dateEndOfMonth : dateEndOfRange = secondDate;
 
-    return dataZKoncemMiesiaca;
+    return dateEndOfMonth;
 }
 
-void IncomiesAndExpensesManager::posortujWektoryPoDacie(){
+void IncomiesAndExpensesManager::sortVectorsByDate(){
     sort(incomies.begin(), incomies.end( ), [ ](Income a, Income b)  {return a.getDate() < b.getDate();} ); //wyrazenie lambda
     sort(expenses.begin(), expenses.end( ), [ ](Expense a, Expense b)  {return a.getDate() < b.getDate();} );
 }
 
 
 //------------------------Wyswietlanie-danych------------------------------------------------------------------------------
-void IncomiesAndExpensesManager::pokazPojedynczyPrzychod(Income income){
+void IncomiesAndExpensesManager::showSingleIncome(Income income){
     cout<<left;
-    cout<<setw(13)<<"  Data:"<<AuxiliaryMethods::dodajKreskiDoDaty(AuxiliaryMethods::convertIntToString(income.getDate()))<<endl;
+    cout<<setw(13)<<"  Data:"<<AuxiliaryMethods::addDashesToDate(AuxiliaryMethods::convertIntToString(income.getDate()))<<endl;
     cout<<setw(13)<<"  Przedmiot:"<<income.getItem()<<endl;
     cout<<setw(13)<<"  Kwota:"<<fixed<<setprecision(2)<<income.getAmount()<<endl<<endl;
 }
 
-void IncomiesAndExpensesManager::pokazPojedynczyWydatek(Expense expense){
+void IncomiesAndExpensesManager::showSingleExpense(Expense expense){
     cout<<left;
-    cout<<setw(13)<<"  Data:"<<AuxiliaryMethods::dodajKreskiDoDaty(AuxiliaryMethods::convertIntToString(expense.getDate()))<<endl;
+    cout<<setw(13)<<"  Data:"<<AuxiliaryMethods::addDashesToDate(AuxiliaryMethods::convertIntToString(expense.getDate()))<<endl;
     cout<<setw(13)<<"  Przedmiot:"<<expense.getItem()<<endl;
     cout<<setw(13)<<"  Kwota:"<<fixed<<setprecision(2)<<expense.getAmount()<<endl<<endl;
 }
 
-void IncomiesAndExpensesManager::sprawdzCzyBilansJestPusty(){
-    if(brakPlatnosci == true)
+void IncomiesAndExpensesManager::isBalanceEmpty(){
+    if(noPayments == true)
         cout<<"Brak platnosci w tym okresie."<<endl<<endl;
-    brakPlatnosci = true;
+
+    noPayments = true;
 }
 
-void IncomiesAndExpensesManager::wyswietlSumePrzychodowIWydatkow(){
-    cout<<endl<<"Calkowite przychody: "<<fixed<<setprecision(2)<<sumaWszystkichPrzychodow<<endl;    sumaWszystkichPrzychodow = 0;
-    cout<<"Calkowite wydatki: "<<fixed<<setprecision(2)<<sumaWszystkichWydatkow<<endl<<endl;    sumaWszystkichWydatkow = 0;
+void IncomiesAndExpensesManager::showSumOfIncomiesAndExpenses(){
+    cout<<endl<<"Calkowite przychody: "<<fixed<<setprecision(2)<<sumOfAllIncomies<<endl;    sumOfAllIncomies = 0;
+    cout<<"Calkowite wydatki: "<<fixed<<setprecision(2)<<sumOfAllExpenses<<endl<<endl;    sumOfAllExpenses = 0;
 }
 

@@ -16,55 +16,50 @@ using namespace std;
 
 class IncomiesAndExpensesManager
 {
-    const int LOGGED_IN_USER_ID;
-    float sumaWszystkichPrzychodow, sumaWszystkichWydatkow;
-    bool brakPlatnosci;
-    int dataPoczatekPrzedzialu, dataKoniecPrzedzialu;
-///sprawdzamy teraz zmienne jako glowne
-    vector <Income> incomies; //Income -> klasa, income -> obiekt klasy, incomies -> wektor
-    vector <Expense> expenses;
-
     FileWithIncomies fileWithIncomies;
     FileWithExpenses fileWithExpenses;
     CheckingDate checkingDate;
+
+    const int LOGGED_IN_USER_ID;
+    float sumOfAllIncomies, sumOfAllExpenses;
+    bool noPayments;
+    int dateStartOfRange, dateEndOfRange;//dataKoniecPrzedzialu
+    vector <Income> incomies; //Income -> klasa, income -> obiekt klasy, incomies -> wektor
+    vector <Expense> expenses;
+
+    int getNewIncomieId();              //przypisuje nowe ID do przychodu
+    int getNewExpenseId();              //przypisuje nowe ID do wydatku
+    Income enterNewIncomeDetails();     //"podajDaneNowegoPrzychodu"
+    Expense enterNewExpenseDetails();   //"podajDaneNowegoWydatku"
+
+    void calculateBalanceForOneMonthsIncomies();//policzBilansDlaPrzychodowZJednegoMiesiaca
+    void calculateBalanceForOneMonthsExpenses();
+    void calculateBalanceForIncomies(int secondDate);//policzBilansDlaPrzychodow
+    void calculateBalanceForExpenses(int secondDate);
+
+    int savesDatesToMainVariables(int firstDate, int secondDate);//zapiszDatyDoZmiennychGlownych
+    void sortVectorsByDate();//sortujWektorPoDacie
+    void isBalanceEmpty();//sprawdzCzyBilansJestPusty
+
+//------------------------Wyswietlanie_danych------------------------------------------------------------------------------
+    void showSingleIncome(Income income);//pokazPojedynczyPrzychod
+    void showSingleExpense(Expense expense);
+    void showSumOfIncomiesAndExpenses();//wyswietlSumePrzychodowIWydatkow
 
 public:
     IncomiesAndExpensesManager(int loggedInUserId) : LOGGED_IN_USER_ID(loggedInUserId){
         incomies = fileWithIncomies.loadIncomiesFromFileXML(LOGGED_IN_USER_ID);
         expenses = fileWithExpenses.loadExpensesFromFileXML(LOGGED_IN_USER_ID);
-        brakPlatnosci = true;
+        noPayments = true;
     }
 
-
-//------------------------przychody------------------------------------------------------------------------------
+//------------------------Przychody_i_Wydatki----------------------------------------------------------------------------
     void addIncome();                   //"dodajPrzychod"
-    Income enterNewIncomeDetails();     //"podajDaneNowegoPrzychodu"
-    int getNewIncomieId();              //przypisuje nowe ID do przychodu
-
-
-//------------------------wydatki------------------------------------------------------------------------------
     void addExpense();                  //"dodajWydatek"
-    Expense enterNewExpenseDetails();   //"podajDaneNowegoWydatku"
-    int getNewExpenseId();              //przypisuje nowe ID do wydatku
 
-
-//------------------------bilanse------------------------------------------------------------------------------
-    void bilansZJednegoMiesiaca(int dataPierwsza, int drugaData);
-    void bilansZWybranegoOkresu(int dataPierwsza, int drugaData);
-
-    void policzBilansDlaPrzychodowZJednegoMiesiaca();
-    void policzBilansDlaWydatkowZJednegoMiesiaca();
-    void policzBilansDlaPrzychodow(int drugaData);
-    void policzBilansDlaWydatkow(int drugaData);
-
-    int przypiszDatyDoZmiennychGlownych(int pierwszaData, int drugaData);
-    void posortujWektoryPoDacie();
-
-//------------------------Wyswietlanie-danych------------------------------------------------------------------------------
-    void pokazPojedynczyPrzychod(Income income);//tymczasowe
-    void pokazPojedynczyWydatek(Expense expense);//tymczasowe
-    void wyswietlSumePrzychodowIWydatkow();
-    void sprawdzCzyBilansJestPusty();
+//------------------------Bilanse------------------------------------------------------------------------------
+    void balanceOfOneMonth(int firstDate, int secondDate);
+    void balanceOfSelectedTime(int firstDate, int secondDate);
 };
 
 #endif

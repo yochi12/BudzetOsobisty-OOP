@@ -26,9 +26,8 @@ public:
     bool isLoginExist(string login);
     int getLoggedInUserId();
 
-    void zmianaHaslaZalogowanegoUzytkownika();
+    void changePassword();
     void logoutUser();
-
 };
 
 #endif

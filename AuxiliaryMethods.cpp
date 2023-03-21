@@ -37,9 +37,8 @@ int AuxiliaryMethods::loadInteger(){
     return number;
 }
 
-//zamiana daty z kreskami na date bez kresek
 string AuxiliaryMethods::replaceDateToTextWithoutDashes(string dateWithDashes){
-    string dateWithoutDashes;//"dataBezKresek"
+    string dateWithoutDashes;
     for (int charPosition=0; charPosition<(int)dateWithDashes.length(); charPosition++)
         if(dateWithDashes[charPosition]!='-'){
             dateWithoutDashes+=dateWithDashes[charPosition];
@@ -47,8 +46,7 @@ string AuxiliaryMethods::replaceDateToTextWithoutDashes(string dateWithDashes){
     return dateWithoutDashes;
 }
 
-string AuxiliaryMethods::dodajKreskiDoDaty(string dateWithoutDashes)
-{
+string AuxiliaryMethods::addDashesToDate(string dateWithoutDashes){
     dateWithoutDashes = dateWithoutDashes.insert(6, "-");
     return dateWithoutDashes = dateWithoutDashes.insert(4, "-");
 }
@@ -85,8 +83,7 @@ string AuxiliaryMethods::convertIntToString(int intNumber){
     return stringNumber;
 }
 
-
-string AuxiliaryMethods::loadAmount(){//wczytajKwote
+string AuxiliaryMethods::loadAmount(){
     string cashAmount;
     do{
        cashAmount = convertCommaToDot(loadLine());
@@ -100,12 +97,12 @@ string AuxiliaryMethods::loadAmount(){//wczytajKwote
     return cashAmount;
 }
 
-string AuxiliaryMethods::convertCommaToDot(string cashAmount){//konwersjaPrzecinkaNaKropke
+string AuxiliaryMethods::convertCommaToDot(string cashAmount){
     replace(cashAmount.begin(), cashAmount.end(), ',', '.');
     return cashAmount;
 }
 
-bool AuxiliaryMethods::checkCashAmountFormat(string cashAmount){//sprawdzFormatKwoty
+bool AuxiliaryMethods::checkCashAmountFormat(string cashAmount){
     int numberOfDots = 0;
 
     numberOfDots = count(cashAmount.begin(), cashAmount.end(), '.');
@@ -122,7 +119,7 @@ bool AuxiliaryMethods::checkCashAmountFormat(string cashAmount){//sprawdzFormatK
     return true;
 }
 
-string AuxiliaryMethods::roundingToTwoDecimalPlaces(string cashAmount){//"zaokraglanieDoDwóchMiejscPoPrzecinku"
+string AuxiliaryMethods::roundingToTwoDecimalPlaces(string cashAmount){
     float cashAmountFloat;
 
     cashAmountFloat = convertStringToFloat(cashAmount);
@@ -132,5 +129,13 @@ string AuxiliaryMethods::roundingToTwoDecimalPlaces(string cashAmount){//"zaokra
 
     cashAmount = convertFloatToString(cashAmountFloat);
     return cashAmount;
+}
+
+string AuxiliaryMethods::returnTwoDigitNumber(int number){
+    string numberStr = convertIntToString(number);
+    if(numberStr.length()==1)
+        numberStr = "0" + numberStr;
+
+    return numberStr;
 }
 

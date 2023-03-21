@@ -1,6 +1,5 @@
 #ifndef User_H
 #define User_H
-
 #include <iostream>
 
 using namespace std;
@@ -14,7 +13,6 @@ class User
     string password;
 
 public:
-
     void setId(int newId);
     void setLogin(string newLogin);
     void setPassword(string newPassword);

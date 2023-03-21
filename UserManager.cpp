@@ -100,10 +100,10 @@ void UserManager::logoutUser(){
 }
 
 
-void UserManager::zmianaHaslaZalogowanegoUzytkownika(){
-    cout<<"Podaj nowe haslo: ";
+void UserManager::changePassword(){
+    cout<<endl<<"Podaj nowe haslo: ";
     string newPassword = AuxiliaryMethods::loadLine();
-    users = fileWithUsers.zmienHaslo(loggedInUserId, newPassword);
+    users = fileWithUsers.changePassword(loggedInUserId, newPassword);
 
     cout<<"Haslo zmienione."<<endl<<endl;
     system("pause");

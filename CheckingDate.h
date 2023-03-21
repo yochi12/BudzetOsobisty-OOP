@@ -12,7 +12,6 @@ class CheckingDate
 {
     int day, month, year;
 
-
     int maxNumberOfDaysInMonth();
     bool isLeapYear();//"czyRokJestPrzestepny"
 
@@ -26,17 +25,14 @@ public:
     string enterCurrentDate();
 
 //------------------------do bilansow------------------------------------------------------------------------------
-    int zwrocDateZPoczatkiemMiesiaca(int aktualnaDataInt);
-    int zwrocDateZPoczatkiemPoprzedniegoMiesiaca(int aktualnaDataInt);
-    int zwrocDateZPoczatkiemNastepnegoMiesiaca(int dataInt);
-    int zwrocDateZKoncemMiesiaca(int poczatkowaDataInt);
-    string zwrocDwucyfrowaLiczbe(int miesiacLubDzien);//tymczasowo tutaj, idzie pozniej do pomocniczych
+    int returnDateWithBeginningOfMonth(int currentDate);
+    int returnDateWithBeginningOfPreviousmMonth(int currentDate);
+    int returnDateWithBeginningOfNextMonth(int date);
+    int returnDateAtEndOfMonth(int date);
 
 
 //------------------------Funkcje zwiazane z data------------------------------------------------------------------------------
     string enterDate(string dateWithDashes);
-
-
 };
 
 #endif

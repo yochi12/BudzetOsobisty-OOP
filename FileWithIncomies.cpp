@@ -36,15 +36,15 @@ vector <Income> FileWithIncomies::loadIncomiesFromFileXML(int loggedInUserId){
         MCD_STR line = xml.GetData();
 
         if(line == to_string(loggedInUserId)){
-                                                income.setUserId(atoi(line.c_str()));         //cout<<"line = "<<line<<endl;
+                                                income.setUserId(atoi(line.c_str()));
             xml.FindElem(); //IncomeID
-            line = xml.GetData();               income.setIncomeId(atoi(line.c_str()));       //cout<<"line = "<<line<<endl;
+            line = xml.GetData();               income.setIncomeId(atoi(line.c_str()));
             xml.FindElem(); //Date
-            line = xml.GetData();               income.setDate(atoi(line.c_str()));           //cout<<"line = "<<line<<endl;
+            line = xml.GetData();               income.setDate(atoi(line.c_str()));
             xml.FindElem(); //Item
-            line = xml.GetData();               income.setItem(line);                         //cout<<"line = "<<line<<endl;
+            line = xml.GetData();               income.setItem(line);
             xml.FindElem(); //Amount
-            line = xml.GetData();               income.setAmount(atof(line.c_str()));         //cout<<"line = "<<line<<endl;
+            line = xml.GetData();               income.setAmount(atof(line.c_str()));
 
             incomiesV.push_back(income);
         }

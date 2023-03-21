@@ -14,7 +14,7 @@ class PersonalBudget
 {
     UserManager userManager;
     IncomiesAndExpensesManager *incomiesAndExpensesManager;
-    CheckingDate checkingDate;  //aby sie tego pozbyc, musimy zrobic w "CheckingDate" wszystkie metody statyczne
+    CheckingDate checkingDate;
 
     vector <User> users;
 
@@ -31,7 +31,7 @@ public:
     char selectOptionFromUserMenu();
     void registerUser();
     void loginUser();
-    void zmianaHaslaZalogowanegoUzytkownika();  //pozniej na ang
+    void changePassword();
     bool isUserLoggedIn();
     void logoutUser();//wylogujUzytkownika
 
@@ -39,9 +39,9 @@ public:
     void addExpense();//dodajWydatek
 
 //------------------------bilanse------------------------------------------------------------------------------
-    void bilansZBiezacegoMiasiaca();            //pozniej na ang
-    void bilansZPoprzedniegoMiesiaca();         //pozniej na ang
-    void bilansZWybranegoOkresu();              //pozniej na ang
+    void balanceOfCurrentMonth();//bilansZBiezacegoMiasiaca
+    void balanceOfPreviousMonth();//bilansZPoprzedniegoMiesiaca
+    void balanceOfSelectedTime();//bilansZWybranegoOkresu
 };
 
 #endif

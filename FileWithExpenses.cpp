@@ -36,13 +36,13 @@ vector <Expense> FileWithExpenses::loadExpensesFromFileXML(int loggedInUserId){
         if(line == to_string(loggedInUserId)){
                                                 expense.setUserId(atoi(line.c_str()));
             xml.FindElem(); //ExpenseID
-            line = xml.GetData();              expense.setExpenseId(atoi(line.c_str()));
+            line = xml.GetData();               expense.setExpenseId(atoi(line.c_str()));
             xml.FindElem(); //Date
-            line = xml.GetData();              expense.setDate(atoi(line.c_str()));
+            line = xml.GetData();               expense.setDate(atoi(line.c_str()));
             xml.FindElem(); //Item
-            line = xml.GetData();              expense.setItem(line);
+            line = xml.GetData();               expense.setItem(line);
             xml.FindElem(); //Amount
-            line = xml.GetData();              expense.setAmount(atof(line.c_str()));
+            line = xml.GetData();               expense.setAmount(atof(line.c_str()));
 
             expenses.push_back(expense);
         }
